@@ -19,13 +19,13 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao {
 	}
 	
 	@Override
-	public int getBoardAllCount() {
-		return getSqlSession().selectOne("getBoardAllCount");
+	public int selectBoardAllCount() {
+		return getSqlSession().selectOne("selectBoardAllCount");
 	}
 
 	@Override
-	public List<BoardVO> getAllBoard() {
-		return getSqlSession().selectList("getAllBoard");
+	public List<BoardVO> selectAllBoard() {
+		return getSqlSession().selectList("selectAllBoard");
 	}
 
 }

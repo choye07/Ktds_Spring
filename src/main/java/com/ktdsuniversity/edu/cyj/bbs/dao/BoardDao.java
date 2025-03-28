@@ -14,13 +14,13 @@ public interface BoardDao {
 	 * 
 	 * @return
 	 */
-	public int getBoardAllCount();
+	public int selectBoardAllCount();
 
 	/**
 	 * DB에 저장된 모든 게시글의 목록을 조회
 	 * 
 	 * @return
 	 */
-	public List<BoardVO> getAllBoard();
+	public List<BoardVO> selectAllBoard();
 
 }

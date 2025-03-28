@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>${app_name}</h1>
-	<div>안녕하세요!</div>
-	<div>BOOT JSP입니다.</div>
+    <div>안녕하세요!</div>
+    <div>BOOT JSP입니다.</div>
 </body>
 </html>

@@ -13,9 +13,9 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping("/board/list")
+	@GetMapping("hello-cyj/board/list")
 	public ModelAndView viewBoardList() {
-		BoardListVO boardListVO =boardService.getAllBoard();
+		BoardListVO boardListVO =boardService.selectAllBoard();
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("board/boardlist");
