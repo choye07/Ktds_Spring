@@ -28,4 +28,29 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao {
 		return getSqlSession().selectList("selectAllBoard");
 	}
 
+	@Override
+	public int insertNewBoard(BoardVO boardVO) {
+		return getSqlSession().insert("insertNewBoard",boardVO);
+	}
+
+	@Override
+	public int addViewCount(int id) {
+		return getSqlSession().update("addViewCount",id);
+	}
+
+	@Override
+	public BoardVO selectOneBoard(int id) {
+		return getSqlSession().selectOne("selectOneBoard",id);
+	}
+
+	@Override
+	public int updateOneBoard(BoardVO boardVO) {
+		return getSqlSession().update("updateOneBoard",boardVO);
+	}
+
+	@Override
+	public int deleteOneBoard(int id) {
+		return getSqlSession().delete("deleteOneBoard",id);
+	}
+
 }

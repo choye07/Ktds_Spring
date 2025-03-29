@@ -11,15 +11,13 @@ spring:
       prefix: /WEB-INF/views/
       suffix: .jsp
   application:
-    name: task
+    name: hello-spring-cyj
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
     driver-class-name: oracle.jdbc.driver.OracleDriver
     username: SPRING_BOOT
     password: 1234
-
-# MyBatis 설정
 mybatis:
   config-location:  classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:com/ktuniversity/edu/cyj/**/dao/mapper/BoardDaoMapper/*.xml
+  mapper-locations: classpath:com/ktdsuniversity/edu/cyj/**/dao/mapper/*.xml
 
