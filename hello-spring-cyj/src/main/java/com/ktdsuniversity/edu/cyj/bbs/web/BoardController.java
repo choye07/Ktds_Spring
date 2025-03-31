@@ -17,7 +17,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-	@GetMapping("hello-cyj/board/list")
+	@GetMapping("/board/list/hello-cyj")
 	public ModelAndView viewBoardList() {
 		BoardListVO boardListVO = boardService.selectAllBoard();
 
@@ -28,12 +28,12 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	@GetMapping("/hello-cyj/board/write")
+	@GetMapping("/board/write/hello-cyj")
 	public String viewBoardWritePage() {
 		return "board/boardwrite";
 	}
 
-	@PostMapping("/hello-cyj/board/write")
+	@PostMapping("/board/write/hello-cyj")
 	public ModelAndView doBoardWrite(BoardVO boardVO) {
 		System.out.println("제목: " + boardVO.getSubject());
 		System.out.println("이메일: " + boardVO.getEmail());
@@ -48,7 +48,7 @@ public class BoardController {
 		if (isSuccess) {
 			// 게시글 등록 결과가 성공이라면
 			// /board/list URL로 이동한다.
-			modelAndView.setViewName("redirect:/hello-cyj/board/list");
+			modelAndView.setViewName("redirect:/board/list/hello-cyj");
 			return modelAndView;
 		} else {
 			// 게시글 등록 결과가 실패라면
@@ -60,7 +60,7 @@ public class BoardController {
 		}
 	}
 
-	@GetMapping("/hello-cyj/board/view")
+	@GetMapping("/board/view/hello-cyj")
 	public ModelAndView viewOneBoard(@RequestParam int id) {
 		BoardVO boardVO = boardService.selectOneBoard(id, true);
 		ModelAndView modelAndView = new ModelAndView();
@@ -69,7 +69,7 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	@GetMapping("/hello-cyj/board/modify/{id}") // http://localhost:8080/board/modify/2
+	@GetMapping("/board/modify/hello-cyj/{id}") // http://localhost:8080/board/modify/2
 	public ModelAndView viewBoardModifyPage(@PathVariable int id) {
 		// 게시글 수정을 위해 게시글의 내용을 조회한다.
 		// 게시글 조회와 동일한 코드 호출
@@ -80,7 +80,7 @@ public class BoardController {
 		return modelAndView;
 	}
 
-	@PostMapping("/board/modify") // http://localhost:8080/board/modify/2
+	@PostMapping("/board/modify/hello-cyj") // http://localhost:8080/board/modify/2
 	public ModelAndView doBoardUpdate(BoardVO boardVO) {
 		System.out.println("ID: " + boardVO.getId());
 		System.out.println("제목: " + boardVO.getSubject());
@@ -96,7 +96,7 @@ public class BoardController {
 		if (isSuccess) {
 			// 게시글 수정 결과가 성공이라면
 			// /board/view?id=id URL로 이동한다.
-			modelAndView.setViewName("redirect:/hello-cyj/board/view?id=" + boardVO.getId());
+			modelAndView.setViewName("redirect:/board/view/hello-cyj?id=" + boardVO.getId());
 			return modelAndView;
 		} else {
 			// 게시글 수정 결과가 실패라면
@@ -107,13 +107,13 @@ public class BoardController {
 		}
 	}
 
-	@GetMapping("/hello-cyj/board/delete/{id}")
+	@GetMapping("/board/delete/hello-cyj/{id}")
 	public String doDeleteBoard(@PathVariable int id) {
 		boolean isSuccess = boardService.deleteOneBoard(id);
 		if (isSuccess) {
-			return "redirect:/hello-cyj/board/list";
+			return "redirect:/board/list/hello-cyj";
 		} else {
-			return "redirect:/hello-cyj/board/view?id=" + id;
+			return "redirect:/board/view/hello-cyj?id=" + id;
 		}
 	}
 }

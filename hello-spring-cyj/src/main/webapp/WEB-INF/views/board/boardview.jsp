@@ -1,76 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>게시글 내용 조회</title>
 <style type="text/css">
-    *{
+* {
 	box-sizing: border-box;
-    }
-    body{
-        margin: 0 auto;
-    }
-    a:link, a:hover, a:visited, a:active {
-    color:#333;
-    text-decoration:none;   
-    }
+}
 
-    div.grid {
-    width:100%;
-    display:grid;
-    grid-template-columns:80px 1fr;
-    grid-template-rows:28px 28px 28px 28px 28px 320px 1fr;
-    row-gap:10px;
-    }
+body {
+	margin: 0 auto;
+}
 
-    div.grid>div.btn-group {
-    display:grid;
-    grid-column:1/3;
-    }
+a:link, a:hover, a:visited, a:active {
+	color: #333;
+	text-decoration: none;
+}
 
-    div.grid div.right-align {
-    text-align:right;
-    }
+div.grid {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 80px 1fr;
+	grid-template-rows: 28px 28px 28px 28px 28px 320px 1fr;
+	row-gap: 10px;
+}
 
-    label {
-    padding-left:10px;
-    }
+div.grid>div.btn-group {
+	display: grid;
+	grid-column: 1/3;
+}
 
-    button, input, textarea {
-    padding:10px;
-    }
-    
+div.grid div.right-align {
+	text-align: right;
+}
+
+label {
+	padding-left: 10px;
+}
+
+button, input, textarea {
+	padding: 10px;
+}
 </style>
 </head>
 <body>
-	   
 	<h1>게시글 작성</h1>
-	   
 	<div class="grid">
-		        <label for="subject">제목</label>        
+		<label for="subject">제목</label>
 		<div>${boardVO.subject}</div>
-		        <label for="email">이메일</label>        
+		<label for="email">이메일</label>
 		<div>${boardVO.email}</div>
-		        <label for="viewCnt">조회수</label>        
+		<label for="viewCnt">조회수</label>
 		<div>${boardVO.viewCnt}</div>
-		        <label for="crtDt">등록일</label>        
+		<label for="crtDt">등록일</label>
 		<div>${boardVO.crtDt}</div>
-		  <label for="mdfyDt">수정일</label>        
+		<label for="mdfyDt">수정일</label>
 		<div>${boardVO.mdfyDt}</div>
-		        <label for="content">내용</label>        
+		<label for="content">내용</label>
 		<div>${boardVO.content}</div>
-		       
 		<div class="btn-group">
-			           
 			<div class="right-align">
-				                <a href="modify/${boardVO.id}">수정</a>        
-				        <a href="delete/${boardVO.id}">삭제</a>            
+				<a href="/board/modify/hello-cyj/${boardVO.id}">수정</a> 
+				<a href="/board/delete/hello-cyj/${boardVO.id}">삭제</a> 
 			</div>
-			       
 		</div>
-		   
 	</div>
 </body>
 </html>
