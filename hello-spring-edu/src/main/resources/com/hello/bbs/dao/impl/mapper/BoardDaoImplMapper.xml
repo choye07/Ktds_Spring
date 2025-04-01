@@ -36,7 +36,7 @@
             , ORIGIN_FILE_NAME )
             VALUES(
             SEQ_BOARD_PK.NEXTVAL
-            , #{subject]}
+            , #{subject}
             , #{content}
             , #{email}
             , 0
@@ -67,6 +67,14 @@
         UPDATE BOARD
            SET VIEW_CNT = VIEW_CNT+1
            WHERE ID = #{_parameter}
+</update>
+<update id="updateOneBoard"
+        parameterType="com.hello.board.vo.BoardUpdateRequestVO">
+            UPDATE BOARD
+                SET SUBJECT= #{subject},
+                    EMAIL = #{email},
+                    CONTENT= #{content}
+               WHERE ID = #{id}
 </update>
 <delete id="deleteOneBoard"
         parameterType="_int">

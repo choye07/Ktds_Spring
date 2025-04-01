@@ -14,4 +14,22 @@ $().ready(function () {
         })
         .submit();
     });
+    $("form.update-form")
+    .find(".update-button")
+    .on("click", function () {
+      var invalidInputs = $("input:invalid, textarea:invalid");
+      // var id = $("form.update-form").find("input[type='hidden'][name='id']").val();
+      // console.log(id);
+      // alert(id);
+      if (invalidInputs.length > 0) {
+        return;
+      }
+      $("form.update-form")
+        .attr({
+          // 객체 리터럴 타입
+          method: "POST",
+          action: "/baord/modify",
+        })
+        .submit();
+    });
 });

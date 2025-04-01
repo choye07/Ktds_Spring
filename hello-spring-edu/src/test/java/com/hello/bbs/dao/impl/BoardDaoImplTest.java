@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 
 import com.hello.board.dao.BoardDao;
 import com.hello.board.dao.impl.BoardDaoImpl;
+import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
 
@@ -30,11 +31,7 @@ public class BoardDaoImplTest {
 	@Test
 	public void testCount() {
 		int count = boardDaoImpl.selectBoardAllCount();
-<<<<<<< HEAD:hello-spring-edu/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 		int correctCount = 3;
-=======
-		int correctCount =0;
->>>>>>> 369d473 (hello-spring 프로젝트 업로드):hello-spring/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 		// 두개가 같으면 성공
 		// 다르면 실패
 		
@@ -46,7 +43,6 @@ public class BoardDaoImplTest {
 	public void testSelect() {
 		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard();
 		int size = boardlist.size();
-<<<<<<< HEAD:hello-spring-edu/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 //		int correctCount = 3;
 		Assertions.assertTrue(size>0);
 //		Assertions.assertEquals(size, correctCount);
@@ -65,31 +61,40 @@ public class BoardDaoImplTest {
 	}
 	@Test
 	public void testSelectOne() {
-		BoardVO boardVO =this.boardDaoImpl.selectOneBoard(2);
+		BoardVO boardVO =this.boardDaoImpl.selectOneBoard(81);
 		
 		Assertions.assertNotNull(boardVO);
 	}
 	
 	@Test
 	public void testUpdateViewCount() {
-		int updateCount = this.boardDaoImpl.updateViewCountBy(3);
+		int updateCount = this.boardDaoImpl.updateViewCountBy(81);
 		System.out.println(updateCount);
 		Assertions.assertTrue(updateCount>0);
 	}
 	
 	@Test
+	public void testUpdateOneBoard() {
+		BoardUpdateRequestVO testVO = new BoardUpdateRequestVO();
+		testVO.setId(81);
+		testVO.setSubject("testsubject");
+		testVO.setContent("testcontent");
+		testVO.setContent("testemail");
+		int updatedCount = this.boardDaoImpl.updateOneBoard(testVO);
+		Assertions.assertEquals(updatedCount, 1);
+	}
+	
+	@Test
 	public void testDelete() {
-		int deleteCount = this.boardDaoImpl.deleteOneBoard(65);
+		int deleteCount = this.boardDaoImpl.deleteOneBoard(81);
 		Assertions.assertTrue(deleteCount>0);
 	}
 	
 	@Test
 	public void testDeleteFail() {
 		int deleteCount = this.boardDaoImpl.deleteOneBoard(1);
+//		int correctCount=0;
 		Assertions.assertTrue(deleteCount==0);
-=======
-		int correctCount=0;
-		Assertions.assertEquals(size, correctCount);
->>>>>>> 369d473 (hello-spring 프로젝트 업로드):hello-spring/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
+//		Assertions.assertEquals(size, correctCount);
 	}
 }

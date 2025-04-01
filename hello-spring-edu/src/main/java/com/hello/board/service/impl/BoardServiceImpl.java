@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.hello.board.dao.BoardDao;
 import com.hello.board.service.BoardService;
 import com.hello.board.vo.BoardListVO;
+import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
 
@@ -48,8 +49,8 @@ public class BoardServiceImpl implements BoardService {
 //		}
 
 		// == update페이지로 넘어갈 때에는 증가시키면 안됨.
-		if(isIncrease) {
-			
+		if (isIncrease) {
+
 			int updatedCount = this.boardDao.updateViewCountBy(id);
 			// 2. 업데이트의 수가 0보다 크다면 게시글이 존재한다는 의미이므로
 			if (updatedCount > 0) {
@@ -58,11 +59,10 @@ public class BoardServiceImpl implements BoardService {
 				return boardVO;
 			}
 			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
-		}
-		else {
+		} else {
 			BoardVO boardVO = this.boardDao.selectOneBoard(id);
-			//boardVO 게시글을 잘 가져왔는지 체크.
-			if(boardVO == null) {
+			// boardVO 게시글을 잘 가져왔는지 체크.
+			if (boardVO == null) {
 				throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
 			}
 			return boardVO;
@@ -79,6 +79,16 @@ public class BoardServiceImpl implements BoardService {
 			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
 		}
 		return deleteCount > 0;
+	}
+
+	@Override
+	public boolean updataeOneBoard(BoardUpdateRequestVO boardUpdateRequestVO) {
+
+		int updatedCount = this.boardDao.updateOneBoard(boardUpdateRequestVO);
+		if (updatedCount == 0) {
+			throw new IllegalArgumentException(boardUpdateRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
+		}
+		return updatedCount > 0;
 	}
 
 }

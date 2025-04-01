@@ -1,7 +1,5 @@
 package com.hello.bbs.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThatIOException;
-
 import java.util.List;
 
 import org.assertj.core.api.BDDAssertions;
@@ -17,6 +15,7 @@ import com.hello.board.dao.impl.BoardDaoImpl;
 import com.hello.board.service.BoardService;
 import com.hello.board.service.impl.BoardServiceImpl;
 import com.hello.board.vo.BoardListVO;
+import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
 
@@ -94,6 +93,16 @@ public class BoardServiceImplTest {
 //		BoardVO boardVO = this.boardService.getOneBaord(1_000_000);
 //		Assertions.assertNull(boardVO);
 	}
+	
+	@Test
+	public void	upadateTest() {
+
+		BoardUpdateRequestVO testVO = new BoardUpdateRequestVO();
+		BDDMockito.given(this.boardDaoImpl.updateOneBoard(testVO)).willReturn(1);
+		boolean success = this.boardService.updataeOneBoard(testVO);
+		Assertions.assertTrue(success);
+	}
+
 	
 	@Test
 	public void deleteBoard() {

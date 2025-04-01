@@ -24,8 +24,8 @@ pageEncoding="UTF-8"%>
         <label>내용</label>
         <div>${BoardVO.content}</div>
         <div class="right-align">
-          <a href="/board/modify/${boardVO.id}">수정</a>
-          <a href="/board/delete/${boardVO.id}">삭제</a>
+          <a href="/board/modify/${BoardVO.id}">수정</a>
+          <a href="/board/delete/${BoardVO.id}">삭제</a>
         </div>
       </div>
     </div>

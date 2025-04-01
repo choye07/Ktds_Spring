@@ -10,8 +10,8 @@ pageEncoding="UTF-8"%>
     <script src="/common.js" type="text/javascript"></script>
   </head>
   <body>
-    <h1>게시글 작성</h1>
-    <form class="write-form">
+    <h1>게시글 수정</h1>
+    <form class="update-form">
       <input type="hidden" id="id" name="id" value="${BoardVO.id}" />
       <div class="grid">
         <label for="subject">제목</label>
@@ -34,12 +34,11 @@ pageEncoding="UTF-8"%>
         <textarea
           name="content"
           id="content"
-          value="${BoardVO.content}"
           required
-        ></textarea>
+        >${BoardVO.content}</textarea>
         <div class="btn-group">
           <div class="right-align">
-            <button type="submit" class="write-save">저장</button>
+            <button type="submit" class="update-button">수정</button>
           </div>
         </div>
       </div>
