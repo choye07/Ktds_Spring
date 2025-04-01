@@ -30,7 +30,11 @@ public class BoardDaoImplTest {
 	@Test
 	public void testCount() {
 		int count = boardDaoImpl.selectBoardAllCount();
+<<<<<<< HEAD:hello-spring-edu/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 		int correctCount = 3;
+=======
+		int correctCount =0;
+>>>>>>> 369d473 (hello-spring 프로젝트 업로드):hello-spring/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 		// 두개가 같으면 성공
 		// 다르면 실패
 		
@@ -42,6 +46,7 @@ public class BoardDaoImplTest {
 	public void testSelect() {
 		List<BoardVO> boardlist = boardDaoImpl.selectAllBoard();
 		int size = boardlist.size();
+<<<<<<< HEAD:hello-spring-edu/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 //		int correctCount = 3;
 		Assertions.assertTrue(size>0);
 //		Assertions.assertEquals(size, correctCount);
@@ -82,5 +87,9 @@ public class BoardDaoImplTest {
 	public void testDeleteFail() {
 		int deleteCount = this.boardDaoImpl.deleteOneBoard(1);
 		Assertions.assertTrue(deleteCount==0);
+=======
+		int correctCount=0;
+		Assertions.assertEquals(size, correctCount);
+>>>>>>> 369d473 (hello-spring 프로젝트 업로드):hello-spring/src/test/java/com/hello/bbs/dao/impl/BoardDaoImplTest.java
 	}
 }
