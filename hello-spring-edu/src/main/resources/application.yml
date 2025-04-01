@@ -1,0 +1,25 @@
+#spring.application.name=hello-spring
+
+#logging:
+#  level:
+#    root: info
+
+#mybatis 설정
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml
+
+
+# JDBC 설정 및 JSP 경로 추가
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  application:
+    name: hello-spring-edu
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: SPRING_BOOT
+    password: 1234
