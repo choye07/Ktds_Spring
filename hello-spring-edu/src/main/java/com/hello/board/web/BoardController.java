@@ -76,6 +76,7 @@ public class BoardController {
 		model.addAttribute("BoardVO", boardVO);
 		return "board/boardmodify";
 	}
+	
 	@PostMapping("/baord/modify")
 	public String doUpdate(BoardUpdateRequestVO boardUpdateRequestVO) {
 		System.out.println(boardUpdateRequestVO.getId());

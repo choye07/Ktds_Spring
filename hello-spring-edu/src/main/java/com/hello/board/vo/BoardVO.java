@@ -1,5 +1,9 @@
 package com.hello.board.vo;
 
+import java.util.List;
+
+import com.hello.file.vo.FileVO;
+
 /**
  * @TableName BOARD
  * @TableComment null
@@ -68,8 +72,18 @@ public class BoardVO {
      * @ColumnComment null
      */
     private String originFileName;
+    
+    private List<FileVO> fileList;
 
-    public int getId() {
+    public List<FileVO> getFileList() {
+		return this.fileList;
+	}
+
+	public void setFileList(List<FileVO> fileList) {
+		this.fileList = fileList;
+	}
+
+	public int getId() {
         return this.id;
     }
     

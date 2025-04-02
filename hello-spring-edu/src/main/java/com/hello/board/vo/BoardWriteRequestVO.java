@@ -1,6 +1,12 @@
 package com.hello.board.vo;
 
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardWriteRequestVO {
+	
+	private int id;
     /**
      * @ColumnName SUBJECT
      * @ColumnType VARCHAR2(1000)
@@ -20,6 +26,13 @@ public class BoardWriteRequestVO {
      * @ColumnComment null
      */
     private String email;
+    
+    //Html Collection은 List로 받는다.
+    private List<MultipartFile> file;
+
+	public int getId() {
+		return id;
+	}
 
 	public String getSubject() {
 		return this.subject;
@@ -44,5 +57,14 @@ public class BoardWriteRequestVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public List<MultipartFile> getFile() {
+		return this.file;
+	}
+
+	public void setFile(List<MultipartFile> file) {
+		this.file = file;
+	}
+
 
 }

@@ -31,11 +31,9 @@ pageEncoding="UTF-8"%>
           required
         />
         <label for="content">내용</label>
-        <textarea
-          name="content"
-          id="content"
-          required
-        >${BoardVO.content}</textarea>
+        <textarea name="content" id="content" required>
+          ${BoardVO.content}</textarea
+        >
         <div class="btn-group">
           <div class="right-align">
             <button type="submit" class="update-button">수정</button>

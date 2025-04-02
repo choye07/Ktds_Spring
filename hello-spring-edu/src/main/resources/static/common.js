@@ -14,7 +14,7 @@ $().ready(function () {
         })
         .submit();
     });
-    $("form.update-form")
+  $("form.update-form")
     .find(".update-button")
     .on("click", function () {
       var invalidInputs = $("input:invalid, textarea:invalid");

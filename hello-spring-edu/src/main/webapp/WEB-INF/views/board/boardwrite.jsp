@@ -11,12 +11,20 @@ pageEncoding="UTF-8"%>
   </head>
   <body>
     <h1>게시글 작성</h1>
-    <form class="write-form">
+    <!--enctype="application/x-www-form-urlencoded" 기본 값-->
+    <form class="write-form" enctype="multipart/form-data">
+      <!--없으면 파일 전송 불가능-->
       <div class="grid">
         <label for="subject">제목</label>
         <input type="text" id="subject" name="subject" required />
         <label for="email">이메일</label>
         <input type="email" id="email" name="email" required />
+        <label for="file">첨부파일</label>
+        <div>
+          <input type="file" id="file1" name="file" />
+          <input type="file" id="file2" name="file" />
+          <input type="file" id="file3" name="file" />
+        </div>
         <label for="content">내용</label>
         <textarea name="content" id="content" required></textarea>
         <div class="btn-group">

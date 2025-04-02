@@ -61,9 +61,11 @@ public class BoardDaoImplTest {
 	}
 	@Test
 	public void testSelectOne() {
-		BoardVO boardVO =this.boardDaoImpl.selectOneBoard(81);
-		
+		BoardVO boardVO =this.boardDaoImpl.selectOneBoard(97);
 		Assertions.assertNotNull(boardVO);
+		Assertions.assertNotNull(boardVO.getFileList());
+		Assertions.assertTrue(boardVO.getFileList().size()>0);
+		
 	}
 	
 	@Test

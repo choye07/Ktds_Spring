@@ -4,19 +4,37 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.hello.beans.CustomBeanProvider;
+import com.hello.beans.FileHandler;
+import com.hello.beans.FileHandler.StoredFile;
 import com.hello.board.dao.BoardDao;
 import com.hello.board.service.BoardService;
 import com.hello.board.vo.BoardListVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
+import com.hello.file.dao.FileDao;
+import com.hello.file.vo.FileVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
+    private final CustomBeanProvider customBeanProvider;
+
 	@Autowired
 	private BoardDao boardDao;
+	
+	@Autowired
+	private FileHandler fileHandelr;
+	
+	@Autowired
+	private FileDao fileDao;
+
+    BoardServiceImpl(CustomBeanProvider customBeanProvider) {
+        this.customBeanProvider = customBeanProvider;
+    }
 
 	@Override
 	public BoardListVO getBoardList() {
@@ -32,9 +50,35 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO) {
 
-		int createCount = boardDao.insertNewBoard(boardWriteRequestVO);
+		//아이디가 이미 할당 되어있다.mapper파일에서 selectkey를 사용햇기 때문이다.
+		int insertedCount = boardDao.insertNewBoard(boardWriteRequestVO);
 		// DB에 등록한 개수가 0보다 크다면 성공. 아니라면 실패.
-		return createCount > 0;
+		//if insertedCount>0 파일 업로드
+		System.out.println(boardWriteRequestVO.getFile());
+		if(insertedCount > 0) {
+			for(MultipartFile file : boardWriteRequestVO.getFile()) {
+				
+				StoredFile storedFile = this.fileHandelr.store(file);
+				// 방어 코드
+				if(storedFile !=null) {
+					FileVO fileVO = new FileVO();
+					fileVO.setId(boardWriteRequestVO.getId());
+					fileVO.setFlNm(storedFile.getFileName());
+					fileVO.setObfsFlNm(storedFile.getRealFileName());
+					fileVO.setObfsFlPth(storedFile.getRealFilePath());
+					fileVO.setFlSz(storedFile.getFileSize());
+					
+					this.fileDao.insertNewFile(fileVO);
+			}
+//				System.out.println("새로운 게시글의 아이디는 "+boardWriteRequestVO.getId()+"입니다.");
+//				System.out.println(storedFile.getFileName());
+//				System.out.println(storedFile.getRealFileName());
+//				System.out.println(storedFile.getRealFilePath());
+//				System.out.println(storedFile.getFileSize());
+			}
+		}
+		
+		return insertedCount > 0;
 	}
 
 	@Override

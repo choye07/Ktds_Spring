@@ -15,6 +15,12 @@ pageEncoding="UTF-8"%>
         <div>${BoardVO.subject}</div>
         <label>이메일</label>
         <div>${BoardVO.email}</div>
+        <label>첨부파일</label>
+        <div>
+          <a href="/file/${BoardVO.id}/${BoardVO.fileList[0].flId}"
+            >${BoardVO.fileList[0].flNm}</a
+          >
+        </div>
         <label>조회수</label>
         <div>${BoardVO.viewCnt}</div>
         <label>등록일</label>
