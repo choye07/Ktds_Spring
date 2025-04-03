@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.hello.file.vo.FileVO;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 /**
  * @TableName BOARD
  * @TableComment null
@@ -22,6 +25,7 @@ public class BoardVO {
      * @ColumnType VARCHAR2(1000)
      * @ColumnComment null
      */
+    @NotEmpty(message="제목을 입력해주세요.")
     private String subject;
 
     /**
@@ -29,6 +33,7 @@ public class BoardVO {
      * @ColumnType VARCHAR2(4000)
      * @ColumnComment null
      */
+    @NotEmpty(message="내용을 입력해주세요.")
     private String content;
 
     /**
@@ -36,6 +41,8 @@ public class BoardVO {
      * @ColumnType VARCHAR2(100)
      * @ColumnComment null
      */
+    @NotEmpty(message = "이메일을 입력해주세요.")
+    @Email(message = "올바른 형식으로 입력해주세요.")
     private String email;
 
     /**

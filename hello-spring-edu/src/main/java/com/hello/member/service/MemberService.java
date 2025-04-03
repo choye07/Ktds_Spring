@@ -1,5 +1,7 @@
 package com.hello.member.service;
 
-public interface MemberService {
+import com.hello.member.vo.MemberRegistRequestVO;
 
+public interface MemberService {
+	public boolean createNewMember(MemberRegistRequestVO memberRegistRequestVO);
 }

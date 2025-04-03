@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 public class BoardWriteRequestVO {
+	
 	
 	private int id;
     /**
@@ -12,12 +16,14 @@ public class BoardWriteRequestVO {
      * @ColumnType VARCHAR2(1000)
      * @ColumnComment null
      */
+	@NotEmpty(message ="제목은 필수 입력값입니다.")
     private String subject;
     /**
      * @ColumnName CONTENT
      * @ColumnType VARCHAR2(4000)
      * @ColumnComment null
      */
+	@NotEmpty(message ="내용은 필수 입력값입니다.")
     private String content;
 
     /**
@@ -25,6 +31,8 @@ public class BoardWriteRequestVO {
      * @ColumnType VARCHAR2(100)
      * @ColumnComment null
      */
+	@NotEmpty(message ="이메일은 필수 입력값입니다.")
+	@Email(message = "이메일 형식이 아닙니다.")
     private String email;
     
     //Html Collection은 List로 받는다.

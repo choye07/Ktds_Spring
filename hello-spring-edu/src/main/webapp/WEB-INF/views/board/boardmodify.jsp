@@ -5,9 +5,9 @@ pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>Insert title here</title>
-    <link rel="stylesheet" href="/common.css" type="text/css" />
-    <script src="/jquery-3.7.1.min.js" type="text/javascript"></script>
-    <script src="/common.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/css/common.css" type="text/css" />
+    <script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
   </head>
   <body>
     <h1>게시글 수정</h1>

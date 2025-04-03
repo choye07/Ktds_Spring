@@ -3,7 +3,9 @@ package com.hello.board.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +15,8 @@ import com.hello.board.vo.BoardListVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
@@ -35,7 +39,23 @@ public class BoardController {
 	}
 
 	@PostMapping("/board/write")
-	public String doBoardWrite(BoardWriteRequestVO boardWriteRequestVO) {
+	public String doBoardWrite(
+			@Valid //  boardWriteRequestVO의 파라미터 검사를 요청한다.
+			@ModelAttribute // Spring Form Taglib를 사용할 때만 작성. 
+			BoardWriteRequestVO boardWriteRequestVO,
+			BindingResult bindingResult,
+			Model model) {
+		
+		// 에러가 있을 때(유효성 검사의 에러) 게시글을 등록하면 안된다.
+		// 사용자에게 잘못 입력했음을 알려주어야 한다.
+		// 사용자가 입력했던 모든 내용들을 글쓰기 페이지로 다 보내주어야 한다.
+		// 에러의 내용도 보내주어야 한다. --> 자동 전송
+		
+		if(bindingResult.hasErrors()) {
+			model.addAttribute("userWriteBoardVO",boardWriteRequestVO);
+			return "/board/boardwrite";
+		}
+		System.out.println(bindingResult.hasErrors());
 
 		boolean isCreated = this.boardService.createNewBoard(boardWriteRequestVO);
 		if (isCreated) {

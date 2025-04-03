@@ -28,10 +28,11 @@ spring:
       enabled: true #파일 업로드 활성화
       max-request-size: 10MB # 사용자 한명 당 업로드 할 수 있는 최대 용량
       max-file-size: 100MB # 서버가 허용하는 최대 업로드 용량
-  mvc:
-    view:
-      prefix: /WEB-INF/views/
-      suffix: .jsp
+#아래 설정은 WebConfig로 이동됨.
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
   application:
     name: hello-spring-edu
   datasource:

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.member.dao.impl.MemberDaoImpl">
+    <insert id="insertNewMember"
+            parameterType="com.hello.member.vo.MemberRegistRequestVO">
+            INSERT INTO MEMBERS
+			(EMAIL,
+			    NAME,
+			    PASSWORD,
+			    SALT,
+			    JOIN_DATE,
+			    LATEST_LOGIN_IP,
+			    LATEST_PASSWORD_CHANGE_DATE,
+			    LATEST_LOGIN_DATE,
+			    LATEST_LOGIN_FAIL_DATE,
+			    LOGIN_FAIL_COUNT,
+			    LOGIN_YN,
+			    BLOCK_YN)
+			VALUES(#{email},
+			#{name},
+			#{password},
+			#{salt},
+			SYSDATE,
+			NULL,
+			SYSDATE,
+			SYSDATE,
+			SYSDATE,
+			0,
+			'N',
+			'N')
+    </insert>
+</mapper>

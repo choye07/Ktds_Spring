@@ -1,5 +1,7 @@
 package com.hello.member.dao;
 
-public interface MemberDao {
+import com.hello.member.vo.MemberRegistRequestVO;
 
+public interface MemberDao {
+	public int insertNewMember(MemberRegistRequestVO memberRegistRequestVO);
 }

@@ -32,4 +32,18 @@ $().ready(function () {
         })
         .submit();
     });
+    
+    //회원 가입 이벤트
+    $(".member-regist-form").find(".cancel-button")
+    .on("click", function () {
+        history.back();
+    });
+
+    $(".member-regist-form").find(".regist-button")
+    .on("click", function () {
+        $(".member-regist-form").attr({
+            method: "POST",
+            action: "/member/regist"
+        }).submit();
+    });
 });
