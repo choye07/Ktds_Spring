@@ -86,8 +86,10 @@ public class MemberServiceImpl implements MemberService {
 			this.memberDao.updateLoginFailCount(memberLoginRequestVO.getEmail());
 			// 6. 업데이트된 loginFailCount의 길이 5이상이라면 "BLOCK_YN"값을 "Y"로 업데이트 시킨다.
 			this.memberDao.updateBlock(memberLoginRequestVO.getEmail());
+			System.out.println(memberVO.getBlockYn());
 			// 7. 사용자에게 예외를 던져버린다.
 			// "비밀번호 또는 이메일을 잘못 작성했습니다. 확인 후 다시 시도해주세요."
+			System.out.println(password+": "+memberLoginRequestVO.getEmail());
 			throw new IllegalArgumentException("비밀번호 또는 이메일을 잘못 작성했습니다. 확인 후 다시 시도해주세요.");
 			// 8. 회원의 정보 중 password 값이 memberLoginRequestVO의 암호화된 password와 같다면
 			// Members 테이블의 loginFailCount는 0으로 수정한다.
