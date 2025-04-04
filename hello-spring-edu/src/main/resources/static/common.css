@@ -1,130 +1,132 @@
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  color: #333;
+	margin: 0;
+	color: #333;
 }
 
 /* link styles */
-
-a{
+a {
 	text-decoration: none;
-	color:#222;
-	font-weight:500;
-}
-a:hover{
-	color:#666;
-}
-/* input styles*/
-button,
-input,
-textarea {
-  padding: 0 0.625rem;
-  outline: none;
-  border:1px solid #666;
+	color: #222;
+	font-weight: 500;
 }
 
-input,
-textarea {
-	width:100%;
+a:hover {
+	color: #666;
 }
+
+/* input styles */
+button, input, textarea {
+	padding: 0.625rem;
+	outline: none;
+	border: 1px solid #ccc;
+}
+
+input, textarea {
+	width: 100%;
+}
+
 label {
-  padding-left: 0.625rem;
-  padding: 0.625rem 0 0.625rem 0.625rem;
-}
-/* wrapper stylese */
-.detail-wrapper > .grid {
-  display: grid;
-  grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(6, 1.75rem);
-  row-gap: 0.625rem;
-}
-.member-regist-wrapper{
-    width:70%;
-    min-width:31.25rem;
-    margin: 0 auto;	
-}
-/* form styles*/
-/* form인데 클래스가 write-form인 것 */
-form.write-form > .grid,
-form.update-form > .grid {
-  display: grid;
-  grid-template-columns: 5rem 1fr;
-  grid-template-rows: repeat(3, minmax(1.75rem,auto)) 20rem 1fr;
-  row-gap: 0.625rem;
+	padding: 0.312rem 0 0.312rem 0.625rem;
 }
 
-form.write-form #content,
-form.update-form #content {
-  height: 100%;
-}
-
-form.member-regist-form > .grid{
-	display:grid;
-	grid-template-columns: 7.5rem 1fr;
-	grid-template-rows: repaet(4, minmax(1.75rem,auto)) 1fr;
+/* wrapper styles*/
+.detail-wrapper>.grid {
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	grid-template-rows: repeat(6, 1.75rem) 20rem 1fr;
 	row-gap: 0.625rem;
 }
 
-form .error{
-	color:#ff3c34;
-	font-size:0.825rem;
+.detail-wrapper>.grid>label+div {
+	padding: 0.315rem;
+}
+
+.member-regist-wrapper {
+	width: 70%;
+	min-width: 31.25rem;
+	margin: 0 auto;
+}
+
+/* form styles */
+form.modify-form>.grid, form.write-form>.grid {
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	grid-template-rows: repeat(3, minmax(1.75rem, auto)) 20rem 1fr;
+	row-gap: 0.625rem;
+}
+
+form.modify-form #content, form.write-form #content {
+	height: 100%;
+}
+
+form.member-regist-form>.grid {
+	display: grid;
+	grid-template-columns: 7.5rem 1fr;
+	grid-template-rows: repeat(4, minmax(1.75rem, auto)) 1fr;
+	row-gap: 0.625rem;
+}
+
+form .error {
+	color: #ff3c34;
+	font-size: 0.825rem;
 	padding: 0.5rem;
 }
+
 /* button group styles */
-div.grid > .btn-group {
-  grid-column: 1/-1; /*한줄을 다 합쳐라*/
+div.grid>.btn-group {
+	grid-column: 1/-1;
 }
 
-/* aligh styles */
-
-.left-align{
-    text-align:left;	
+/* align styles */
+.left-align {
+	text-align: left;
 }
+
+.center-align {
+	text-align: center;
+}
+
 .right-align {
-  text-align: right;
-}
-
-.center-align{
-    text-align:center;    
+	text-align: right;
 }
 
 /* table grid styles */
 table.grid {
-	width:100%;
+	width: 100%;
 	border-collapse: collapse;
 }
-table.grid > thead> tr{
-	background-color:#FFF;
+
+table.grid>thead>tr {
+	background-color: #FFF;
 }
 
-table.grid td,
-table.grid th {
+table.grid td, table.grid th {
 	border: 1px solid #EEE;
 	padding: 0.625rem;
 }
 
-table.grid> tbody > tr:nth-child(odd) {
+table.grid>tbody>tr:nth-child(odd) {
 	background-color: #EEE6;
 }
 
-table.grid > tbody> tr:hover{
+table.grid>tbody>tr:hover {
 	background-color: #F001;
 }
 
-table.grid > tbody tr.empty{
+table.grid>tbody tr.empty {
 	text-align: center;
 	font-weight: 900;
 	color: #CCC;
 }
 
-table.grid > tbody tr.empty > td{
-    padding: 2rem 0;
+table.grid>tbody tr.empty>td {
+	padding: 2rem 0;
 }
 
-table.grid > tbody tr.empty:hover{
-    background-color:#EEE6; 
+table.grid>tbody tr.empty:hover {
+	background-color: #EEE6;
 }
-

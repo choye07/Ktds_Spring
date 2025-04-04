@@ -97,14 +97,14 @@ public class BoardController {
 		return "board/boardmodify";
 	}
 	
-	@PostMapping("/baord/modify")
-	public String doUpdate(BoardUpdateRequestVO boardUpdateRequestVO) {
+	@PostMapping("/baord/modify/{id}")
+	public String doUpdate(@PathVariable int id, BoardUpdateRequestVO boardUpdateRequestVO) {
 		System.out.println(boardUpdateRequestVO.getId());
 		boolean isSucess = this.boardService.updataeOneBoard(boardUpdateRequestVO);
 		if (isSucess) {
-			return "redirect:/board/list";
+			return "redirect:/board/view/" + id;
 		}
-		return "/board/modify/"+boardUpdateRequestVO.getId();
+		return  "redirect:/board/list";
 	}
 
 	@GetMapping("/board/delete/{id}")

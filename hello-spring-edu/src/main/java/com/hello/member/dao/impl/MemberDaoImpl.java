@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hello.member.dao.MemberDao;
 import com.hello.member.vo.MemberRegistRequestVO;
+import com.hello.member.vo.MembersVO;
 
 @Repository
 public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
@@ -21,6 +22,33 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	@Override
 	public int insertNewMember(MemberRegistRequestVO memberRegistRequestVO) {
 		return this.getSqlSession().insert(NAME_SPACE+"insertNewMember",memberRegistRequestVO);
+	}
+
+	@Override
+	public int selectMemberCount(String email) {
+		return this.getSqlSession().selectOne(NAME_SPACE+"selectMemberCount",email);
+	}
+
+	@Override
+	public MembersVO selectOneMemeberBy(String email) {
+		return this.getSqlSession().selectOne(NAME_SPACE+"selectOneMemeberBy",email);
+	}
+
+	@Override
+	public int updateLoginFailCount(String email) {
+		return this.getSqlSession().update(NAME_SPACE+"updateLoginFailCount",email);
+	}
+
+	@Override
+	public int updateBlock(String email) {
+		// TODO Auto-generated method stub
+		return this.getSqlSession().update(NAME_SPACE+"updateBlock",email);
+	}
+
+	@Override
+	public int updateLoginSuccess(String email) {
+		// TODO Auto-generated method stub
+		return this.getSqlSession().update(NAME_SPACE+"updateLoginSuccess",email);
 	}
 
 
