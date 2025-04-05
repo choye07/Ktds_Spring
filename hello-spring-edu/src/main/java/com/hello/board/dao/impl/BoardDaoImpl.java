@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hello.board.dao.BoardDao;
+import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
@@ -51,8 +52,8 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao {
 	}
 
 	@Override
-	public int deleteOneBoard(int id) {
-		return this.getSqlSession().delete(NAME_SPACE+"deleteOneBoard",id);
+	public int deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO) {
+		return this.getSqlSession().delete(NAME_SPACE+"deleteOneBoard",boardDeleteRequestVO);
 	}
 
 	@Override

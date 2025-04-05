@@ -13,6 +13,11 @@ autoMapping="true">
     <!-- <result column="SUBJECT" property="subject"/> -->
      <!-- 조회한 컬럼이 일반 컬럼일 경우 result태그를 사용한다. -->
      <!-- <association property=""></association> DB테이블안에서 1:1 관계일 시에 사용한다. --> 
+     <association property="memberVO"
+                  javaType="com.hello.member.vo.MembersVO"
+                  autoMapping="true">
+          <id column="EMAIL" property="email"/>
+     </association>
      <collection property="fileList" 
                  ofType="com.hello.file.vo.FileVO"
                  autoMapping="true">
@@ -22,22 +27,25 @@ autoMapping="true">
 </resultMap>
 <select id="selectBoardAllCount"
 		resultType="_int">
-		SELECT COUNT(1)
-		FROM BOARD
+		  SELECT COUNT(1)
+        FROM BOARD
+    WHERE EMAIL IN (SELECT EMAIL 
+                      FROM MEMBERS )
 </select>
 <select id="selectAllBoard"
-		resultType="com.hello.board.vo.BoardVO">
-		SELECT ID
-			, SUBJECT
-			, CONTENT
-			, EMAIL
-			, VIEW_CNT
-			, TO_CHAR(CRT_DT, 'YYYY-MM-DD') CRT_DT
-			, TO_CHAR(MDFY_DT, 'YYYY-MM-DD') MDFY_DT
-			, FILE_NAME
-			, ORIGIN_FILE_NAME
-		  FROM BOARD
-		 ORDER BY ID DESC
+		resultMap="BoardVOMap">
+	       SELECT B.ID
+	       , M.NAME
+            , B.SUBJECT
+            , B.CONTENT
+            , B.EMAIL
+            , B.VIEW_CNT
+            , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+            , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+          FROM BOARD B
+         INNER JOIN MEMBERS M
+         ON B.EMAIL = M.EMAIL
+         ORDER BY B.ID DESC
 </select>
 <insert id="insertNewBoard"
         parameterType="com.hello.board.vo.BoardWriteRequestVO">
@@ -74,23 +82,26 @@ autoMapping="true">
 <select id="selectOneBoard"
         parameterType="_int"
         resultMap="BoardVOMap">
-		SELECT 
-		    B.ID
-		    ,B.SUBJECT
-		    ,B.CONTENT
-		    , B.EMAIL
-		    , B.VIEW_CNT
-		    , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
-		    , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
-		    , F.FL_ID
-		    , F.FL_NM
-		    , F.OBFS_FL_NM
-		    , F.OBFS_FL_PTH
-		    , F.FL_SZ
-		   FROM BOARD B
-		   LEFT OUTER JOIN "FILE" F
-		     ON B.ID =F.ID
-		   WHERE B.ID = #{_parameter}
+        SELECT 
+            B.ID
+            , M.NAME
+            ,B.SUBJECT
+            ,B.CONTENT
+            , B.EMAIL
+            , B.VIEW_CNT
+            , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+            , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+            , F.FL_ID
+            , F.FL_NM
+            , F.OBFS_FL_NM
+            , F.OBFS_FL_PTH
+            , F.FL_SZ
+           FROM BOARD B
+           LEFT OUTER JOIN "FILE" F
+             ON B.ID =F.ID
+           INNER JOIN MEMBERS M
+             ON B.EMAIL = M.EMAIL
+           WHERE B.ID = #{_parameter}
 </select>
 <update id="updateViewCountBy" 
         parameterType="_int">
@@ -102,14 +113,15 @@ autoMapping="true">
         parameterType="com.hello.board.vo.BoardUpdateRequestVO">
             UPDATE BOARD
                 SET SUBJECT= #{subject},
-                    EMAIL = #{email},
                     CONTENT= #{content}
                WHERE ID = #{id}
+                 AND EMAIL =#{email}
 </update>
 <delete id="deleteOneBoard"
-        parameterType="_int">
-        DELETE
-         FROM BOARD
-         WHERE ID = #{_parameter}
+        parameterType="com.hello.board.vo.BoardDeleteRequestVO">
+	DELETE
+	  FROM BOARD
+	 WHERE ID = #{id}
+	  AND EMAIL=#{email}
 </delete>
 </mapper>

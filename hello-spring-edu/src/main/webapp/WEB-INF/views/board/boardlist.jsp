@@ -21,6 +21,9 @@
 <link rel="stylesheet" href="/css/common.css" type="text/css" />
 </head>
 <body>
+	<%-- Controller Endpoint를 해당 위치에 보여주는 방법 
+    <c:import url="/member/login/status"/> --%>
+	<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
 	<div class="right-align">총 ${boardList.boardCnt}건의 게시글이 검색되었습니다.</div>
 	<table class="grid">
 		<colgroup>
@@ -35,7 +38,7 @@
 			<tr>
 				<th>번호</th>
 				<th>제목</th>
-				<th>이메일</th>
+				<th>이름</th>
 				<th>조회수</th>
 				<th>등록일</th>
 				<th>수정일</th>
@@ -48,7 +51,7 @@
 						<tr>
 							<td class="center-align">${board.id}</td>
 							<td><a href="/board/view/${board.id}">${board.subject}</a></td>
-							<td>${board.email}</td>
+							<td>${board.memberVO.name}</td>
 							<td class="center-align">${board.viewCnt}</td>
 							<td class="center-align">${board.crtDt}</td>
 							<td class="center-align">${board.mdfyDt}</td>
@@ -63,6 +66,8 @@
 			</c:choose>
 		</tbody>
 	</table>
-	<a href="/board/boardwrite">게시글 등록하기</a>
+	<c:if test="${not empty sessionScope.__LOGIN_USER__}">
+		<a href="/board/boardwrite">게시글 등록하기</a>
+	</c:if>
 </body>
 </html>

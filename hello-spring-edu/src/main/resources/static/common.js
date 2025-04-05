@@ -156,4 +156,20 @@ $().ready(function() {
                 $(".member-regist-wrapper").find(".regist-button").removeAttr("disabled");
             }
         });
+        
+        $(".login-form").find(".login-button")
+        .on("click", function(){
+           var nextUrl = location.pathname;
+           
+           if(nextUrl==="/member/login"){
+            nextUrl ="/board/list";
+           } 
+           $(".login-form").find(".next-url").val(nextUrl);
+
+           
+           $(".login-form").attr({
+            "action":"/member/login",
+            "method": "POST"
+           }).submit();
+        });
 });

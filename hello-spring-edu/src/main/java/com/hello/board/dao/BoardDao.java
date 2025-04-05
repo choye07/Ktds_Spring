@@ -2,6 +2,7 @@ package com.hello.board.dao;
 
 import java.util.List;
 
+import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
@@ -27,7 +28,7 @@ public interface BoardDao {
 	
 	public int updateViewCountBy(int id);
 	
-	public int deleteOneBoard(int id);
+	public int deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO);
 	
 	public int updateOneBoard(BoardUpdateRequestVO boardUpdateRequestVO);
 

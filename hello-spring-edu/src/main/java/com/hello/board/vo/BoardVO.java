@@ -3,6 +3,7 @@ package com.hello.board.vo;
 import java.util.List;
 
 import com.hello.file.vo.FileVO;
+import com.hello.member.vo.MembersVO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -81,8 +82,18 @@ public class BoardVO {
     private String originFileName;
     
     private List<FileVO> fileList;
+    
+    private MembersVO memberVO;
 
-    public List<FileVO> getFileList() {
+    public MembersVO getMemberVO() {
+		return this.memberVO;
+	}
+
+	public void setMemberVO(MembersVO memberVO) {
+		this.memberVO = memberVO;
+	}
+
+	public List<FileVO> getFileList() {
 		return this.fileList;
 	}
 

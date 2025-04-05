@@ -12,6 +12,7 @@
 <script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
 	<div class="member-regist-wrapper">
 		<h1>회원가입</h1>
 		<form:form modelAttribute="memberRegistRequestVO"

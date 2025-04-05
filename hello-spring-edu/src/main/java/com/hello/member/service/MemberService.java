@@ -9,6 +9,9 @@ public interface MemberService {
 	
 	public boolean checkDuplicateEmail(String email);
 
-
 	public MembersVO doLogin(MemberLoginRequestVO memberLoginRequestVO);
+	
+	public boolean doLogout(String email);
+
+	public boolean doDeleteMe(String email);
 }

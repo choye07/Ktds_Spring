@@ -7,11 +7,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
+<link rel="stylesheet" href="/css/common.css" type="text/css" />
+<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
 	<h1>Login</h1>
-       <form:form modelAttribute="memberLoginRequestVO" 
-                  method="POST" action="/member/login">
+       <form:form class="login-form" modelAttribute="memberLoginRequestVO">
+               <input type="hidden" class="next-url" name="nextUrl"/>
            <div>
                <label for="email">이메일</label>
                <input type="email" 
@@ -31,8 +35,7 @@
                    ${errorMessage}
                </div>
            </c:if>
-           
-           <button type="submit">로그인</button>
+           <button type="submit" class="login-button">로그인</button>
        </form:form>
 </body>
 </html>

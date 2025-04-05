@@ -14,6 +14,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import com.hello.board.dao.impl.BoardDaoImpl;
 import com.hello.board.service.BoardService;
 import com.hello.board.service.impl.BoardServiceImpl;
+import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardListVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
@@ -106,18 +107,20 @@ public class BoardServiceImplTest {
 	
 	@Test
 	public void deleteBoard() {
-		BDDMockito.given(this.boardDaoImpl.deleteOneBoard(1))
+		BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO();
+		BDDMockito.given(this.boardDaoImpl.deleteOneBoard(boardDeleteRequestVO))
 				  .willReturn(1);
 		
-		boolean isDeleted = this.boardService.deleteOneBoard(1);
+		boolean isDeleted = this.boardService.deleteOneBoard(boardDeleteRequestVO);
 		Assertions.assertTrue(isDeleted);
 	}
 	
 	@Test
 	public void deleteBoardFail() {
-		BDDMockito.given(this.boardDaoImpl.deleteOneBoard(1))
+		BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO();
+		BDDMockito.given(this.boardDaoImpl.deleteOneBoard(boardDeleteRequestVO))
 		  .willReturn(0);
-		String message =BDDAssertions.catchThrowable(()-> this.boardService.deleteOneBoard(1)).getMessage();
+		String message =BDDAssertions.catchThrowable(()-> this.boardService.deleteOneBoard(boardDeleteRequestVO)).getMessage();
 		Assertions.assertEquals(1+"는 존재하지 않는 게시글 번호입니다.",message);
 	}
 

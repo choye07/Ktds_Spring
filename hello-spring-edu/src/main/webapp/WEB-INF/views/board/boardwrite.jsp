@@ -11,6 +11,7 @@
 <script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
 	<h1>게시글 작성</h1>
 	<!--enctype="application/x-www-form-urlencoded" 기본 값-->
 	<form:form modelAttribute="boardWriteRequestVO" class="write-form"
@@ -22,12 +23,6 @@
 				<input type="text" id="subject" name="subject"
 					value="${userWriteBoardVO.subject}" required />
 				<form:errors path="subject" element="div" cssClass="error" />
-			</div>
-			<label for="email">이메일</label>
-			<div>
-				<input type="email" id="email" name="email"
-					value="${userWriteBoardVO.email}" required />
-				<form:errors path="email" element="div" cssClass="error" />
 			</div>
 			<label for="file">첨부파일</label>
 			<div>

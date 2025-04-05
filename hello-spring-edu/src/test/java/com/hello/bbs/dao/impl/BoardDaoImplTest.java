@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 
 import com.hello.board.dao.BoardDao;
 import com.hello.board.dao.impl.BoardDaoImpl;
+import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
@@ -88,13 +89,15 @@ public class BoardDaoImplTest {
 	
 	@Test
 	public void testDelete() {
-		int deleteCount = this.boardDaoImpl.deleteOneBoard(81);
+		BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO(); 
+		int deleteCount = this.boardDaoImpl.deleteOneBoard(boardDeleteRequestVO);
 		Assertions.assertTrue(deleteCount>0);
 	}
 	
 	@Test
 	public void testDeleteFail() {
-		int deleteCount = this.boardDaoImpl.deleteOneBoard(1);
+		BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO();
+		int deleteCount = this.boardDaoImpl.deleteOneBoard(boardDeleteRequestVO);
 //		int correctCount=0;
 		Assertions.assertTrue(deleteCount==0);
 //		Assertions.assertEquals(size, correctCount);

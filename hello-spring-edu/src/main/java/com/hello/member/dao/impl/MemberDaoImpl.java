@@ -41,14 +41,23 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 
 	@Override
 	public int updateBlock(String email) {
-		// TODO Auto-generated method stub
 		return this.getSqlSession().update(NAME_SPACE+"updateBlock",email);
 	}
 
 	@Override
 	public int updateLoginSuccess(String email) {
-		// TODO Auto-generated method stub
 		return this.getSqlSession().update(NAME_SPACE+"updateLoginSuccess",email);
+	}
+
+	@Override
+	public int updateLogOutStatus(String email) {
+		return this.getSqlSession().update(NAME_SPACE+"updateLogOutStatus", email);
+	}
+
+	@Override
+	public int deleteOneMemberBy(String email) {
+		// TODO Auto-generated method stub
+		return this.getSqlSession().delete(NAME_SPACE+"deleteOneMemberBy",email);
 	}
 
 

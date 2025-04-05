@@ -15,4 +15,8 @@ public interface MemberDao {
 	public int updateBlock(String email);
 
 	public int updateLoginSuccess(String email);
+	
+	public int updateLogOutStatus(String email);
+	
+	public int deleteOneMemberBy(String email);
 }
