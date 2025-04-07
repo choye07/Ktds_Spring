@@ -1,5 +1,7 @@
 package com.hello.member.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @TableName MEMBERS
  * @TableComment null
@@ -25,6 +27,7 @@ public class MembersVO {
      * @ColumnType VARCHAR2(100)
      * @ColumnComment null
      */
+    @JsonIgnore
     private String password;
 
     /**
@@ -32,6 +35,7 @@ public class MembersVO {
      * @ColumnType VARCHAR2(100)
      * @ColumnComment null
      */
+    @JsonIgnore
     private String salt;
 
     /**
@@ -39,6 +43,7 @@ public class MembersVO {
      * @ColumnType DATE
      * @ColumnComment null
      */
+    @JsonIgnore
     private String joinDate;
 
     /**
@@ -46,6 +51,7 @@ public class MembersVO {
      * @ColumnType VARCHAR2(15)
      * @ColumnComment null
      */
+    @JsonIgnore
     private String latestLoginIp;
 
     /**
@@ -53,6 +59,7 @@ public class MembersVO {
      * @ColumnType DATE
      * @ColumnComment null
      */
+    @JsonIgnore
     private String latestPasswordChangeDate;
 
     /**
@@ -60,6 +67,7 @@ public class MembersVO {
      * @ColumnType DATE
      * @ColumnComment null
      */
+    @JsonIgnore
     private String latestLoginDate;
 
     /**
@@ -67,6 +75,7 @@ public class MembersVO {
      * @ColumnType DATE
      * @ColumnComment null
      */
+    @JsonIgnore
     private String latestLoginFailDate;
 
     /**
@@ -74,6 +83,7 @@ public class MembersVO {
      * @ColumnType NUMBER(10, 0)
      * @ColumnComment null
      */
+    @JsonIgnore
     private int loginFailCount;
 
     /**
@@ -81,6 +91,7 @@ public class MembersVO {
      * @ColumnType CHAR(1)
      * @ColumnComment null
      */
+    @JsonIgnore
     private String loginYn;
 
     /**
@@ -88,6 +99,7 @@ public class MembersVO {
      * @ColumnType CHAR(1)
      * @ColumnComment null
      */
+    @JsonIgnore
     private String blockYn;
 
     public String getEmail() {

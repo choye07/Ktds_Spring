@@ -3,6 +3,8 @@ package com.hello.member.web;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ public class MemberController {
 
 	private final CustomBeanProvider customBeanProvider;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
 	@Autowired
 	private MemberService memberService;
 
@@ -48,7 +51,6 @@ public class MemberController {
 	@PostMapping("/member/regist")
 	public String doMemberRegist(@Valid @ModelAttribute MemberRegistRequestVO memberRegistRequestVO,
 			BindingResult bindingResult, Model model) {
-//	   System.out.println(memberRegistRequestVO.getEmail());
 		// 파라미터 유효성 검사
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("userInputRegist", memberRegistRequestVO);
@@ -64,14 +66,14 @@ public class MemberController {
 		}
 
 		// 이상 없으면 Service 호출.
-		try {
+//		try {
 
 			this.memberService.createNewMember(memberRegistRequestVO);
-		} catch (IllegalArgumentException iae) {
-			model.addAttribute("emailErrorMessage", iae.getMessage());
-			model.addAttribute("userInputRegist", memberRegistRequestVO);
-			return "member/memberregist";
-		}
+//		} catch (IllegalArgumentException iae) {
+//			model.addAttribute("emailErrorMessage", iae.getMessage());
+//			model.addAttribute("userInputRegist", memberRegistRequestVO);
+//			return "member/memberregist";
+//		}
 
 		return "redirect:/member/login";
 
@@ -104,24 +106,27 @@ public class MemberController {
 			return "redirect:/member/login";
 		}
 
-		try {
+//		try {
 			MembersVO membervo = this.memberService.doLogin(memberLoginRequestVO);
 
 			// 사이트에 접속했을 때 발급 받은 세션은 폐기시킨다.
 			session.invalidate();
 			// 사용자의 IP를 가져올 때 HttpServletRequest가 사용.
 			String userIp = request.getRemoteAddr();
+			membervo.setLatestLoginIp(userIp);
+			
+			LOGGER.debug("userIp: "+userIp);
 			// 새로운 Sessionㅇ을 발급받는다
 			session = request.getSession(true);
 
 			// 서버가 Session에 회우너 정보를 기록(기억)한다.
 			// 해당 사용자의 고유한 세션의 아이디르 브라우저에게 "Cookie"로 보내준다.
 			session.setAttribute("__LOGIN_USER__", membervo);
-		} catch (IllegalArgumentException iae) {
-			model.addAttribute("userInput", memberLoginRequestVO);
-			model.addAttribute("errorMessage", iae.getMessage());
-			return "/member/memberlogin";
-		}
+//		} catch (IllegalArgumentException iae) {
+//			model.addAttribute("userInput", memberLoginRequestVO);
+//			model.addAttribute("errorMessage", iae.getMessage());
+//			return "/member/memberlogin";
+//		}
 
 		return "redirect:"+nextUrl;
 

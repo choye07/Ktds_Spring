@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.hello.exceptions.NotExistsException;
 import com.hello.file.service.FileService;
 import com.hello.file.vo.FileDowloadRequestVO;
 import com.hello.file.vo.FileVO;
@@ -36,6 +37,9 @@ public class FileController {
     	
     	FileVO fileVO = this.fileService.getOneFile(fileDowloadRequestVO);
     	
+    	if(fileVO ==null) {
+    		throw new NotExistsException();
+    	}
     	//fileVO.getobfucflpth()
     	File downloadFile = new File(fileVO.getObfsFlPth());
     	
@@ -53,7 +57,7 @@ public class FileController {
     	try {
 			resource = new InputStreamResource(new FileInputStream(downloadFile));
 		} catch (FileNotFoundException e) {
-			throw new IllegalArgumentException("파일이 없습니다.");
+			throw new NotExistsException();
 		}
     	return ResponseEntity.ok().headers(header).contentLength(fileVO.getFlSz()).contentType(MediaType.APPLICATION_OCTET_STREAM).body(resource);
     }

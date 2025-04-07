@@ -17,6 +17,7 @@ import com.hello.board.vo.BoardListVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
+import com.hello.exceptions.PageNotFoundException;
 import com.hello.file.dao.FileDao;
 import com.hello.file.vo.FileVO;
 
@@ -58,7 +59,6 @@ public class BoardServiceImpl implements BoardService {
 		int insertedCount = boardDao.insertNewBoard(boardWriteRequestVO);
 		// DB에 등록한 개수가 0보다 크다면 성공. 아니라면 실패.
 		// if insertedCount>0 파일 업로드
-		System.out.println(boardWriteRequestVO.getFile());
 		if (insertedCount > 0) {
 			for (MultipartFile file : boardWriteRequestVO.getFile()) {
 
@@ -74,11 +74,6 @@ public class BoardServiceImpl implements BoardService {
 
 					this.fileDao.insertNewFile(fileVO);
 				}
-//				System.out.println("새로운 게시글의 아이디는 "+boardWriteRequestVO.getId()+"입니다.");
-//				System.out.println(storedFile.getFileName());
-//				System.out.println(storedFile.getRealFileName());
-//				System.out.println(storedFile.getRealFilePath());
-//				System.out.println(storedFile.getFileSize());
 			}
 		}
 
@@ -104,15 +99,14 @@ public class BoardServiceImpl implements BoardService {
 			// 2. 업데이트의 수가 0보다 크다면 게시글이 존재한다는 의미이므로
 			if (updatedCount > 0) {
 				BoardVO boardVO = this.boardDao.selectOneBoard(id);
-				System.out.println(boardVO.getContent());
 				return boardVO;
 			}
-			throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
+			throw new PageNotFoundException(id);
 		} else {
 			BoardVO boardVO = this.boardDao.selectOneBoard(id);
 			// boardVO 게시글을 잘 가져왔는지 체크.
 			if (boardVO == null) {
-				throw new IllegalArgumentException(id + "는 존재하지 않는 게시글 번호입니다.");
+				throw new PageNotFoundException(id);
 			}
 			return boardVO;
 		}
@@ -125,7 +119,7 @@ public class BoardServiceImpl implements BoardService {
 	public boolean deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO) {
 		int deleteCount = this.boardDao.deleteOneBoard(boardDeleteRequestVO);
 		if (deleteCount == 0) {
-			throw new IllegalArgumentException(boardDeleteRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
+			throw new PageNotFoundException(boardDeleteRequestVO.getId());
 		}
 		return deleteCount > 0;
 	}
@@ -136,7 +130,7 @@ public class BoardServiceImpl implements BoardService {
 
 		int updatedCount = this.boardDao.updateOneBoard(boardUpdateRequestVO);
 		if (updatedCount == 0) {
-			throw new IllegalArgumentException(boardUpdateRequestVO.getId() + "는 존재하지 않는 게시글 번호입니다.");
+			throw new PageNotFoundException(boardUpdateRequestVO.getId());
 		}
 		return updatedCount > 0;
 	}

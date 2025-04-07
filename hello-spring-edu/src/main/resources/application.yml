@@ -1,9 +1,5 @@
 #spring.application.name=hello-spring
 
-#logging:
-#  level:
-#    root: info
-
 #mybatis 설정
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml

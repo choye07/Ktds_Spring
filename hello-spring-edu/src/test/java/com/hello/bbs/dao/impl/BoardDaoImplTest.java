@@ -72,7 +72,6 @@ public class BoardDaoImplTest {
 	@Test
 	public void testUpdateViewCount() {
 		int updateCount = this.boardDaoImpl.updateViewCountBy(81);
-		System.out.println(updateCount);
 		Assertions.assertTrue(updateCount>0);
 	}
 	

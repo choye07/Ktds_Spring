@@ -1,5 +1,7 @@
 package com.hello.board.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +26,18 @@ import jakarta.validation.Valid;
 @Controller
 public class BoardController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(BoardController.class);
 	@Autowired
 	private BoardService boardService;
 
 	@GetMapping("/board/list")
 	public String viewBoardList(Model model) {
 
+		LOGGER.trace("/board/list 를 방문했습니다.");
+		LOGGER.debug("/board/list 를 방문했습니다.");
+		LOGGER.info("/board/list 를 방문했습니다.");
+		LOGGER.warn("/board/list 를 방문했습니다.");
+		LOGGER.error("/board/list 를 방문했습니다.");
 		BoardListVO boardListVO = boardService.getBoardList();
 		model.addAttribute("boardList", boardListVO);
 		return "board/boardlist";

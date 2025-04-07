@@ -35,7 +35,6 @@ public class CustomBeanProvider {
 		fileHandler.setBaseDirMacos(baseDirMacos);
 		
 		String osname= System.getProperty("os.name");
-		System.out.println(osname);
 		fileHandler.setOsname(osname.toLowerCase());
 		
 		return fileHandler;

@@ -42,7 +42,6 @@ public class FileHandler {
 	
 	public StoredFile store(MultipartFile multipartFile){
 		if(multipartFile == null || multipartFile.isEmpty()) {
-			System.out.println("파일 없음");
 			return null;
 		}
 		String fileName = this.getObfuscationFileName(multipartFile.getOriginalFilename());

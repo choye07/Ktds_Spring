@@ -1,14 +1,20 @@
 package com.hello.board.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.hello.member.web.MemberController;
+
+
 @Controller
 public class HelloBootController {
    
+	private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
    public HelloBootController() {
-      System.out.println("Hello Boot Controller Instance ");
+	   LOGGER.info("Hello Boot Controller Instance ");
    }
    
    @GetMapping("/")
