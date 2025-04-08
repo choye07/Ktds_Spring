@@ -18,6 +18,6 @@ public interface ReplyService {
 	
 	public boolean modifyOneReply(ReplyUpdateRequestVO replyUpdateRequestVO);
 	
-	public boolean recommendOneReply(ReplyRecommendRequestVO replyRecommendRequestVO);
+	public int recommendOneReply(ReplyRecommendRequestVO replyRecommendRequestVO);
 	
 }

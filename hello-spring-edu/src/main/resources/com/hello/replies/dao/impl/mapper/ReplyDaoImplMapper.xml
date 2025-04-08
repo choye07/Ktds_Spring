@@ -85,20 +85,20 @@
 			   AND EMAIL = #{email}
 	</delete>
 	<update id="updateOneReply"
-	        parameterType="com.hello.replies.vo.ReplyUpdateRequestVO">
-	        UPDATE REPLIES
-			   SET CONTENT #{content}
-			      , MDFY_DT = SYSDATE
-			  WHERE REPLY_ID = #{replyId}
-			    AND BOARD_ID = #{boardId}
-			    AND EMAIL = #{email}
+		        parameterType="com.hello.replies.vo.ReplyUpdateRequestVO">
+		UPDATE REPLIES
+			SET CONTENT = #{content}
+			, MDFY_DT = SYSDATE
+			WHERE REPLY_ID = #{replyId}
+			AND BOARD_ID = #{boardId}
+			AND EMAIL = #{email}
 	</update>
 	<update id="udpateRecommendOneReply"
             parameterType="com.hello.replies.vo.ReplyRecommendRequestVO">
-             UPDATE REPLIES
-               SET RECOMMEND_CNT = RECOMMEND_CNT + 1
-              WHERE REPLY_ID = #{replyId}
-                AND BOARD_ID = #{boardId}
-                AND EMAIL != #{email}
+			UPDATE REPLIES
+				SET RECOMMEND_CNT = RECOMMEND_CNT + 1
+			WHERE REPLY_ID = #{replyId}
+			  AND BOARD_ID = #{boardId}
+			  AND EMAIL != #{email}
     </update>
 </mapper>

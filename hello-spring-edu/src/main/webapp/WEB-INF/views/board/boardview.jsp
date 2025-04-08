@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8" />
 <title>Insert title here</title>
-<link rel="stylesheet" href="/common.css" type="text/css" />
+ <link rel="stylesheet" href="/css/common.css" type="text/css" />
+<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
@@ -29,13 +31,38 @@
 			<div>${BoardVO.mdfyDt}</div>
 			<label>내용</label>
 			<div>${BoardVO.content}</div>
-			<c:if test="${not empty sessionScope.__LOGIN_USER__ and BoardVO.email==sessionScope.__LOGIN_USER__.email}">
+			<c:if
+				test="${not empty sessionScope.__LOGIN_USER__ and BoardVO.email==sessionScope.__LOGIN_USER__.email}">
 				<div class="right-align">
-					<a href="/board/modify/${BoardVO.id}">수정</a> 
-					<a href="/board/delete/${BoardVO.id}">삭제</a>
+					<a href="/board/modify/${BoardVO.id}">수정</a> <a
+						href="/board/delete/${BoardVO.id}">삭제</a>
 				</div>
 			</c:if>
 		</div>
 	</div>
+	<ul class="reply-list-wrapper" data-id="${BoardVO.id}">
+
+	</ul>
+	<div class="reply-writer-wrapper" data-id="${BoardVO.id}" data-endpoint="" data-reply-id="">
+		<textarea class="reply-content" placeholder="댓글을 입력해보세요!"></textarea>
+		<button class="reply-write-button" type="button">등록</button>
+	</div>
+	<template class="reply-item-template">
+	       <li>
+            <div class="reply-item-writer">
+                <span></span>
+                <span></span>
+                <span></span>
+                </div>
+                <div class="reply-item-content"></div>
+                <div class="reply-item-actions">
+                    <span class="reply-item-modify">수정</span> 
+                    <span  class="reply-item-delete">삭제</span> 
+                    <span  class="reply-item-recommend">추천</span>
+                    <span class="reply-item-recommend-count"></span>
+                    <span  class="reply-item-write">답글 달기</span>
+                </div>
+        </li>
+	</template>
 </body>
 </html>

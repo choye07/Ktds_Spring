@@ -156,20 +156,217 @@ $().ready(function() {
                 $(".member-regist-wrapper").find(".regist-button").removeAttr("disabled");
             }
         });
-        
-        $(".login-form").find(".login-button")
-        .on("click", function(){
-           var nextUrl = location.pathname;
-           
-           if(nextUrl==="/member/login"){
-            nextUrl ="/board/list";
-           } 
-           $(".login-form").find(".next-url").val(nextUrl);
 
-           
-           $(".login-form").attr({
-            "action":"/member/login",
-            "method": "POST"
-           }).submit();
+    $(".login-form").find(".login-button")
+        .on("click", function() {
+            var nextUrl = location.pathname;
+
+            if (nextUrl === "/member/login") {
+                nextUrl = "/board/list";
+            }
+            $(".login-form").find(".next-url").val(nextUrl);
+
+
+            $(".login-form").attr({
+                "action": "/member/login",
+                "method": "POST"
+            }).submit();
+        });
+
+
+
+    /***********************/
+    /****** 댓글 이벤트 들 *****/
+    /***********************/
+    function loadReplyFunction() {
+        $(".reply-list-wrapper").html("");
+        var boardId = $(".reply-list-wrapper").data("id");
+        var url = "/ajax/reply/" + boardId;
+        $.get(url, function(ajaxResponse) {
+            var status = ajaxResponse.status;
+            var data = ajaxResponse.data;
+
+            if (status === 200) {
+
+                var templateHtml = $(".reply-item-template").html();
+
+                for (var i = 0; i < data.length; i++) {
+                    var replyItem = data[i];
+                    var replyItemDom = $(templateHtml);
+                    
+                    replyItemDom.css({
+                        "margin-left":"calc("+(replyItem.level-1)+"*3rem + 0.625rem)",
+                        "border-left": "1px solid #ccc"
+                    }); //inline style 적용
+
+                    replyItemDom.attr({
+                        "data-reply-id": replyItem.replyId
+                    });
+                    replyItemDom.find(".reply-item-writer")
+                        .find("span")
+                        .eq(0).text(replyItem.memberVO.name);
+
+                    replyItemDom.find(".reply-item-writer")
+                        .find("span")
+                        .eq(1).text("작성 시간: " + replyItem.crtDt);
+
+                    replyItemDom.find(".reply-item-writer")
+                        .find("span")
+                        .eq(2).text("수정 시간: " + replyItem.mdfyDt);
+
+                    replyItemDom.find(".reply-item-content")
+                        .text(replyItem.content);
+
+                    replyItemDom.find(".reply-item-actions")
+                        .find(".reply-item-recommend-count")
+                        .text("추천수: " + replyItem.recommendCnt);
+
+                    replyItemDom.find(".reply-item-actions").find(".reply-item-modify")
+                        .on("click", function() {
+                            var replydom = $(this).closest("li");
+                            var replyContent = replydom.find(".reply-item-content").text();
+
+                            
+                            $(".reply-writer-wrapper").data("endpoint", "/modify");
+                            $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
+                                                          
+                            //data-endpoint="/moidfy"
+/*                            $(".reply-writer-wrapper").attr({                
+                                "data-endpoint": "/modify",
+                                "data-replyId": replydom.data("reply-id")
+                            });*/
+
+                            //data-reply-id ="10"
+                            $(".reply-writer-wrapper").find(".reply-content").val(replyContent);
+                            $(".reply-writer-wrapper").find(".reply-content").focus();
+
+                        });
+
+                    replyItemDom.find(".reply-item-actions").find(".reply-item-delete")
+                        .on("click", function() {
+                            var replyItem = $(this).closest("li");
+                            var replyId = replyItem.data("reply-id");
+                            var url = "/ajax/reply/delete/" + boardId + "/" + replyId;
+
+                            $.get(url, function(deleteResponse) {
+                                var status = deleteResponse.status;
+                                if (status === 200) {
+                                    replyItem.remove();
+                                }
+                                else if (status === 400) {
+                                    var errorData = deleteResponse.data;
+                                    alert(errorData);
+                                } else if (status === 401) {
+                                    alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+                                    location.href = "/member/login";
+                                }
+                            });
+
+                        });
+
+                    replyItemDom.find(".reply-item-actions").find(".reply-item-recommend")
+                        .on("click", function() {
+                            var replyItem = $(this).closest("li");
+                            var replyId = replyItem.data("reply-id");
+                            var url = "/ajax/reply/recommend/" + boardId + "/" + replyId;
+
+                            $.get(url, function(recommendResponse) {
+                                var status = recommendResponse.status;
+                                if (status === 200) {
+                                    var resultData = recommendResponse.data;
+                                    replyItem.find(".reply-item-recommend-count")
+                                        .text("추천수: " + resultData);
+                                }
+                                else if (status === 400) {
+                                    var errorData = recommendResponse.data;
+                                    alert(errorData);
+                                } else if (status === 401) {
+                                    alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+                                    location.href = "/member/login";
+                                }
+                            });
+                        });
+
+                    replyItemDom.find(".reply-item-actions").find(".reply-item-write")
+                        .on("click", function() {
+                            var replyDom = $(this).closest("li");
+                           
+
+                            //data-endpoint="/moidfy"
+                        /*    $(".reply-writer-wrapper").attr({
+                                "data-replyId": replydom.data("reply-id")
+                            });
+*/
+                             $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
+     
+                            //data-reply-id ="10"
+                          
+                            $(".reply-writer-wrapper").find(".reply-content").focus();
+                        });
+
+                    $(".reply-list-wrapper").append(replyItemDom);
+                }
+
+            } else if (status === 401) {
+                alert("로그인이 만료되었습니다. 다시 로그인 해주세요.");
+                location.href = "/member/login"
+
+            }
+        });
+    };
+
+    if ($(".reply-list-wrapper").length > 0) {
+        loadReplyFunction();
+    }
+
+
+
+    $(".reply-writer-wrapper").find(".reply-write-button")
+        .on("click", function() {
+            var boardId = $(this).closest(".reply-writer-wrapper")
+                .data("id");
+
+            var contentDom = $(this).closest(".reply-writer-wrapper").find(".reply-content");
+            var content = contentDom.val();
+
+
+            var endpoint = $(this).closest(".reply-writer-wrapper").data("endpoint");
+            var replyId = $(this).closest(".reply-writer-wrapper").data("replyid");
+
+            var param ={"content":content};
+            if (endpoint ==="/modify" &&replyId !== "") {
+                replyId = "/" + replyId;
+            }
+            
+            //답글달기
+            else if(endpoint ==="" && replyId !==""){
+                //Data 수정
+                param.parentReplyId = replyId;
+                replyId ="";
+            }
+            var url = "/ajax/reply" + endpoint + "/" + boardId + replyId;
+
+            $(this).closest(".reply-writer-wrapper").removeData("data-endpoint");
+            $(this).closest(".reply-writer-wrapper").removeData("data-replyid");
+
+            $.post(url,
+               param,
+                function(ajaxResponse) {
+
+                    var status = ajaxResponse.status;
+                    if (status === 200) {
+                        // 댓글 불러오기를 처리
+                        loadReplyFunction();
+                    } else if (status === 400) {
+                        //Validation Check에 걸림
+                        //에러의 내용을 content의 placeholder에 할당한다.
+                        var errorData = ajaxResponse.data;
+                        /*console.log(errorData);*/
+                        contentDom.attr({
+                            "placeholder": errorData.content
+                        });
+                        contentDom.focus();
+                    }
+                });
         });
 });

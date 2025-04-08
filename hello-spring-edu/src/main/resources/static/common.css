@@ -83,7 +83,7 @@ label {
 	margin-top: 2rem;
 }
 
-.my-page-wrapper>.my-page-content-wrapper>.aside-menu >.delete-me >a {
+.my-page-wrapper>.my-page-content-wrapper>.aside-menu>.delete-me>a {
 	color: #AAA;
 }
 
@@ -104,6 +104,65 @@ label {
 	list-style-type: none;
 	justify-content: flex-end;
 }
+
+/* 댓글 reply style */
+.reply-list-wrapper {
+   display: flex;
+   flex-direction: column;
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+}
+
+.reply-list-wrapper > li{
+    padding: 0.625rem;
+}
+
+.reply-list-wrapper > li:hover{
+    background-color: #eee;
+}
+
+.reply-list-wrapper .reply-item-writer{
+    display: flex;
+    gap:0.625rem;
+}
+
+.reply-list-wrapper .reply-item-writer > span:first-child{
+    flex-grow: 1;
+    font-weight: 700;
+}   
+
+.reply-list-wrapper .reply-item-content {
+   padding: 0.625rem;
+}
+
+.reply-list-wrapper .reply-item-actions {
+   display: flex;
+   gap: 0.625rem;
+}
+
+.reply-list-wrapper .reply-item-actions > .reply-item-modify,
+.reply-list-wrapper .reply-item-actions > .reply-item-delete,
+.reply-list-wrapper .reply-item-actions > .reply-item-recommend,
+.reply-list-wrapper .reply-item-actions > .reply-item-recommend-count,
+.reply-list-wrapper .reply-item-actions > .reply-item-write {
+   cursor: pointer; /* 커서를 손가락으로 바꾼다. */
+}
+
+.reply-list-wrapper .reply-item-actions > .reply-item-write {
+   /* flex-grow: 1;
+   text-align: right; */
+   margin-left: auto;
+}   
+.reply-writer-wrapper {
+   display: flex;
+   height: 10rem;
+}
+
+.reply-writer-wrapper > button {
+   flex-basis: 5rem;
+}
+
 /* form styles */
 form.modify-form>.grid, form.write-form>.grid {
 	display: grid;

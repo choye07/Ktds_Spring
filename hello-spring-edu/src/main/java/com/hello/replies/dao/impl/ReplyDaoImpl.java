@@ -42,7 +42,7 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 
 	@Override
 	public int deleteOneReply(ReplyDeleteRequestVO replyDeleteRequestVO) {
-		return this.getSqlSession().delete(NAME_SPACE+"insertNewReply",replyDeleteRequestVO);
+		return this.getSqlSession().delete(NAME_SPACE+"deleteOneReply",replyDeleteRequestVO);
 	}
 
 	@Override
