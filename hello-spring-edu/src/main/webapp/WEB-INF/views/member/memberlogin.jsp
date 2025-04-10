@@ -2,17 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Login</title>
-<link rel="stylesheet" href="/css/common.css" type="text/css" />
-<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-<script src="/js/common.js" type="text/javascript"></script>
-</head>
-<body>
-<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<h1>Login</h1>
        <form:form class="login-form" modelAttribute="memberLoginRequestVO">
                <input type="hidden" class="next-url" name="nextUrl"/>
@@ -37,5 +27,4 @@
            </c:if>
            <button type="submit" class="login-button">로그인</button>
        </form:form>
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

@@ -34,6 +34,34 @@ label {
 }
 
 /* wrapper styles*/
+
+.wrapper{
+	width: 70%;
+	margin: 0 auto;
+}
+
+.wrapper > .header{
+	
+	background-color: #31ce4d;
+	color:#FFF;
+	display:grid;
+	margin-bottom:0.625rem;
+}
+
+.wrapper > .header > .header-menu-list{
+	display:flex;
+	gap:1rem;
+	margin:0;
+	padding:0;
+	background-color: #FFF;
+	list-style-type:none;
+	color:#333;
+	font-size:1.3rem;
+	font-weight:700;
+	border-bottom:3px solid #ccc;
+	}
+
+
 .detail-wrapper>.grid {
 	display: grid;
 	grid-template-columns: 5rem 1fr;
@@ -45,22 +73,22 @@ label {
 	padding: 0.315rem;
 }
 
-.member-regist-wrapper {
+/* .member-regist-wrapper {
 	width: 70%;
 	min-width: 31.25rem;
 	margin: 0 auto;
-}
+} */
 
 .login-status-wrapper {
 	text-align: right;
 	padding: 0.625rem;
 }
-
+/* 
 .my-page-wrapper {
 	width: 70%;
 	min-width: 31.25rem;
 	margin: 0 auto;
-}
+} */
 
 .my-page-wrapper>.my-page-content-wrapper {
 	display: flex;
@@ -241,4 +269,39 @@ table.grid>tbody tr.empty>td {
 
 table.grid>tbody tr.empty:hover {
 	background-color: #EEE6;
+}
+
+
+/* paginator Style */
+
+ul.paginator{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin: 0;
+	gap:0.315rem;
+	list-style-type: none;
+	justify-content: center;
+}
+
+ul.paginator > li.active > a{
+	color:#F00;
+}
+
+.search-area{
+    display:flex;
+    grid-template-columns: repeat(2,5rem 1fr);
+    gap: 0.315rem;
+    margin-bottom:0.625rem;
+}
+
+.search-area > lable {
+    padding: 0.625rem;
+    text-align:right;
+}
+
+.search-area .search-button{
+    grid-column: 1/-1;
+    width: 5rem;
+    margin-left: auto;
 }

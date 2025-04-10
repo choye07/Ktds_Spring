@@ -2,12 +2,13 @@ package com.hello.board.service;
 
 import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardListVO;
+import com.hello.board.vo.BoardSearchRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
 
 public interface BoardService {
-	public BoardListVO getBoardList();
+	public BoardListVO getBoardList(BoardSearchRequestVO boarSearchRequestVO);
 	
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO);
 	

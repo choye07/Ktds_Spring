@@ -193,9 +193,9 @@ $().ready(function() {
                 for (var i = 0; i < data.length; i++) {
                     var replyItem = data[i];
                     var replyItemDom = $(templateHtml);
-                    
+
                     replyItemDom.css({
-                        "margin-left":"calc("+(replyItem.level-1)+"*3rem + 0.625rem)",
+                        "margin-left": "calc(" + (replyItem.level - 1) + "*3rem + 0.625rem)",
                         "border-left": "1px solid #ccc"
                     }); //inline style 적용
 
@@ -226,15 +226,15 @@ $().ready(function() {
                             var replydom = $(this).closest("li");
                             var replyContent = replydom.find(".reply-item-content").text();
 
-                            
+
                             $(".reply-writer-wrapper").data("endpoint", "/modify");
                             $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
-                                                          
+
                             //data-endpoint="/moidfy"
-/*                            $(".reply-writer-wrapper").attr({                
-                                "data-endpoint": "/modify",
-                                "data-replyId": replydom.data("reply-id")
-                            });*/
+                            /*                            $(".reply-writer-wrapper").attr({                
+                                                            "data-endpoint": "/modify",
+                                                            "data-replyId": replydom.data("reply-id")
+                                                        });*/
 
                             //data-reply-id ="10"
                             $(".reply-writer-wrapper").find(".reply-content").val(replyContent);
@@ -290,17 +290,17 @@ $().ready(function() {
                     replyItemDom.find(".reply-item-actions").find(".reply-item-write")
                         .on("click", function() {
                             var replyDom = $(this).closest("li");
-                           
+
 
                             //data-endpoint="/moidfy"
-                        /*    $(".reply-writer-wrapper").attr({
-                                "data-replyId": replydom.data("reply-id")
-                            });
-*/
-                             $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
-     
+                            /*    $(".reply-writer-wrapper").attr({
+                                    "data-replyId": replydom.data("reply-id")
+                                });
+    */
+                            $(".reply-writer-wrapper").data("reply-id", replyDom.data("reply-id"));
+
                             //data-reply-id ="10"
-                          
+
                             $(".reply-writer-wrapper").find(".reply-content").focus();
                         });
 
@@ -333,16 +333,16 @@ $().ready(function() {
             var endpoint = $(this).closest(".reply-writer-wrapper").data("endpoint");
             var replyId = $(this).closest(".reply-writer-wrapper").data("replyid");
 
-            var param ={"content":content};
-            if (endpoint ==="/modify" &&replyId !== "") {
+            var param = { "content": content };
+            if (endpoint === "/modify" && replyId !== "") {
                 replyId = "/" + replyId;
             }
-            
+
             //답글달기
-            else if(endpoint ==="" && replyId !==""){
+            else if (endpoint === "" && replyId !== "") {
                 //Data 수정
                 param.parentReplyId = replyId;
-                replyId ="";
+                replyId = "";
             }
             var url = "/ajax/reply" + endpoint + "/" + boardId + replyId;
 
@@ -350,7 +350,7 @@ $().ready(function() {
             $(this).closest(".reply-writer-wrapper").removeData("data-replyid");
 
             $.post(url,
-               param,
+                param,
                 function(ajaxResponse) {
 
                     var status = ajaxResponse.status;
@@ -369,4 +369,35 @@ $().ready(function() {
                     }
                 });
         });
+
+    $(".board-search-button, .board-paginator > li[data-page-no]").on("click", function() {
+        var writerName = $("#writer-name").val();
+        var writerEmail = $("#writer-email").val();
+        var subject = $("#subject").val();
+        var content = $("#content").val();
+        var pageNo = $(this).data("page-no") || 0;
+
+        /*      if(!pageNo){
+               pageNo=0;
+              }*/
+
+        /*false => 비어있으면 모두 false
+        1. false
+        2. undifined
+        3. null
+        4. 0
+        5. ""
+        6. ''
+        7 리터럴 빔
+        */
+        var listSize = $("#list-size").val();
+        location.href = "/board/list?writerName=" + writerName
+            + "&writerEmail=" + writerEmail
+            + "&subject=" + subject
+            + "&content=" + content
+            + "&pageNo=" + pageNo
+            + "&listSize=" + listSize;
+
+    });
+
 });

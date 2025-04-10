@@ -14,6 +14,7 @@ import com.hello.board.dao.BoardDao;
 import com.hello.board.service.BoardService;
 import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardListVO;
+import com.hello.board.vo.BoardSearchRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
@@ -41,13 +42,16 @@ public class BoardServiceImpl implements BoardService {
 
 	@Transactional(readOnly=true) // 정말 select만 해야하는 기능이라면 붙여줘야한다.
 	@Override
-	public BoardListVO getBoardList() {
-
-		int count = this.boardDao.selectBoardAllCount();
-		List<BoardVO> boardlist = this.boardDao.selectAllBoard();
+	public BoardListVO getBoardList(BoardSearchRequestVO boardSearchRequestVO) {
+		int count = this.boardDao.selectBoardAllCount(boardSearchRequestVO);
+		boardSearchRequestVO.setPageCount(count);
+		
+		List<BoardVO> boardList = this.boardDao.selectAllBoard(boardSearchRequestVO);
+		
 		BoardListVO boardListVO = new BoardListVO();
 		boardListVO.setBoardCnt(count);
-		boardListVO.setBoardList(boardlist);
+		boardListVO.setBoardList(boardList);
+		
 		return boardListVO;
 	}
 

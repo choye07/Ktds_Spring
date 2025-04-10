@@ -1,19 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Mypage</title>
-<link rel="stylesheet" href="/css/common.css" type="text/css" />
-<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-<script src="/js/common.js" type="text/javascript"></script>
-</head>
-<body>
+<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 
 	<div class="my-page-wrapper">
-		<jsp:include page="/WEB-INF/views/member/loginstatus.jsp" />
 		<div class="my-page-content-wrapper">
 			<ul class="aside-menu">
 				<li>개인정보 수정</li>
@@ -39,6 +29,4 @@
 			</div>
 		</div>
 	</div>
-
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

@@ -2,17 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Member Regist</title>
-<link rel="stylesheet" href="/css/common.css" type="text/css" />
-<script src="/js/jquery-3.7.1.min.js" type="text/javascript"></script>
-<script src="/js/common.js" type="text/javascript"></script>
-</head>
-<body>
-<jsp:include page="/WEB-INF/views/member/loginstatus.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<div class="member-regist-wrapper">
 		<h1>회원가입</h1>
 		<form:form modelAttribute="memberRegistRequestVO"
@@ -59,5 +49,4 @@
 			</div>
 		</form:form>
 	</div>
-</body>
-</html>
+<jsp:include page="/WEB-INF/views/layout/footer.jsp" />

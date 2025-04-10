@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hello.board.service.BoardService;
 import com.hello.board.vo.BoardDeleteRequestVO;
 import com.hello.board.vo.BoardListVO;
+import com.hello.board.vo.BoardSearchRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
@@ -30,18 +31,29 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
+	
+	//http://localhost:8080/board/list?pageNo=0&listSize=20
 	@GetMapping("/board/list")
-	public String viewBoardList(Model model) {
-
+	public String viewBoardList(Model model, BoardSearchRequestVO boardSearchRequestVO) {
+		
 		LOGGER.trace("/board/list 를 방문했습니다.");
 		LOGGER.debug("/board/list 를 방문했습니다.");
 		LOGGER.info("/board/list 를 방문했습니다.");
 		LOGGER.warn("/board/list 를 방문했습니다.");
 		LOGGER.error("/board/list 를 방문했습니다.");
-		BoardListVO boardListVO = boardService.getBoardList();
+		LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterName());
+		LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterEmail());
+		LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getPageNo()));
+		LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getListSize()));
+		
+		BoardListVO boardListVO = this.boardService.getBoardList(boardSearchRequestVO);
 		model.addAttribute("boardList", boardListVO);
+		model.addAttribute("pagination", boardSearchRequestVO);
+		
+
 		return "board/boardlist";
 	}
+
 
 	@GetMapping("/board/boardwrite")
 	public String viewBoardWritePage() {
