@@ -1,0 +1,307 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	color: #333;
+}
+
+/* link styles */
+a {
+	text-decoration: none;
+	color: #222;
+	font-weight: 500;
+}
+
+a:hover {
+	color: #666;
+}
+
+/* input styles */
+button, input, textarea {
+	padding: 0.625rem;
+	outline: none;
+	border: 1px solid #ccc;
+}
+
+input, textarea {
+	width: 100%;
+}
+
+label {
+	padding: 0.312rem 0 0.312rem 0.625rem;
+}
+
+/* wrapper styles*/
+
+.wrapper{
+	width: 70%;
+	margin: 0 auto;
+}
+
+.wrapper > .header{
+	
+	background-color: #31ce4d;
+	color:#FFF;
+	display:grid;
+	margin-bottom:0.625rem;
+}
+
+.wrapper > .header > .header-menu-list{
+	display:flex;
+	gap:1rem;
+	margin:0;
+	padding:0;
+	background-color: #FFF;
+	list-style-type:none;
+	color:#333;
+	font-size:1.3rem;
+	font-weight:700;
+	border-bottom:3px solid #ccc;
+	}
+
+
+.detail-wrapper>.grid {
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	grid-template-rows: repeat(6, 1.75rem) 20rem 1fr;
+	row-gap: 0.625rem;
+}
+
+.detail-wrapper>.grid>label+div {
+	padding: 0.315rem;
+}
+
+/* .member-regist-wrapper {
+	width: 70%;
+	min-width: 31.25rem;
+	margin: 0 auto;
+} */
+
+.login-status-wrapper {
+	text-align: right;
+	padding: 0.625rem;
+}
+/* 
+.my-page-wrapper {
+	width: 70%;
+	min-width: 31.25rem;
+	margin: 0 auto;
+} */
+
+.my-page-wrapper>.my-page-content-wrapper {
+	display: flex;
+}
+
+.my-page-wrapper>.my-page-content-wrapper>.aside-menu {
+	display: flex;
+	flex-direction: column;
+	flex-basis: 12.5rem;
+	flex-shrink: 1;
+	flex-grow: 0;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	gap: 0.625rem;
+	flex-basis: 12.5rem;
+}
+
+.my-page-wrapper>.my-page-content-wrapper>.aside-menu>.delete-me {
+	margin-top: 2rem;
+}
+
+.my-page-wrapper>.my-page-content-wrapper>.aside-menu>.delete-me>a {
+	color: #AAA;
+}
+
+.my-page-wrapper>.my-page-content-wrapper>.content {
+	flex-grow: 1;
+	padding: 0 0.625rem;
+	border: 1px solid #EEE;
+	display: grid;
+	grid-template-rows: repeat(5, 2.5rem);
+	grid-template-columns: 12rem 1fr;
+}
+
+.login-status-wrapper>ul {
+	margin: 0;
+	padding: 0;
+	display: flex;
+	gap: 0.325rem;
+	list-style-type: none;
+	justify-content: flex-end;
+}
+
+/* 댓글 reply style */
+.reply-list-wrapper {
+   display: flex;
+   flex-direction: column;
+   list-style-type: none;
+   padding: 0;
+   margin: 0;
+}
+
+.reply-list-wrapper > li{
+    padding: 0.625rem;
+}
+
+.reply-list-wrapper > li:hover{
+    background-color: #eee;
+}
+
+.reply-list-wrapper .reply-item-writer{
+    display: flex;
+    gap:0.625rem;
+}
+
+.reply-list-wrapper .reply-item-writer > span:first-child{
+    flex-grow: 1;
+    font-weight: 700;
+}   
+
+.reply-list-wrapper .reply-item-content {
+   padding: 0.625rem;
+}
+
+.reply-list-wrapper .reply-item-actions {
+   display: flex;
+   gap: 0.625rem;
+}
+
+.reply-list-wrapper .reply-item-actions > .reply-item-modify,
+.reply-list-wrapper .reply-item-actions > .reply-item-delete,
+.reply-list-wrapper .reply-item-actions > .reply-item-recommend,
+.reply-list-wrapper .reply-item-actions > .reply-item-recommend-count,
+.reply-list-wrapper .reply-item-actions > .reply-item-write {
+   cursor: pointer; /* 커서를 손가락으로 바꾼다. */
+}
+
+.reply-list-wrapper .reply-item-actions > .reply-item-write {
+   /* flex-grow: 1;
+   text-align: right; */
+   margin-left: auto;
+}   
+.reply-writer-wrapper {
+   display: flex;
+   height: 10rem;
+}
+
+.reply-writer-wrapper > button {
+   flex-basis: 5rem;
+}
+
+/* form styles */
+form.modify-form>.grid, form.write-form>.grid {
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	grid-template-rows: repeat(2, minmax(1.75rem, auto)) 20rem 1fr;
+	row-gap: 0.625rem;
+}
+
+form.modify-form #content, form.write-form #content {
+	height: 100%;
+}
+
+form.member-regist-form>.grid {
+	display: grid;
+	grid-template-columns: 7.5rem 1fr;
+	grid-template-rows: repeat(4, minmax(1.75rem, auto)) 1fr;
+	row-gap: 0.625rem;
+}
+
+form .error {
+	color: #ff3c34;
+	font-size: 0.825rem;
+	padding: 0.5rem;
+}
+
+/* button group styles */
+div.grid>.btn-group {
+	grid-column: 1/-1;
+}
+
+/* align styles */
+.left-align {
+	text-align: left;
+}
+
+.center-align {
+	text-align: center;
+}
+
+.right-align {
+	text-align: right;
+}
+
+/* table grid styles */
+table.grid {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table.grid>thead>tr {
+	background-color: #FFF;
+}
+
+table.grid td, table.grid th {
+	border: 1px solid #EEE;
+	padding: 0.625rem;
+}
+
+table.grid>tbody>tr:nth-child(odd) {
+	background-color: #EEE6;
+}
+
+table.grid>tbody>tr:hover {
+	background-color: #F001;
+}
+
+table.grid>tbody tr.empty {
+	text-align: center;
+	font-weight: 900;
+	color: #CCC;
+}
+
+table.grid>tbody tr.empty>td {
+	padding: 2rem 0;
+}
+
+table.grid>tbody tr.empty:hover {
+	background-color: #EEE6;
+}
+
+
+/* paginator Style */
+
+ul.paginator{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 0;
+	margin: 0;
+	gap:0.315rem;
+	list-style-type: none;
+	justify-content: center;
+}
+
+ul.paginator > li.active > a{
+	color:#F00;
+}
+
+.search-area{
+    display:flex;
+    grid-template-columns: repeat(2,5rem 1fr);
+    gap: 0.315rem;
+    margin-bottom:0.625rem;
+}
+
+.search-area > lable {
+    padding: 0.625rem;
+    text-align:right;
+}
+
+.search-area .search-button{
+    grid-column: 1/-1;
+    width: 5rem;
+    margin-left: auto;
+}

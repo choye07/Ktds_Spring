@@ -1,0 +1,2171 @@
+@charset "UTF-8";
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+/* 러뉴얼 컬러 값 변수 세팅 */
+:root {
+  --student-color: #1f7bda;
+  --student-light-color: #eaf5ff;
+  --student-medium-color: #6eb6fe;
+  --tutor-color: #6554c0;
+  --tutor-light-color: #ebebeb6c;
+  --tutor-medium-color: #a89bea;
+  --manager-color: #0747a6;
+  --manager-light-color: #e8f0f8;
+  --manager-medium-color: #689dea;
+  --full-gradient-background: linear-gradient(
+    90deg,
+    #3399ff 0%,
+    #0747a6 50%,
+    #6554c0 100%
+  );
+  --light-gradient-background: linear-gradient(
+    180deg,
+    #3399ff 0%,
+    #1f5c99 100%
+  );
+  --deep-gradient-background: linear-gradient(180deg, #2b81d7 0%, #174471 100%);
+  --light-horizontal-gradient-background: linear-gradient(
+    90deg,
+    #3399ff 0%,
+    #1f5c99 100%
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: #333;
+  margin: 0;
+  font-family: "Pretendard Variable", sans-serif;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+  transition: 0.2s all;
+}
+
+a:hover {
+  color: #3399ff;
+}
+
+a.btn {
+  display: block;
+  text-align: center;
+  border-radius: 0.3rem;
+  outline: none;
+  padding: 0.625rem;
+  border: 0;
+  font-size: 1rem;
+  box-shadow: 0px 2px 5px #3333;
+  transition: 0.2s all;
+  color: #fff;
+  cursor: pointer;
+}
+
+a.btn:hover {
+  box-shadow: 0px 3px 6px #3338;
+}
+
+select {
+  outline: none;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.3rem;
+}
+
+h3 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.1rem;
+}
+
+h5 {
+  margin: 0;
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+h6 {
+  margin: 0;
+  padding: 0;
+  font-size: 0.5rem;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  border-radius: 0.3rem;
+  outline: none;
+  padding: 0.625rem;
+  border: 0;
+  font-size: 1rem;
+  box-shadow: 0px 2px 5px #3333;
+  transition: 0.2s all;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0px 3px 6px #3338;
+}
+
+.btn1 {
+  background: var(--tutor-color);
+}
+
+.btn2 {
+  background: var(--light-gradient-background);
+}
+
+.btn3 {
+  background: var(--deep-gradient-background);
+}
+
+input {
+  border: 0;
+  border: 1px solid #ccc;
+  border-radius: 0.625rem;
+  padding: 0.625rem;
+  outline: none;
+}
+
+input:focus {
+  background-color: #3399ff11;
+}
+
+label {
+  color: var(--student-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.modal {
+  background-color: #0007;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+/* ================================== */
+/* 게시판 공통 css */
+.board {
+  width: 100%;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0 10px #0000001a;
+
+  h1 {
+    padding-bottom: 0.3rem;
+  }
+
+  /* board-write form css */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    .form-group {
+      /* border: 1px solid red; */
+      display: flex;
+      gap: 0.625rem;
+
+      > label {
+        width: 4rem;
+        color: #555;
+        display: flex;
+        align-items: center;
+      }
+
+      &.category-area {
+        label {
+          color: #555;
+        }
+      }
+
+      input[type="text"],
+      input[type="file"] {
+        width: 100%;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 20rem;
+        border: 1px solid #ccc;
+        border-radius: 0.625rem;
+        padding: 0.625rem;
+        outline: none;
+      }
+
+      textarea:focus {
+        background-color: #3399ff11;
+      }
+    }
+
+    .btn-area {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.625rem;
+
+      > button {
+        background-color: var(--manager-color);
+      }
+    }
+  }
+
+  /* board-list, board-view css */
+  .board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    border-bottom: 3px solid var(--manager-color);
+    min-height: 3rem;
+    /* background-color: orange; */
+  }
+
+  .board-body {
+    .board-list-top {
+      border-bottom: 1px solid #ccc;
+      display: grid;
+      grid-template-columns: 5rem 1fr 7rem 7rem;
+
+      > div {
+        padding: 0.625rem;
+        text-align: center;
+      }
+    }
+
+    .board-list-wrapper {
+      > li {
+        background-color: #fff;
+        position: relative;
+        border-bottom: 1px solid #ccc;
+
+        &.fix {
+          background-color: #f8f8f8;
+        }
+
+        a {
+          display: grid;
+          grid-template-columns: 5rem 1fr 7rem 7rem;
+          text-align: center;
+
+          > div {
+            padding: 1.25rem 0.625rem;
+
+            &.board-list-title {
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+
+    .pagination {
+      margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
+
+      a {
+        padding: 0.3rem;
+        transition: 0.2s all;
+      }
+    }
+
+    .search-area {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.625rem;
+
+      select {
+        border: 1px solid #ccc;
+      }
+
+      .search-input {
+        border-radius: 0;
+      }
+
+      .btn-search {
+        background-color: var(--manager-color);
+      }
+    }
+  }
+
+  .board-wrapper {
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+
+    label {
+      /* border: 1px solid #ccc; */
+      padding: 0.625rem;
+      color: var(--manager-color);
+    }
+
+    .board-info {
+      display: grid;
+      grid-template-columns: 8rem 1fr 8rem 1fr;
+      gap: 0.125rem;
+
+      > div {
+        /* border: 1px solid #ccc; */
+        padding: 0.625rem;
+      }
+    }
+
+    .board-content {
+      display: grid;
+      grid-template-columns: 8rem 1fr;
+      gap: 0.125rem;
+
+      > div {
+        padding: 0.625rem;
+        /* border: 1px solid #ccc; */
+      }
+    }
+  }
+}
+
+/* 게시판 custom css start */
+
+/* 성연 파트 */
+/* 시험 게시판 전체보기 css */
+.board.exam-list {
+  .board-body {
+    .board-list-top {
+      grid-template-columns: 3fr 1fr 1fr 1fr;
+    }
+
+    .board-list-wrapper {
+      > li {
+        a {
+          grid-template-columns: 3fr 1fr 1fr 1fr;
+          > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+
+  /* 시험 게시판 전체보기 학생 뷰 css */
+  &.student {
+    .board-header {
+      border-bottom: 3px solid var(--student-color);
+    }
+  }
+
+  /* 시험 게시판 전체보기 강사 뷰 css */
+  &.tutor {
+    .board-header {
+      border-bottom: 3px solid var(--tutor-color);
+    }
+  }
+}
+
+/* 시험 게시판 시험 자세히보기 css */
+.board.exam-view {
+  label {
+    color: var(--tutor-color);
+  }
+
+  .board-info {
+    display: grid;
+    grid-template-columns: 8rem 1fr 8rem 1fr;
+    gap: 0.125rem;
+
+    > div {
+      padding: 0.625rem;
+
+      &.exam-url-area {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding: 0;
+        grid-column: 1 / -1;
+
+        .response-url-area,
+        .edit-url-area {
+          padding-left: 0;
+          display: flex;
+
+          > label {
+            width: 8rem;
+          }
+
+          > .input-box {
+            width: 65%;
+          }
+          input {
+            width: 75%;
+          }
+
+          > a {
+            width: 100%;
+            padding-left: 1.3rem;
+            display: flex;
+            height: 100%;
+            align-items: center;
+          }
+
+          .btn-edit,
+          .btn-save {
+            margin-left: 0.3rem;
+            color: #333;
+            padding: 0.3rem 0.625rem;
+          }
+        }
+      }
+
+      &.submit-url-area {
+        display: flex;
+      }
+    }
+  }
+
+  .board-content {
+    display: block;
+
+    h2 {
+      margin: 1.5rem 0 0.5rem 0;
+    }
+
+    > div {
+      padding: 0;
+    }
+
+    .exam-usr-header {
+      background-color: var(--tutor-light-color);
+      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      color: #111;
+      font-weight: 600;
+
+      > div {
+        border: 1px solid #ccc;
+        padding: 0.625rem;
+      }
+    }
+
+    /* 시험 응시 명단 */
+    .exam-usr-wrapper {
+      > li.exam-usr-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        > div {
+          text-align: center;
+          border: 1px solid #ccc;
+          padding: 0.625rem;
+        }
+      }
+    }
+  }
+
+  &.tutor {
+    label {
+      color: var(--tutor-color);
+    }
+
+    .board-header {
+      border-bottom: 3px solid var(--tutor-color);
+    }
+  }
+
+  &.student {
+    label {
+      color: var(--student-color);
+    }
+
+    .board-header {
+      border-bottom: 3px solid var(--student-color);
+    }
+  }
+}
+
+/* 게시판 css end */
+/* ================================== */
+
+/* 강좌 생성 form css */
+.course-create {
+  width: 50%;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 0.625rem;
+  box-shadow: 0 0 10px #0000001a;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    .form-group {
+      /* border: 1px solid red; */
+      display: flex;
+      gap: 0.625rem;
+
+      > label {
+        width: 5rem;
+        color: #555;
+        display: flex;
+        align-items: center;
+      }
+
+      &.category-area {
+        label {
+          color: #555;
+        }
+      }
+
+      select {
+        border: 1px solid #ccc;
+        width: 100%;
+      }
+
+      input[type="text"],
+      input[type="datetime-local"] {
+        width: 100%;
+      }
+    }
+
+    .btn-area {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.625rem;
+
+      > button {
+        background-color: var(--manager-color);
+      }
+    }
+  }
+
+  #selected-subject-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+
+    .subject-item {
+      border: 1px solid #ccc;
+      border-radius: 0.625rem;
+      padding: 0.1rem 0.625rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+
+      .remove-button {
+        cursor: pointer;
+        display: block;
+        width: 1.5rem;
+        min-height: 1.5rem;
+        font-size: 0;
+        background: url("/asset/icon/backspace.svg") no-repeat center/contain;
+      }
+    }
+  }
+}
+
+/* 메인에서 출력하는 게시판 css */
+.article {
+  background: #fff;
+  border-radius: 0.625rem;
+  box-shadow: 0px 2px 5px #3333;
+  position: relative;
+  padding-bottom: 3.5rem;
+
+  > div:first-child {
+    padding: 1.25rem;
+    border-bottom: 3px solid #efefef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > a {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  }
+
+  > div:nth-child(2) {
+    .article-content {
+      li {
+        border-bottom: 3px solid #efefef;
+
+        > a {
+          padding: 1rem 1.25rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.625rem;
+
+          &:hover {
+            background: #3399ff11;
+          }
+
+          > h3 {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 600;
+          }
+
+          > span {
+            color: #ccc;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 1.25rem 0;
+      display: flex;
+      justify-content: center;
+
+      a {
+        padding: 0.3rem;
+        transition: 0.2s all;
+      }
+    }
+  }
+}
+
+/* 대시보드에 보이는 게시판 위젯 css */
+.widget-article {
+  background: #fff;
+  border-radius: 0.625rem;
+  box-shadow: 0px 2px 5px #3333;
+  position: relative;
+  padding-bottom: 3rem;
+  overflow: hidden;
+
+  > div:first-child {
+    padding: 1rem;
+    border-bottom: 3px solid #efefef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > h2 {
+      font-size: 1.15rem;
+    }
+
+    > a {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  }
+
+  > div:nth-child(2) {
+    .article-content {
+      li {
+        border-bottom: 3px solid #efefef;
+
+        > a {
+          padding: 0.85rem 1rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+
+          &:hover {
+            background: #3399ff11;
+          }
+
+          > h3 {
+            font-size: 1rem;
+            color: #333;
+            font-weight: 600;
+          }
+
+          > span {
+            color: #ccc;
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    .pagination {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: 1rem 0;
+      display: flex;
+      justify-content: center;
+
+      a {
+        padding: 0.3rem;
+        font-size: 0.9rem;
+        transition: 0.2s all;
+      }
+    }
+  }
+}
+
+/* 검색 결과 ul 공통 css */
+.list-wrapper {
+  li {
+    border-bottom: 3px solid #efefef;
+
+    > a {
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+
+      &:hover {
+        background: #3399ff11;
+      }
+
+      > p {
+        font-size: 1.1rem;
+        color: #333;
+        font-weight: 600;
+      }
+
+      > span {
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+/* 공통 & 학생 대시보드 사이드바 */
+.sidebar {
+  width: 18rem;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: -18rem;
+  background-color: #fff;
+  z-index: 2000;
+  box-shadow: 3px 0px 10px #3333;
+  transition: 0.3s all;
+
+  &.on {
+    left: 0;
+  }
+
+  ul {
+    a {
+      &:hover {
+        color: var(--student-color);
+      }
+    }
+  }
+
+  .btn-close {
+    width: 2rem;
+    min-height: 2rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    a {
+      display: block;
+      width: 100%;
+      min-height: 2rem;
+      font-size: 0;
+      background: url("/asset/icon/sidebar_close.svg") no-repeat center/contain;
+
+      &:hover {
+        background: url("/asset/icon/sidebar_close_hover_student.svg") no-repeat
+          center/contain;
+      }
+    }
+  }
+
+  .user-info {
+    padding: 1rem;
+
+    .user-info-img {
+      width: 6rem;
+      min-height: 2.5rem;
+      font-size: 0;
+      background: url("/asset/logo/learnual-logo-text.svg") no-repeat
+        center/contain;
+    }
+
+    .user-greeting {
+      margin: 1rem 0;
+
+      .user-name {
+        color: #111;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+    }
+
+    .user-info-btns {
+      display: flex;
+      gap: 0.625rem;
+
+      .btn {
+        width: 50%;
+      }
+
+      .btn-mypage {
+        background-color: var(--student-color);
+      }
+
+      .btn-logout {
+        background-color: #aaa;
+      }
+    }
+  }
+}
+
+/* 강사 대시보드 사이드바 */
+.sidebar.tutor {
+  ul {
+    a {
+      &:hover {
+        color: var(--tutor-color);
+      }
+    }
+  }
+
+  .user-info {
+    .user-info-btns {
+      .btn-mypage {
+        background-color: var(--tutor-color);
+      }
+    }
+  }
+}
+
+/* 플랫폼 관리자(학원) 사이드바 */
+.sidebar.insttn {
+  ul {
+    a {
+      &:hover {
+        color: var(--manager-color);
+      }
+    }
+  }
+
+  .user-info {
+    .user-info-btns {
+      .btn-mypage {
+        background-color: var(--manager-color);
+      }
+    }
+  }
+}
+
+/* sidebar 내 아코디언 메뉴 공통 css */
+.sidebar-menu {
+  > li {
+    background-color: #fff;
+    position: relative;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0px 2px 5px #00000025;
+
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0.85rem 1rem;
+      color: #111;
+      font-weight: 700;
+    }
+
+    .btn-toggle {
+      width: 1.5rem;
+      min-height: 1.5rem;
+      position: absolute;
+      top: 50%;
+      right: 0.85rem;
+      transform: translateY(-50%);
+
+      a {
+        display: block;
+        height: 100%;
+        background: url("/asset/icon/arrow_down.svg") no-repeat center/contain;
+        font-size: 0;
+      }
+    }
+
+    .btn-toggle.on {
+      a {
+        background: url("/asset/icon/arrow_up.svg") no-repeat center/contain;
+      }
+    }
+  }
+
+  ul {
+    margin-top: 0.5rem;
+    li {
+      a {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        text-indent: 0.5rem;
+      }
+    }
+  }
+}
+
+/* 러뉴얼 홈과 학원페이지 visual css */
+.visual {
+  width: 100%;
+  background: url("/asset/visual/learnual_visual.jpg") no-repeat center/cover;
+  height: 12.5rem;
+  font-size: 0;
+  margin-bottom: 1.25rem;
+}
+
+/* 학원페이지 내 관리자 전용 버튼 박스 */
+.manager-toolbox {
+  /* display: none; */
+  > div {
+    > a {
+      display: block;
+      padding: 0.625rem;
+      background-color: var(--manager-color);
+      color: #fff;
+
+      &:hover {
+        background-color: #2f6ac0;
+      }
+    }
+  }
+}
+
+/* 게시판 사용자 버튼 박스 */
+/* *추후 수정 필요 */
+.user-toolbox {
+  > div {
+    > a {
+      display: block;
+      padding: 0.625rem;
+      background-color: var(--manager-color);
+      color: #fff;
+
+      &:hover {
+        background-color: #2f6ac0;
+      }
+    }
+  }
+}
+
+/* 게시판 내 버튼 박스 */
+.board-toolbox {
+  display: flex;
+  gap: 0.625rem;
+
+  > div {
+    display: flex;
+    gap: 0.625rem;
+
+    a {
+      display: block;
+      padding: 0.625rem;
+      background-color: var(--manager-color);
+      color: #fff;
+
+      &:hover {
+        background-color: #2f6ac0;
+      }
+    }
+
+    /* 회원(학생) 전용 버튼 박스 */
+    &.board-student-toolbox {
+      > div {
+        a {
+          background-color: var(--student-color-color);
+
+          &:hover {
+            background-color: #6eb6fe;
+          }
+        }
+      }
+    }
+
+    /* 학습관리자(강사) 전용 버튼 박스 */
+    &.board-tutor-toolbox {
+      > div {
+        a {
+          background-color: var(--tutor-color);
+
+          &:hover {
+            background-color: #a89bea;
+          }
+        }
+      }
+    }
+
+    /* 관리자 전용 버튼 박스 */
+    &.board-manager-toolbox {
+      /* display: none; */
+    }
+  }
+}
+
+/* footer 공통 css */
+.footer {
+  padding: 2.5rem 0;
+
+  .footer-wrapper {
+    display: flex;
+
+    .footer-logo {
+      width: 5.625rem;
+    }
+
+    .footer-contents {
+      flex-grow: 1;
+      display: flex;
+    }
+  }
+}
+
+/* ======= 러뉴얼 홈페이지 css start ======= */
+.wrapper {
+  width: 80%;
+  min-width: 75rem;
+  margin: 0 auto;
+  margin-top: 5rem;
+
+  .header {
+    border-bottom: 1px solid #ccc;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0px 2px 5px #5553;
+
+    .header-wrapper {
+      width: 80%;
+      min-width: 75rem;
+      margin: 0 auto;
+      display: flex;
+      min-height: 5rem;
+      justify-content: space-between;
+      /* border: 1px solid green; */
+
+      .header-logo {
+        width: 5rem;
+        font-size: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        a {
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: url("/asset/logo/learnual-logo.svg") no-repeat
+            center/contain;
+        }
+      }
+
+      .header-right {
+        /* border: 1px solid blue; */
+        width: 60%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.625rem;
+        font-size: 1.15rem;
+
+        .header-right-nav {
+          /* border: 1px solid purple; */
+          display: flex;
+
+          li > a {
+            height: 100%;
+            padding: 0.625rem 1.25rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.2s all;
+          }
+        }
+      }
+    }
+  }
+
+  /* 슈퍼관리자 main */
+  /* mainsuper.jsp */
+  .super-main {
+    padding: 8rem 0;
+
+    .super-main-header {
+      border-bottom: 3px solid var(--manager-medium-color);
+      padding-bottom: 1rem;
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .super-main-wrapper {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 0 10px #0000001a;
+      width: 100%;
+      min-width: 60rem;
+      margin: 3rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      /* 관리자 기능 버튼 영역 */
+      .super-fn-area {
+        display: flex;
+        gap: 1rem;
+
+        > div {
+          width: 25%;
+          opacity: 0.8;
+          transition: 0.2s opacity;
+
+          &:hover {
+            opacity: 1;
+          }
+
+          > a {
+            border-radius: 1rem;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            background: var(--deep-gradient-background);
+
+            > h2 {
+              font-size: 1.7rem;
+              font-weight: 700;
+              color: #eee;
+            }
+
+            > .icon-img {
+              font-size: 0;
+              width: 80%;
+              height: 12rem;
+            }
+
+            &.btn-academy-manage {
+              > .icon-img {
+                background: url("/asset/icon/icon_academy_white.svg") no-repeat
+                  center/contain;
+              }
+            }
+            &.btn-academy-manager-manage {
+              > .icon-img {
+                background: url("/asset/icon/icon_manager_white.svg") no-repeat
+                  center/contain;
+              }
+            }
+            &.btn-menu-manage {
+              > .icon-img {
+                background: url("/asset/icon/icon_setting_menu_white.svg")
+                  no-repeat center/contain;
+              }
+            }
+            &.btn-notice {
+              > .icon-img {
+                background: url("/asset/icon/icon_notice_white.svg") no-repeat
+                  center/contain;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* 관리 보드 공통 css */
+  /* .manage-board */
+  .manage-board {
+    min-height: 50rem;
+    padding: 8rem 0;
+
+    .manage-board-wrapper {
+      padding: 2rem;
+      border-radius: 0.625rem;
+      box-shadow: 0 0 10px #0000001a;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .manage-board-header {
+        border-bottom: 3px solid var(--manager-color);
+        padding-bottom: 1rem;
+
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      .board-toolbox {
+        display: flex;
+        justify-content: space-between;
+
+        > div {
+          display: flex;
+          gap: 1rem;
+          a {
+            padding: 0.625rem 1.5rem;
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      .manage-board-body {
+        .list-top {
+          display: grid;
+          grid-template-columns: 2fr 2fr 1fr 3fr;
+          text-align: center;
+
+          > div {
+            padding: 0.625rem;
+            background-color: #eee;
+          }
+        }
+        .list-wrapper {
+          li {
+            border: 1px solid #fff;
+            a {
+              padding: 0;
+              gap: 0;
+              text-align: center;
+              display: grid;
+              grid-template-columns: 2fr 2fr 1fr 3fr;
+
+              > div {
+                border: 1px solid #eee;
+                padding: 0.625rem;
+              }
+            }
+          }
+        }
+        .pagination {
+          margin: 1.25rem auto;
+          display: flex;
+          justify-content: center;
+
+          > li {
+            display: flex;
+            a {
+              padding: 0.3rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* 러뉴얼 홈 main */
+  /* home.html */
+  .home-main {
+    margin-top: 5rem;
+
+    .contents {
+      background-color: #f7f7f7;
+      display: flex;
+      padding: 1.25rem;
+      gap: 1.25rem;
+
+      .notice {
+        width: 52%;
+      }
+
+      .search {
+        width: 48%;
+        background: #fff;
+        border-radius: 0.625rem;
+        box-shadow: 0px 2px 5px #3333;
+
+        .search-inactive {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 1.25rem;
+          /* display: none; */
+
+          p {
+            font-size: 1.3rem;
+            color: #aaa;
+            font-weight: 600;
+            text-align: center;
+          }
+
+          .btn-area {
+            width: 80%;
+            display: flex;
+            gap: 1.25rem;
+
+            a {
+              width: 50%;
+              font-size: 1.5rem;
+              border-radius: 0.625rem;
+              padding: 3rem 1.5rem;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              gap: 0.625rem;
+              color: #eee;
+              font-weight: 700;
+              position: relative;
+              z-index: 1;
+              transition: 0.2s all;
+              box-shadow: 0px 2px 5px #3333;
+
+              &:hover {
+                box-shadow: 0px 3px 6px #3338;
+              }
+
+              .login-overlay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                font-size: 0;
+                z-index: -1;
+                opacity: 0.08;
+              }
+
+              &:first-child {
+                background: var(--light-gradient-background);
+
+                .login-overlay {
+                  background: url("/asset/icon/login.svg") no-repeat
+                    center/contain;
+                }
+              }
+
+              &:nth-child(2) {
+                background: var(--deep-gradient-background);
+
+                .login-overlay {
+                  background: url("/asset/icon/regist.svg") no-repeat
+                    center/contain;
+                }
+              }
+            }
+          }
+        }
+
+        .search-active {
+          display: none;
+          .search-tab {
+            background-color: #efefef;
+            border-bottom: 3px solid #efefef;
+            display: flex;
+
+            > li {
+              border-radius: 0.625rem 0.625rem 0 0;
+              color: #111;
+              font-size: 1.3rem;
+              font-weight: 700; /* semibold */
+              transition: 0.2s all;
+
+              &.on {
+                background-color: #fff;
+              }
+
+              > a {
+                padding: 1.25rem;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+          }
+
+          .search-area {
+            .search-form {
+              display: flex;
+              gap: 0.625rem;
+              align-items: center;
+              width: 88%;
+              margin: 0 auto;
+
+              label {
+                display: none;
+              }
+
+              .search-input-area {
+                display: block;
+                width: 70%;
+                padding: 1.25rem 0;
+
+                input {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 0.625rem;
+                  border: 1px solid #ccc;
+                  font-size: 1rem;
+                  text-indent: 1rem;
+                }
+              }
+
+              .search-button-area {
+                width: 30%;
+
+                button {
+                  background: var(--full-gradient-background);
+                  width: 100%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* 러뉴얼 로그인 main */
+  /* login.html */
+  .login-main {
+    .login-main-wrapper {
+      padding: 6.25rem 0;
+      width: 88%;
+      min-height: 43rem;
+      min-width: 60rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 3rem;
+
+      .login-main-left {
+        width: 55%;
+        line-height: 1.5;
+        position: relative;
+
+        .text-wrapper {
+          .text-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #111;
+            margin-bottom: 1.25rem;
+          }
+        }
+
+        .login-visual {
+          width: 60%;
+          height: 18rem;
+          background: url("/asset/visual/learnual_visual.jpg") no-repeat
+            center/cover;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          z-index: -1;
+          font-size: 0;
+          border-radius: 1.25rem;
+        }
+      }
+
+      .login-main-form {
+        width: 45%;
+        padding: 3.5rem;
+        border-radius: 1.25rem;
+        border: 1px solid #eee;
+        box-shadow: 0px 0px 5px #0003;
+
+        h2 {
+          text-align: center;
+          font-size: 1.8rem;
+          font-weight: 600;
+        }
+
+        .login-input {
+          display: flex;
+          flex-direction: column;
+          gap: 1.3rem;
+          margin: 2rem 0;
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+          }
+
+          label {
+            font-size: 0.9rem;
+            color: #111;
+          }
+
+          input {
+            min-height: 2.5rem;
+            font-size: 1.25rem;
+          }
+        }
+
+        .btn-area {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+
+          .btn-login {
+            background: var(--full-gradient-background);
+            font-size: 1.25rem;
+            padding: 1.25rem 0;
+          }
+
+          .btn-regist-area {
+            display: flex;
+            gap: 1.25rem;
+
+            > button {
+              width: 50%;
+              background-color: #fff;
+              color: #aaa;
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* 러뉴얼 회원가입 main css */
+  /* regist.html */
+  .regist-main {
+    padding: 5rem 0;
+    width: 88%;
+    min-width: 60rem;
+    margin: 0 auto;
+
+    .regist-section1 {
+      display: flex;
+      gap: 2.5rem;
+      min-height: 15rem;
+      margin-bottom: 2.5rem;
+
+      .text-area {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.25rem;
+        line-height: 1.5;
+
+        .text-title {
+          p {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #111;
+          }
+        }
+      }
+
+      .img-area {
+        width: 50%;
+        background: url("/asset/visual/learnual_visual.jpg") no-repeat
+          center/cover;
+        font-size: 0;
+      }
+    }
+
+    .regist-section2 {
+      display: flex;
+      gap: 2.5rem;
+      min-height: 15rem;
+
+      a {
+        display: block;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #eee;
+        line-height: 1.3;
+        padding: 2rem;
+        border-radius: 1.25rem;
+        text-align: center;
+        box-shadow: 0px 2px 5px #3333;
+
+        &:hover {
+          box-shadow: 0px 3px 6px #3338;
+        }
+      }
+    }
+
+    /* 러뉴얼 회원가입-학생 main */
+    .regist-student-section {
+      display: block;
+    }
+  }
+
+  /* 러뉴얼 회원가입 이전 동의 절차 css */
+  .regist-main.agreement {
+    label {
+      color: #333;
+    }
+
+    .regist-section2 {
+      #regist-agreement-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+
+        .regist-agreement-form-wrapper {
+          display: flex;
+          gap: 2.5rem;
+
+          > div {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+
+            > .textbox {
+              border: 1px solid #ccc;
+              height: 20rem;
+              overflow-y: scroll;
+            }
+          }
+        }
+
+        .regist-option {
+          display: flex;
+          gap: 0.625rem;
+        }
+
+        .regist-btns {
+          display: flex;
+          justify-content: center;
+          gap: 0.625rem;
+
+          button:nth-child(1) {
+            background: var(--light-gradient-background);
+          }
+
+          button:nth-child(2) {
+            background: #aaa;
+          }
+        }
+      }
+    }
+  }
+}
+/* ======= 러뉴얼 홈페이지 css end ======= */
+
+/* ======= 대시보드 css start ======= */
+/* 학생 대시보드 */
+.dashboard {
+  .widget-article {
+    a {
+      &:hover {
+        background-color: #eaf5ff !important;
+        color: var(--student-color);
+      }
+    }
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 1000;
+    box-shadow: 0px 2px 5px #5553;
+
+    .header-top {
+      border-bottom: 3px solid var(--student-color);
+
+      .header-top-wrapper {
+        /* border: 1px solid red; */
+        width: 88%;
+        min-width: 75rem;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        min-height: 3rem;
+        position: relative;
+
+        .btn-menu {
+          /* border: 1px solid red; */
+          width: 2.5rem;
+          min-height: 3rem;
+          transform: translateX(-5px);
+
+          a {
+            display: block;
+            height: 100%;
+            font-size: 0;
+            background: url("/asset/icon/menu.svg") no-repeat center/contain;
+            transition: 0.2s all;
+
+            &:hover {
+              background: url("/asset/icon/menu_hover_student.svg") no-repeat
+                center/contain;
+            }
+          }
+        }
+
+        .logo {
+          width: 10rem;
+          display: flex;
+          justify-content: center;
+
+          a {
+            display: block;
+            width: 80%;
+            height: 100%;
+            background: url("/asset/logo/learnual-logo-text.svg") no-repeat
+              center/contain;
+            font-size: 0;
+            opacity: 0.3;
+          }
+        }
+
+        .btn-notification {
+          width: 2.5rem;
+          min-height: 3rem;
+          transform: translateX(5px);
+          position: relative;
+
+          > a {
+            display: block;
+            height: 100%;
+            font-size: 0;
+            background: url("/asset/icon/notification.svg") no-repeat
+              center/contain;
+            transition: 0.2s all;
+
+            &:hover {
+              background: url("/asset/icon/notification_hover_student.svg")
+                no-repeat center/contain;
+            }
+          }
+
+          .badge {
+            width: 0.85rem;
+            min-height: 0.85rem;
+            border-radius: 50%;
+            background-color: var(--student-color);
+            position: absolute;
+            top: 0.25rem;
+            right: 0;
+          }
+        }
+
+        .notification-box {
+          display: none;
+          min-width: 15rem;
+          position: absolute;
+          top: 100%;
+          right: 0;
+
+          &.on {
+            display: block;
+          }
+
+          .notification-deco {
+            min-height: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+
+            .tri {
+              background-color: #fffce4;
+              clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+              margin-right: 0.5rem;
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+          }
+
+          .notification-content {
+            background-color: #fffce4;
+            box-shadow: 0px 2px 5px #3333;
+
+            li {
+              border-bottom: 1px solid #ccc;
+              a {
+                display: block;
+                height: 100%;
+                padding: 1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .header-bottom {
+      .header-bottom-wrapper {
+        width: 88%;
+        min-width: 75rem;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        min-height: 3rem;
+        gap: 1.25rem;
+      }
+    }
+  }
+
+  .dashboard-main {
+    margin-top: 6rem;
+    padding: 2.5rem 0;
+    background-color: #eaf5ff;
+    min-height: auto !important;
+    display: flex;
+
+    .main-wrapper {
+      width: 88%;
+      min-width: 75rem;
+      margin: 0 auto;
+      display: flex;
+
+      > .main-wrapper-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+        align-items: center;
+      }
+
+      .widget-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .dashboard-col1 {
+        /* border: 1px solid red; */
+        width: 38%;
+      }
+
+      .dashboard-col2 {
+        /* border: 1px solid blue; */
+        width: 38%;
+      }
+
+      .dashboard-col3 {
+        border: 1px solid green;
+        width: 24%;
+      }
+    }
+  }
+}
+
+/* 학습관리자 대시보드 */
+.dashboard.tutor {
+  .widget-article {
+    a {
+      &:hover {
+        background-color: #f3f2f7 !important;
+        color: var(--tutor-color);
+      }
+    }
+  }
+
+  .notification-box {
+    a {
+      &:hover {
+        color: var(--tutor-color);
+      }
+    }
+  }
+
+  .header {
+    .header-top {
+      border-bottom: 3px solid var(--tutor-color);
+
+      .header-top-wrapper {
+        .btn-menu {
+          a {
+            &:hover {
+              background: url("/asset/icon/menu_hover_tutor.svg") no-repeat
+                center/contain;
+            }
+          }
+        }
+
+        .btn-notification {
+          > a {
+            &:hover {
+              background: url("/asset/icon/notification_hover_tutor.svg")
+                no-repeat center/contain;
+            }
+          }
+
+          .badge {
+            background-color: var(--tutor-color);
+          }
+        }
+      }
+    }
+
+    .header-bottom {
+      .header-bottom-wrapper {
+        width: 88%;
+        min-width: 75rem;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        min-height: 3rem;
+        gap: 1.25rem;
+      }
+    }
+  }
+
+  .dashboard-main {
+    background-color: #f3f2f7;
+  }
+}
+
+/* 플랫폼관리자 대시보드(학원 페이지) */
+.dashboard.insttn {
+  .header {
+    .header-top {
+      border-bottom: 3px solid var(--manager-color);
+
+      .header-top-wrapper {
+        min-height: 4rem;
+
+        .btn-menu {
+          a {
+            background: url("/asset/icon/setting.svg") no-repeat center/contain;
+
+            &:hover {
+              background: url("/asset/icon/setting_hover.svg") no-repeat
+                center/contain;
+            }
+          }
+        }
+
+        /* 학원 메인 header height조정으로 인한 수정 */
+        .btn-notification {
+          .badge {
+            top: 0.65rem;
+          }
+        }
+
+        .insttn-area {
+          display: flex;
+          gap: 1.25rem;
+          align-items: center;
+        }
+
+        .btn-notification {
+          .badge {
+            background-color: var(--manager-color);
+          }
+        }
+      }
+    }
+  }
+
+  /* .dashboard.insttn 내부 dashboard-main */
+  .dashboard-main.insttn {
+    padding-top: 0;
+    margin-top: 4rem;
+    background-color: #ebf0f5;
+
+    /* 학원 메인 페이지 */
+    .main-wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .widget-wrapper {
+        display: flex;
+        flex-direction: row;
+
+        .dashboard-col1 {
+          width: 50%;
+
+          .widget-article {
+            height: 100%;
+          }
+        }
+
+        .dashboard-col2 {
+          width: 50%;
+          display: flex;
+          flex-direction: column;
+          gap: 1.25rem;
+
+          .widget-article {
+            height: auto;
+          }
+        }
+      }
+    }
+
+    /* 학원 -> 강좌 관리 페이지 main-wrapper */
+    /* 관리자 전용 */
+    .main-wrapper.course-manage {
+      padding-top: 2.5rem;
+      flex-direction: column;
+      gap: 0;
+      min-height: calc(100vh - 20rem);
+
+      .course-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 1.25rem;
+        height: 100%;
+
+        > div:nth-child(1) {
+          width: 60%;
+        }
+
+        > div:nth-child(2) {
+          width: 40%;
+        }
+
+        .article-direct {
+          gap: 0;
+          border-radius: 0;
+          overflow: visible;
+          a {
+            padding: 0.625rem;
+          }
+        }
+      }
+    }
+
+    /* 학원 -> 강좌 신청 페이지 main-wrapper */
+    /* 사용자 전용 */
+    .main-wrapper.course-regist {
+      padding-top: 2.5rem;
+      min-height: calc(100vh - 20rem);
+
+      .course-wrapper {
+        height: 100%;
+      }
+    }
+
+    /* 학원 -> 강좌 상세 페이지 main-wrapper */
+    .main-wrapper.course-detail {
+      padding: 4rem 0;
+      gap: 0;
+
+      h1 {
+        margin: 2rem 0;
+      }
+
+      h2 {
+        margin: 2rem 0;
+      }
+
+      .course-info {
+        display: grid;
+        grid-template-columns: 10rem 1fr 10rem 1fr;
+        gap: 0rem;
+
+        > div {
+          border: 1px solid #ccc;
+          background-color: #fff;
+          padding: 1rem;
+
+          &.course-name {
+            grid-column: 2 / -1;
+          }
+
+          &:nth-child(2n - 1) {
+            background-color: #eee;
+            font-weight: 700;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
+  /* .dashboard.insttn 내부 widget-article */
+  .widget-article {
+    height: 100%;
+
+    .article-content {
+      > li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 0.625rem;
+
+        .period {
+          color: #aaa;
+          font-size: 0.9rem;
+        }
+
+        .available-capa {
+          font-size: 0.8rem;
+          color: #aaa;
+        }
+
+        .article-direct {
+          position: absolute;
+          top: 50%;
+          right: 1.25rem;
+          transform: translateY(-50%);
+          border-radius: 0.625rem;
+          overflow: hidden;
+
+          .btn {
+            background-color: var(--manager-color);
+            color: #eee;
+
+            &:hover {
+              background-color: #2f6ac0 !important;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

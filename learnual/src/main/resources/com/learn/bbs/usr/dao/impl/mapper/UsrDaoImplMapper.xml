@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.learn.bbs.usr.dao.impl.UsrDaoImpl">
+
+    <insert id="insertNewUsr" 
+            parameterType="com.learn.bbs.usr.vo.UsrRegistRequestVO">
+		INSERT INTO USR(
+		   	USR_ID, 
+		   	USR_PW, 
+		   	USR_NM, 
+		   	USR_PN, 
+		   	USR_ADRS, 
+		   	USR_ML, 
+		   	USR_RGST_DT, 
+		   	USR_UPDT_DT, 
+		   	USR_DEL_DT, 
+		   	USR_DEL_YN, 
+		   	USR_RCRT_YN, 
+		   	USR_SLT, 
+		   	USR_LGN_IP, 
+		   	USR_LST_PW_MDFY_DT, 
+		   	USR_LST_LGN_DT, 
+		   	USR_LST_LGN_FAIL_DT, 
+		   	USR_LGN_FAIL_CNT, 
+		   	USR_LGN_YN, 
+		   	USR_BLK_YN, 
+		   	CMCD_ID, 
+		   	INSTTN_ID)
+		VALUES(
+			'USR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_USR_PK.NEXTVAL, 6, '0'), 
+			#{usrPw}, 
+			#{usrNm}, 
+			#{usrPn}, 
+			#{usrAdrs}, 
+			#{usrMl}, 
+			SYSDATE, 
+			null, 
+			null, 
+			'N' , 
+			'N' , 
+			#{usrSlt}, 
+			null, 
+			null, 
+			null, 
+			null, 
+			0, 
+			'N' , 
+			'N' , 
+			'회원권한 코드아이디 들어갈예정', 
+			'기관 아이디 들어갈 예정')
+    </insert>
+    
+    <select id="selectUsrCountBy"
+        parameterType="string"
+        resultType="_int">
+    SELECT COUNT(USR_ML)
+      FROM USR
+     WHERE USR_ML = #{_parameter}
+    </select>
+    
+     <select id="selectOneUsrBy"
+         parameterType="string"
+         resultType="com.learn.bbs.usr.vo.UsrVO">
+    
+      SELECT USR_PW,
+		   USR_NM,
+		   USR_PN,
+		   USR_ADRS,
+		   USR_ML,
+		   USR_RGST_DT,
+		   USR_UPDT_DT,
+		   USR_DEL_DT,
+		   USR_DEL_YN,
+		   USR_RCRT_YN,
+		   USR_SLT,
+		   USR_LGN_IP,
+		   USR_LST_LGN_DT,
+		   USR_LST_LGN_FAIL_DT,
+		   USR_LGN_FAIL_CNT,
+		   USR_LGN_YN,
+		   USR_BLK_YN,
+		   CMCD_ID,
+		   INSTTN_ID
+	  FROM USR
+	 WHERE USR_ML = #{_parameter}
+    </select>
+    
+    <update id="updateLoginFailCount"
+        parameterType="string">
+     UPDATE USR
+	   SET USR_LST_LGN_FAIL_DT = SYSDATE
+	     , USR_LGN_FAIL_CNT = USR_LGN_FAIL_CNT + 1
+	 WHERE USR_ML =   #{_parameter}
+    </update>
+    
+    <update id="updateBlock"
+        parameterType="string">
+	UPDATE USR
+	   SET USR_BLK_YN = 'Y'
+	 WHERE USR_ML =  #{_parameter}
+	   AND USR_LGN_FAIL_CNT >= 5
+    </update>
+    
+    <update id="updateLoginSuccess"
+         parameterType="string">   
+	UPDATE USR	
+	   SET USR_LGN_FAIL_CNT = 0
+	     , USR_LST_LGN_DT = SYSDATE
+	     , USR_LGN_IP = NULL
+	     , USR_LGN_YN = 'Y'
+	 WHERE USR_ML = #{_parameter}
+    </update>
+    
+    
+   <update id="updateLogoutStatus"
+       parameterType="string">
+	 UPDATE USR
+	   SET USR_LGN_YN = 'N'
+	 WHERE USR_ML = #{_parameter}
+    </update>
+    
+    <update id="deleteOneUsrBy"
+            parameterType="string">
+	  UPDATE USR
+	   SET USR_DEL_YN = 'Y',
+	   USR_DEL_DT = SYSDATE
+	 WHERE USR_ML = #{_parameter}
+    </update>
+    
+</mapper>

@@ -1,0 +1,38 @@
+#spring.application.name=hello-spring
+
+#mybatis 설정
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml
+#hello-spring-edu 전용 설정
+app:
+  multipart:
+   base-dir: 
+     window: C:\upload-files #서버에 업로드 된 파일이 저장되는 경로
+     linux: /var/local/src/upload-files
+     macos: /Users/codemakers/document/upload-files
+   obfuscation:
+      enable: true #서버에 업로드 된 파일의 이름을 난독화 하는 설정.
+      hide-ext:
+        enablae: true #서버에 업로드 된 파일의 확장자를 가리는 설정.
+         
+
+# JDBC 설정 및 JSP 경로 추가
+spring:
+  servlet:
+    multipart:
+      enabled: true #파일 업로드 활성화
+      max-request-size: 10MB # 사용자 한명 당 업로드 할 수 있는 최대 용량
+      max-file-size: 100MB # 서버가 허용하는 최대 업로드 용량
+#아래 설정은 WebConfig로 이동됨.
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
+  application:
+    name: learnual
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: SPRING_BOOT
+    password: 1234
