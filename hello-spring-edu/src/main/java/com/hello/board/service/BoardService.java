@@ -8,6 +8,7 @@ import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
 
 public interface BoardService {
+	
 	public BoardListVO getBoardList(BoardSearchRequestVO boarSearchRequestVO);
 	
 	public boolean createNewBoard(BoardWriteRequestVO boardWriteRequestVO);
