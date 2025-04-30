@@ -5,13 +5,13 @@
 <jsp:include page="/WEB-INF/views/layout/header.jsp" />
 	<h1>Login</h1>
        <form:form class="login-form" modelAttribute="memberLoginRequestVO">
-               <input type="hidden" class="next-url" name="nextUrl"/>
+               <input type="hidden" class="next-url" name="nextUrl" value="${nextUrl}"/>
            <div>
                <label for="email">이메일</label>
                <input type="email" 
                       name="email" 
                       id="email" 
-                      value="${userInput.email}"/>
+                      value="${email}"/>
                <form:errors path="email" element="div" cssClass="error" />
            </div>
            <div>

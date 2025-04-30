@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.board.service.BoardService;
 import com.hello.board.vo.BoardDeleteRequestVO;
@@ -20,7 +19,7 @@ import com.hello.board.vo.BoardSearchRequestVO;
 import com.hello.board.vo.BoardUpdateRequestVO;
 import com.hello.board.vo.BoardVO;
 import com.hello.board.vo.BoardWriteRequestVO;
-import com.hello.member.vo.MembersVO;
+import com.hello.common.util.AuthUtil;
 
 import jakarta.validation.Valid;
 
@@ -67,8 +66,7 @@ public class BoardController {
 			@ModelAttribute // Spring Form Taglib를 사용할 때만 작성. 
 			BoardWriteRequestVO boardWriteRequestVO,
 			BindingResult bindingResult,
-			Model model,
-			@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+			Model model) {
 		
 		// 에러가 있을 때(유효성 검사의 에러) 게시글을 등록하면 안된다.
 		// 사용자에게 잘못 입력했음을 알려주어야 한다.
@@ -79,7 +77,7 @@ public class BoardController {
 			model.addAttribute("userWriteBoardVO",boardWriteRequestVO);
 			return "/board/boardwrite";
 		}
-		boardWriteRequestVO.setEmail(memberVO.getEmail());
+		boardWriteRequestVO.setEmail(AuthUtil.getEmail());
 
 		boolean isCreated = this.boardService.createNewBoard(boardWriteRequestVO);
 		if (isCreated) {
@@ -115,12 +113,11 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/modify/{id}")
-	public String doUpdateOneBoard(@PathVariable int id, Model model, 
-			@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+	public String doUpdateOneBoard(@PathVariable int id, Model model) {
 		
 		BoardVO boardVO = this.boardService.getOneBaord(id, false);
 		
-		if(!boardVO.getEmail().equals(memberVO.getEmail())) {
+		if(!boardVO.getEmail().equals(AuthUtil.getEmail())) {
 			
 			return "redirect:/board/list";
 		}
@@ -130,10 +127,9 @@ public class BoardController {
 	
 	@PostMapping("/baord/modify/{id}")
 	public String doUpdate(@PathVariable int id, 
-			BoardUpdateRequestVO boardUpdateRequestVO,
-			@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+			BoardUpdateRequestVO boardUpdateRequestVO) {
 		
-		boardUpdateRequestVO.setEmail(memberVO.getEmail());
+		boardUpdateRequestVO.setEmail(AuthUtil.getEmail());
 		
 		boolean isSucess = this.boardService.updataeOneBoard(boardUpdateRequestVO);
 		
@@ -144,12 +140,11 @@ public class BoardController {
 	}
 
 	@GetMapping("/board/delete/{id}")
-	public String doDeleteOneBoard(@PathVariable int id 
-			, @SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+	public String doDeleteOneBoard(@PathVariable int id ) {
 		
 		BoardDeleteRequestVO boardDeleteRequestVO = new BoardDeleteRequestVO();
 		boardDeleteRequestVO.setId(id);
-		boardDeleteRequestVO.setEmail(memberVO.getEmail());
+		boardDeleteRequestVO.setEmail(AuthUtil.getEmail());
 		
 		boolean isSucess = this.boardService.deleteOneBoard(boardDeleteRequestVO);
 

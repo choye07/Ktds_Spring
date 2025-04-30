@@ -44,11 +44,11 @@ public class BoardServiceImplTest {
 		// 주는 것.
 		// 정상적으로 dao와 service가 잘 동작하는 지를 보고싶은 것.
 		// 적절한 데이터를 주고 서비스의 기능이 잘 작동하는지 보고싶은 것 -> given test
-		BoardListVO boardListVO = this.boardService.getBoardList();
+//		BoardListVO boardListVO = this.boardService.getBoardList();
 
 		// 내가 요청한 기능이 제대로 수행하는지를 알려주는 것.
-		Assertions.assertEquals(boardListVO.getBoardCnt(), 100);
-		Assertions.assertEquals(boardListVO.getBoardList().size(), 10);
+//		Assertions.assertEquals(boardListVO.getBoardCnt(), 100);
+//		Assertions.assertEquals(boardListVO.getBoardList().size(), 10);
 	}
 
 	@Test

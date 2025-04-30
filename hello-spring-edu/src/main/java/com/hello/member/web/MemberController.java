@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.beans.CustomBeanProvider;
+import com.hello.common.util.AuthUtil;
 import com.hello.common.vo.AjaxResponse;
 import com.hello.member.service.MemberService;
-import com.hello.member.vo.MemberLoginRequestVO;
 import com.hello.member.vo.MemberRegistRequestVO;
 import com.hello.member.vo.MembersVO;
 
@@ -95,70 +95,22 @@ public class MemberController {
 		return "member/memberlogin";
 	}
 
-	@PostMapping("/member/login")
-	public String doLogin(@Valid @ModelAttribute MemberLoginRequestVO memberLoginRequestVO
-			, BindingResult bindingResult
-			, @RequestParam String nextUrl
-			,Model model, HttpSession session
-			, HttpServletRequest request) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("userInput", memberLoginRequestVO);
-			return "redirect:/member/login";
-		}
 
-//		try {
-			MembersVO membervo = this.memberService.doLogin(memberLoginRequestVO);
-
-			// 사이트에 접속했을 때 발급 받은 세션은 폐기시킨다.
-			session.invalidate();
-			// 사용자의 IP를 가져올 때 HttpServletRequest가 사용.
-			String userIp = request.getRemoteAddr();
-			membervo.setLatestLoginIp(userIp);
-			
-			LOGGER.debug("userIp: "+userIp);
-			// 새로운 Sessionㅇ을 발급받는다
-			session = request.getSession(true);
-
-			// 서버가 Session에 회우너 정보를 기록(기억)한다.
-			// 해당 사용자의 고유한 세션의 아이디르 브라우저에게 "Cookie"로 보내준다.
-			session.setAttribute("__LOGIN_USER__", membervo);
-//		} catch (IllegalArgumentException iae) {
-//			model.addAttribute("userInput", memberLoginRequestVO);
-//			model.addAttribute("errorMessage", iae.getMessage());
-//			return "/member/memberlogin";
-//		}
-
-		return "redirect:"+nextUrl;
-
-	}
-
-	@GetMapping("/member/logout")
-	public String doLogout(HttpSession session) {
-
-//	   회원의 정보를 Session에서 가져온다. (__LOGIN_USER__) -> MembersVO
-		MembersVO memberVO = (MembersVO) session.getAttribute("__LOGIN_USER__");
-		// MembersVO -> email 추출
-		this.memberService.doLogout(memberVO.getEmail());
-
-		// session 폐기
-		session.invalidate();
-		return "redirect:/member/login";
-	}
 
 	@GetMapping("/member/mypage") // @SessionAttribute -> 세션에 있는 값을 가져와라.
-	public String viewMyPage(@SessionAttribute("__LOGIN_USER__") MembersVO memberVO, Model model) { // 브라우저에서 가져오는 파라미터는
+	public String viewMyPage( Model model) { // 브라우저에서 가져오는 파라미터는
 																									// 커맨드 파라미터
-		model.addAttribute("LoginUser", memberVO);
+		model.addAttribute("LoginUser", AuthUtil.getMember());
 		return "member/mypage";
 	}
 	
 	@GetMapping("/member/delete-me")
-	public String doDeleteMe(@SessionAttribute("__LOGIN_USER__") MembersVO memberVO,HttpSession session) {
+	public String doDeleteMe() {
 		
-		boolean success = this.memberService.doDeleteMe(memberVO.getEmail());
+		boolean success = this.memberService.doDeleteMe(AuthUtil.getEmail());
 		
 		if(success) {
-			session.invalidate();
+			AuthUtil.logout();
 			return "redirect:/member/success-delete-me";
 		}
 		

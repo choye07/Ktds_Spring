@@ -12,7 +12,7 @@
 			<c:otherwise>
 				<li><a href="/member/mypage">${sessionScope.__LOGIN_USER__.name}</a>
 					(${sessionScope.__LOGIN_USER__.email})</li>
-				<li><a href="/member/logout">로그아웃</a></li>
+				<li><a href="/member/do-logout">로그아웃</a></li>
 			</c:otherwise>
 		</c:choose>
 	</ul>

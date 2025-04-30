@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.hello.beans.interceptors.CheckSessionInterceptor;
+
 
 //@Configurable --> Bean을 매번 생성하는 역할(Prototype scope)
 //원래는 bean container에 한 번 만들면 저장 되는게 일반인데, 이 Prototype scope은
@@ -38,16 +38,7 @@ public class WebConfig implements WebMvcConfigurer{
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		
-		registry.addInterceptor(new CheckSessionInterceptor())
-		        .addPathPatterns("/**")
-		        .excludePathPatterns("/member/regist",
-		        		"/member/available",
-		        		"/member/login",
-		        		"/member/*-delete-me",
-		        		"/board/list",
-		        		"/css/**",
-		        		"/js/**");
+
 	
 	}
 }

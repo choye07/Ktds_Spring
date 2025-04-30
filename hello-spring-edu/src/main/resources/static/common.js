@@ -168,7 +168,7 @@ $().ready(function() {
 
 
             $(".login-form").attr({
-                "action": "/member/login",
+                "action": "/member/do-login",
                 "method": "POST"
             }).submit();
         });

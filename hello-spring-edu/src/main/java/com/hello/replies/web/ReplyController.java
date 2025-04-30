@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+
+import com.hello.common.util.AuthUtil;
 import com.hello.common.vo.AjaxResponse;
 import com.hello.member.vo.MembersVO;
 import com.hello.replies.service.ReplyService;
@@ -45,9 +47,7 @@ public class ReplyController {
 	@PostMapping("/reply/{boardId}")
 	public AjaxResponse doCrateNewReply(@Valid ReplyRegistRequestVO replyRegistRequestVO
 			,BindingResult bindingResult,
-			@PathVariable int boardId,
-			@SessionAttribute("__LOGIN_USER__") MembersVO memberVO
-			) {
+			@PathVariable int boardId) {
 		
 		if(bindingResult.hasErrors()) {
 			//TODO  Validation  Check 결과를 Json으로 돌려주기!
@@ -77,7 +77,7 @@ public class ReplyController {
 			return new AjaxResponse(HttpStatus.BAD_REQUEST.value(),errorMap);
 		}
 		replyRegistRequestVO.setBoardId(boardId);
-		replyRegistRequestVO.setEmail(memberVO.getEmail());
+		replyRegistRequestVO.setEmail(AuthUtil.getEmail());
 	
 		boolean isCrate= this.replyService.createNewReply(replyRegistRequestVO);
 		
@@ -85,13 +85,12 @@ public class ReplyController {
 	}
 
 	@GetMapping("/reply/delete/{boardId}/{replyId}")
-	public AjaxResponse doDeleteOneReply(@PathVariable int boardId, @PathVariable int replyId
-										, @SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+	public AjaxResponse doDeleteOneReply(@PathVariable int boardId, @PathVariable int replyId) {
 		
 		ReplyDeleteRequestVO replyDeleteRequestVO = new ReplyDeleteRequestVO();
 		replyDeleteRequestVO.setBoardId(boardId);
 		replyDeleteRequestVO.setReplyId(replyId);
-		replyDeleteRequestVO.setEmail(memberVO.getEmail());
+		replyDeleteRequestVO.setEmail(AuthUtil.getEmail());
 		
 		boolean isDelete = this.replyService.deleteOneReply(replyDeleteRequestVO);
 		return new AjaxResponse(isDelete);
@@ -101,8 +100,7 @@ public class ReplyController {
 	public AjaxResponse doModifyOneReply(
 			@PathVariable int boardId, @PathVariable int replyId
 			, @Valid ReplyUpdateRequestVO replyUpdateRequestVO
-			, BindingResult bindingResult
-			, @SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+			, BindingResult bindingResult) {
 		
 		
 		if(bindingResult.hasErrors()) {
@@ -136,7 +134,7 @@ public class ReplyController {
 		
 		replyUpdateRequestVO.setBoardId(boardId);
 		replyUpdateRequestVO.setReplyId(replyId);
-		replyUpdateRequestVO.setEmail(memberVO.getEmail());
+		replyUpdateRequestVO.setEmail(AuthUtil.getEmail());
 		
 		boolean isUpdate = this.replyService.modifyOneReply(replyUpdateRequestVO);
 		
@@ -145,12 +143,11 @@ public class ReplyController {
 	
 	@GetMapping("/reply/recommend/{boardId}/{replyId}")
 	public AjaxResponse doRecommendOneReply(
-			@PathVariable int boardId, @PathVariable int replyId,
-			@SessionAttribute("__LOGIN_USER__") MembersVO memberVO) {
+			@PathVariable int boardId, @PathVariable int replyId) {
 		ReplyRecommendRequestVO replyRecommendRequestVO = new ReplyRecommendRequestVO();
 		replyRecommendRequestVO.setBoardId(boardId);
 		replyRecommendRequestVO.setReplyId(replyId);
-		replyRecommendRequestVO.setEmail(memberVO.getEmail());
+		replyRecommendRequestVO.setEmail(AuthUtil.getEmail());
 		
 		int recommend = this.replyService.recommendOneReply(replyRecommendRequestVO);
 		

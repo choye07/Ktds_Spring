@@ -13,14 +13,6 @@ public class GlobalExceptionHandler {
 
 	private static final Logger LOGGER = Logger.getLogger(GlobalExceptionHandler.class);
 
-	@ExceptionHandler(MemberLoginException.class)
-	public String viewMemberLogingExceptionPage(MemberLoginException mle, Model model) {
-
-		LOGGER.debug(mle.getMessage());
-		model.addAttribute("userInput", mle.memberLoginRequestVO());
-		model.addAttribute("errorMessage", mle.getMessage());
-		return "member/memberlogin";
-	}
 
 	@ExceptionHandler(MemberRegistException.class)
 	public String viewMemberRegistExceptionPage(MemberRegistRequestVO memberRegistRequestVO, MemberRegistException mre,
