@@ -65,5 +65,11 @@ public class MemberServiceImpl implements MemberService {
 	public boolean doDeleteMe(String email) {
 		return this.memberDao.deleteOneMemberBy(email) > 0;
 	}
+	
+	@Transactional
+	@Override
+	public boolean doLogout(String email) {
+		return this.memberDao.updateLogOutStatus(email) > 0;
+	}
 
 }

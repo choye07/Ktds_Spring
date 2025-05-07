@@ -148,13 +148,11 @@
 		SET SUBJECT= #{subject},
 		CONTENT= #{content}
 		WHERE ID = #{id}
-		AND EMAIL =#{email}
 	</update>
 	<delete id="deleteOneBoard"
 		parameterType="com.hello.board.vo.BoardDeleteRequestVO">
 		DELETE
 		FROM BOARD
 		WHERE ID = #{id}
-		AND EMAIL=#{email}
 	</delete>
 </mapper>

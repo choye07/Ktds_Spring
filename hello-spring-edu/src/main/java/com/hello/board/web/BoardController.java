@@ -3,6 +3,7 @@ package com.hello.board.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import com.hello.common.util.AuthUtil;
 
 import jakarta.validation.Valid;
 
+
+@PreAuthorize("isAuthenticated()")
 @Controller
 public class BoardController {
 
@@ -32,18 +35,20 @@ public class BoardController {
 
 	
 	//http://localhost:8080/board/list?pageNo=0&listSize=20
+	/* @Secured("ROLE_ADMIN") */
+	@PreAuthorize("hasAuthority('BOARD_READ_LIST')") // @@Secured와 동일한 역할 수행 + SecurityEL을 사용할 수 있다.
 	@GetMapping("/board/list")
 	public String viewBoardList(Model model, BoardSearchRequestVO boardSearchRequestVO) {
 		
-		LOGGER.trace("/board/list 를 방문했습니다.");
-		LOGGER.debug("/board/list 를 방문했습니다.");
-		LOGGER.info("/board/list 를 방문했습니다.");
-		LOGGER.warn("/board/list 를 방문했습니다.");
-		LOGGER.error("/board/list 를 방문했습니다.");
-		LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterName());
-		LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterEmail());
-		LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getPageNo()));
-		LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getListSize()));
+		/*
+		 * LOGGER.trace("/board/list 를 방문했습니다."); LOGGER.debug("/board/list 를 방문했습니다.");
+		 * LOGGER.info("/board/list 를 방문했습니다."); LOGGER.warn("/board/list 를 방문했습니다.");
+		 * LOGGER.error("/board/list 를 방문했습니다.");
+		 * LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterName());
+		 * LOGGER.debug("왜 없니"+boardSearchRequestVO.getWriterEmail());
+		 * LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getPageNo()));
+		 * LOGGER.debug("왜 없니"+String.valueOf(boardSearchRequestVO.getListSize()));
+		 */
 		
 		BoardListVO boardListVO = this.boardService.getBoardList(boardSearchRequestVO);
 		model.addAttribute("boardList", boardListVO);
@@ -53,13 +58,14 @@ public class BoardController {
 		return "board/boardlist";
 	}
 
-
-	@GetMapping("/board/boardwrite")
+	@PreAuthorize("hasAuthority('BOARD_CREATE')")
+	@GetMapping("/board/write")
 	public String viewBoardWritePage() {
 
 		return "board/boardwrite";
 	}
 
+	@PreAuthorize("hasAuthority('BOARD_CREATE')")
 	@PostMapping("/board/write")
 	public String doBoardWrite(
 			@Valid //  boardWriteRequestVO의 파라미터 검사를 요청한다.
@@ -95,6 +101,7 @@ public class BoardController {
 
 	// 1. Query String Parameter
 	// /board/view?id=3
+	@PreAuthorize("hasAuthority('BOARD_READ')")
 	@GetMapping("/board/view") // request값이 많아지면 boardVO로 받아온다.
 	public String viewBoardDetailPageUseQueryStringParameter(@RequestParam int id, Model model) {
 		BoardVO boardVO = this.boardService.getOneBaord(id, true);
@@ -104,6 +111,7 @@ public class BoardController {
 
 	// 2. path variable parameter
 	// /board/view/3
+	@PreAuthorize("hasAuthority('BOARD_READ')")
 	@GetMapping("/board/view/{id}")
 	public String viewBoardDetailPageUserPathVariable(@PathVariable int id, Model model) {
 		BoardVO boardVO = this.boardService.getOneBaord(id, true);
@@ -111,21 +119,21 @@ public class BoardController {
 		return "board/boardview";
 
 	}
-
+	@PreAuthorize("hasAuthority('BOARD_UPDATE')")
 	@GetMapping("/board/modify/{id}")
 	public String doUpdateOneBoard(@PathVariable int id, Model model) {
 		
 		BoardVO boardVO = this.boardService.getOneBaord(id, false);
-		
-		if(!boardVO.getEmail().equals(AuthUtil.getEmail())) {
-			
-			return "redirect:/board/list";
-		}
+		/*
+		 * if(!boardVO.getEmail().equals(AuthUtil.getEmail())) {
+		 * 
+		 * return "redirect:/board/list"; }
+		 */
 		model.addAttribute("BoardVO", boardVO);
 		return "board/boardmodify";
 	}
-	
-	@PostMapping("/baord/modify/{id}")
+	@PreAuthorize("hasAuthority('BOARD_UPDATE')")
+	@PostMapping("/board/modify/{id}")
 	public String doUpdate(@PathVariable int id, 
 			BoardUpdateRequestVO boardUpdateRequestVO) {
 		
@@ -138,7 +146,7 @@ public class BoardController {
 		}
 		return  "redirect:/board/list";
 	}
-
+	@PreAuthorize("hasAuthority('BOARD_DELETE')")
 	@GetMapping("/board/delete/{id}")
 	public String doDeleteOneBoard(@PathVariable int id ) {
 		

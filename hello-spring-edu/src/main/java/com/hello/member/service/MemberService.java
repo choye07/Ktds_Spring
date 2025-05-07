@@ -8,6 +8,7 @@ public interface MemberService {
 	
 	public boolean checkDuplicateEmail(String email);
 
-
 	public boolean doDeleteMe(String email);
+
+	public boolean doLogout(String email);
 }

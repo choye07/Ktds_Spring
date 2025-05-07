@@ -1,5 +1,7 @@
 package com.hello.member.vo;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -101,6 +103,10 @@ public class MembersVO {
      */
     @JsonIgnore
     private String blockYn;
+    
+    private String role;
+    
+    private List<ActionVO> actionList;
 
     public String getEmail() {
         return this.email;
@@ -198,7 +204,23 @@ public class MembersVO {
         this.blockYn = blockYn;
     }
     
-    @Override
+    public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public List<ActionVO> getActionList() {
+		return actionList;
+	}
+
+	public void setActionList(List<ActionVO> actionList) {
+		this.actionList = actionList;
+	}
+
+	@Override
     public String toString() {
         return "MembersVO(email: " + email + ", name: " + name + ", password: " + password + ", salt: " + salt + ", joinDate: " + joinDate + ", latestLoginIp: " + latestLoginIp + ", latestPasswordChangeDate: " + latestPasswordChangeDate + ", latestLoginDate: " + latestLoginDate + ", latestLoginFailDate: " + latestLoginFailDate + ", loginFailCount: " + loginFailCount + ", loginYn: " + loginYn + ", blockYn: " + blockYn + ", )";
     }

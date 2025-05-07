@@ -1,8 +1,12 @@
 package com.hello.beans;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.hello.board.dao.BoardDao;
+import com.hello.replies.dao.ReplyDao;
 
 /**
  * hello-spring-edu project에 필요한 bean들을 생성하는 역할
@@ -25,6 +29,18 @@ public class CustomBeanProvider {
 	private boolean obfuscationEnable;
 	@Value("${app.multipart.obfuscation.hide-ext.enable:false}")
 	private boolean obfuscationHideExtEnable;
+	
+	@Autowired
+	private BoardDao boardDao;
+	
+	@Autowired
+	private ReplyDao replyDao;
+	
+	@Bean
+	ResourceAccessHandler rah() {
+		return new ResourceAccessHandler(boardDao, replyDao);
+	}
+	
 	
 	//FileHandler Bean 생성 (빈의 이름을 명시하지 않으면 메소드의 이름이 빈의 이름이 된다.)
 	@Bean

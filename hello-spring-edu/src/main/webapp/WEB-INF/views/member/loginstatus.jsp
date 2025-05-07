@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="/css/common.css" type="text/css" />
 <div class="login-status-wrapper">
 	<ul>
-		<c:choose>
-			<c:when test="${empty sessionScope.__LOGIN_USER__}">
-				<li><a href="/member/regist">회원가입</a></li>
-				<li><a href="/member/login">로그인</a></li>
-			</c:when>
-			<c:otherwise>
-				<li><a href="/member/mypage">${sessionScope.__LOGIN_USER__.name}</a>
-					(${sessionScope.__LOGIN_USER__.email})</li>
-				<li><a href="/member/do-logout">로그아웃</a></li>
-			</c:otherwise>
-		</c:choose>
+
+		<sec:authorize access="!isAuthenticated()">
+			<li><a href="/member/regist">회원가입</a></li>
+			<li><a href="/member/login">로그인</a></li>
+		</sec:authorize>
+		<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal.email" var="authenticatedEmail"/>
+		<sec:authentication property="principal.role" var="role"/>
+			<li class="authenticated" data-email="${authenticatedEmail}" data-role="${role}"><a href="/member/mypage"><sec:authentication property="principal.name"/> </a>
+				(<sec:authentication property="principal.email"/>)</li>
+			<li><a href="/member/do-logout">로그아웃</a></li>
+		</sec:authorize>
+
 	</ul>
 </div>

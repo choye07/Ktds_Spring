@@ -1,14 +1,13 @@
 package com.hello.replies.service.impl;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.exceptions.AjaxException;
-import com.hello.exceptions.PageNotFoundException;
 import com.hello.replies.dao.ReplyDao;
 import com.hello.replies.service.ReplyService;
 import com.hello.replies.vo.ReplyDeleteRequestVO;
@@ -36,6 +35,7 @@ public class ReplyServiceImpl implements ReplyService {
 		return this.replyDao.insertNewReply(replyRegistRequestVO) > 0;
 	}
 
+	@PreAuthorize("@rah.isReplyOwner(#replyDeleteRequestVO.replyId)")
 	@Transactional
 	@Override
 	public boolean deleteOneReply(ReplyDeleteRequestVO replyDeleteRequestVO) {
@@ -57,7 +57,7 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		return deletedCount > 0;
 	}
-
+	@PreAuthorize("@rah.isReplyOwner(#replyUpdateRequestVO.replyId)")
 	@Transactional
 	@Override
 	public boolean modifyOneReply(ReplyUpdateRequestVO replyUpdateRequestVO) {
@@ -77,7 +77,7 @@ public class ReplyServiceImpl implements ReplyService {
 		}
 		return updatedCount > 0;
 	}
-
+	 @PreAuthorize("!@rah.isReplyOwner(#replyRecommendRequestVO.replyId)")
 	@Transactional
 	@Override
 	public int recommendOneReply(ReplyRecommendRequestVO replyRecommendRequestVO) {

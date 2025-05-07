@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -31,6 +32,7 @@ import jakarta.validation.Valid;
 //@Controller
 //@ResponseBody //controller에 있는 모든 endpoint는 json을 반환시킨다.
 // 두개를 합친 것
+@PreAuthorize("isAuthenticated()")
 @RestController
 @RequestMapping("/ajax") // 자동으로앞에 붙이고 시작
 public class ReplyController {
@@ -38,12 +40,13 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 
+	@PreAuthorize("hasAuthority('REPLY_READ_LIST')")
 	@GetMapping("/reply/{boardId}")
 	public AjaxResponse getAllReplies(@PathVariable int boardId) {
 		List<ReplyVO> replyList = this.replyService.getAllReplies(boardId);
 		return new AjaxResponse(replyList);
 	}
-	
+	@PreAuthorize("hasAuthority('REPLY_CREATE')")
 	@PostMapping("/reply/{boardId}")
 	public AjaxResponse doCrateNewReply(@Valid ReplyRegistRequestVO replyRegistRequestVO
 			,BindingResult bindingResult,
@@ -83,7 +86,7 @@ public class ReplyController {
 		
 		return new AjaxResponse(HttpStatus.OK.value(),isCrate);
 	}
-
+	@PreAuthorize("hasAuthority('REPLY_DELETE')")
 	@GetMapping("/reply/delete/{boardId}/{replyId}")
 	public AjaxResponse doDeleteOneReply(@PathVariable int boardId, @PathVariable int replyId) {
 		
@@ -95,7 +98,7 @@ public class ReplyController {
 		boolean isDelete = this.replyService.deleteOneReply(replyDeleteRequestVO);
 		return new AjaxResponse(isDelete);
 	}
-	
+	@PreAuthorize("hasAuthority('REPLY_UPDATE')")
 	@PostMapping("/reply/modify/{boardId}/{replyId}")
 	public AjaxResponse doModifyOneReply(
 			@PathVariable int boardId, @PathVariable int replyId
@@ -140,7 +143,7 @@ public class ReplyController {
 		
 		return new AjaxResponse(isUpdate);
 	}
-	
+	@PreAuthorize("hasAuthority('REPLY_RECOMMEND')")
 	@GetMapping("/reply/recommend/{boardId}/{replyId}")
 	public AjaxResponse doRecommendOneReply(
 			@PathVariable int boardId, @PathVariable int replyId) {

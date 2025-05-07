@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,6 +42,8 @@ public class MemberController {
 		this.customBeanProvider = customBeanProvider;
 	}
 
+	
+	@PreAuthorize("!isAuthenticated()")
 	@GetMapping("/member/regist")
 	public String viewMemberRegistPage() {
 
@@ -48,6 +51,7 @@ public class MemberController {
 
 	}
 
+	@PreAuthorize("!isAuthenticated()")
 	@PostMapping("/member/regist")
 	public String doMemberRegist(@Valid @ModelAttribute MemberRegistRequestVO memberRegistRequestVO,
 			BindingResult bindingResult, Model model) {
@@ -80,6 +84,7 @@ public class MemberController {
 	}
 
 	// http://localhost:8080/member/available?email=test@gmail.com
+	@PreAuthorize("!isAuthenticated()")
 	@ResponseBody
 	@GetMapping("/member/available")
 	public AjaxResponse checkAvailableEmail(@RequestParam String email) {
@@ -89,21 +94,31 @@ public class MemberController {
 		return new AjaxResponse(resultMap);
 
 	}
-
+	@PreAuthorize("!isAuthenticated()")
 	@GetMapping("/member/login")
 	public String viewLoginPage() {
 		return "member/memberlogin";
 	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/member/do-logout")
+	public String doLogout() {
+		String email = AuthUtil.getEmail();
+		boolean logoutSuccess = this.memberService.doLogout(email);
+		if(logoutSuccess) {
+			AuthUtil.logout();
+		}
+		return "redirect:/board/list";
+		
+	}
 
-
-
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/member/mypage") // @SessionAttribute -> 세션에 있는 값을 가져와라.
 	public String viewMyPage( Model model) { // 브라우저에서 가져오는 파라미터는
 																									// 커맨드 파라미터
 		model.addAttribute("LoginUser", AuthUtil.getMember());
 		return "member/mypage";
 	}
-	
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/member/delete-me")
 	public String doDeleteMe() {
 		
@@ -117,7 +132,7 @@ public class MemberController {
 		return "redirect:/member/fail-delete-me";
 		
 	}
-	
+	@PreAuthorize("!isAuthenticated()")
 	@GetMapping("/member/{result}-delete-me")
 	public String viewDeleteResultPage(@PathVariable String result) {
 		

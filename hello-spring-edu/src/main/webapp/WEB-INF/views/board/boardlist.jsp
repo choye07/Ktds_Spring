@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%--
         Controller Endpoint를 해당 위치에 보여주는 방법. 
         <c:import url="/member/loginstatus" /> 
@@ -92,7 +94,7 @@
 	</select></li>
 </ul>
 
-<c:if test="${not empty sessionScope.__LOGIN_USER__}">
+<sec:authorize access="isAuthenticated()">
 	<a href="/board/write">게시글 등록하기</a>
-</c:if>
+</sec:authorize>
 <jsp:include page="/WEB-INF/views/layout/footer.jsp" />

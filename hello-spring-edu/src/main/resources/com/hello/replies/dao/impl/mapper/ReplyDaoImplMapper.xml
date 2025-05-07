@@ -3,102 +3,106 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hello.replies.dao.impl.ReplyDaoImpl">
-<resultMap type="com.hello.replies.vo.ReplyVO" 
-			id="ReplyVOMap" 
-			autoMapping="true">
-    <id column="REPLY_ID" property="replyId"/>
-    <association property="memberVO"
-                 javaType="com.hello.member.vo.MembersVO"
-                 autoMapping="true">
-                <id column="EMAIL" property="email"/>
-    </association>
-</resultMap>
-	<select id="selectAllReplies" parameterType="_int"
-		resultMap="ReplyVOMap">
-	 SELECT
-	    LEVEL
-	   , R.REPLY_ID
-	   , R.BOARD_ID
-	   , R.EMAIL
-	   , R.CONTENT
-	   , R.CRT_DT
-	   , R.MDFY_DT
-	   , R.RECOMMEND_CNT
-	   , R.PARENT_REPLY_ID
-	   , M.NAME
-	   FROM REPLIES R
-	  INNER JOIN BOARD B
-	     ON R.BOARD_ID = B.ID
-	  INNER JOIN MEMBERS M
-	     ON R.EMAIL = M.EMAIL
-	START WITH R.PARENT_REPLY_ID = 0
-	    AND R.BOARD_ID = #{_parameter}
-	CONNECT BY PRIOR R.REPLY_ID = R.PARENT_REPLY_ID
-	</select>
-	<select id="selectOneReply" parameterType="_int"
-      resultMap="ReplyVOMap">
-	      SELECT
-			    R.REPLY_ID
-			    , R.BOARD_ID
-			    , R.EMAIL
-			    , R.CONTENT
-			    , R.CRT_DT
-			    , R.MDFY_DT
-			    , R.RECOMMEND_CNT
-			    , R.PARENT_REPLY_ID
-			    , M.NAME
-			FROM REPLIES R
-			INNER JOIN BOARD B
-			      ON R.BOARD_ID = B.ID
-			INNER JOIN MEMBERS M
-			      ON R.EMAIL = M.EMAIL
-			WHERE R.REPLY_ID = #{_parameter}
-	</select>
-	<insert id="insertNewReply"
-		parameterType="com.hello.replies.vo.ReplyRegistRequestVO">
-		 INSERT INTO REPLIES (
-	      REPLY_ID
-	    , BOARD_ID
-	    , EMAIL
-	    , CONTENT
-	    , CRT_DT
-	    , MDFY_DT
-	    , RECOMMEND_CNT
-	    , PARENT_REPLY_ID )
-	    VALUES (
-	     SEQ_REPLIES_PK.NEXTVAL
-	    , #{boardId}
-	    , #{email}
-	    , #{content}
-	    , SYSDATE
-	    , SYSDATE
-	    , 0
-	    , #{parentReplyId}
-	    )
-	</insert>
-	<delete id="deleteOneReply"
-	        parameterType="com.hello.replies.vo.ReplyDeleteRequestVO">
-	        DELETE
-			  FROM REPLIES
-			 WHERE REPLY_ID = #{replyId}
-			   AND BOARD_ID = #{boardId}
-			   AND EMAIL = #{email}
-	</delete>
-	<update id="updateOneReply"
-		        parameterType="com.hello.replies.vo.ReplyUpdateRequestVO">
-		UPDATE REPLIES
-			SET CONTENT = #{content}
-			, MDFY_DT = SYSDATE
-			WHERE REPLY_ID = #{replyId}
-			AND BOARD_ID = #{boardId}
-			AND EMAIL = #{email}
-	</update>
-	<update id="udpateRecommendOneReply"
-            parameterType="com.hello.replies.vo.ReplyRecommendRequestVO">
-			UPDATE REPLIES
-				SET RECOMMEND_CNT = RECOMMEND_CNT + 1
-			WHERE REPLY_ID = #{replyId}
-			  AND BOARD_ID = #{boardId}
-			  AND EMAIL != #{email}
+    
+    <resultMap type="com.hello.replies.vo.ReplyVO" 
+               id="ReplyVOMap"
+               autoMapping="true">
+        <id column="REPLY_ID" property="replyId" />
+        <association property="memberVO"
+                     javaType="com.hello.member.vo.MembersVO"
+                     autoMapping="true">
+            <id column="EMAIL" property="email" />
+        </association>
+    </resultMap>
+    
+    <select id="selectAllReplies" 
+            parameterType="_int"
+            resultMap="ReplyVOMap">
+         SELECT LEVEL
+              , R.REPLY_ID
+              , R.BOARD_ID
+              , R.EMAIL
+              , R.CONTENT
+              , TO_CHAR(R.CRT_DT, 'YYYY-MM-DD') AS CRT_DT
+              , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD') AS MDFY_DT
+              , R.RECOMMEND_CNT
+              , R.PARENT_REPLY_ID
+              , M.NAME
+           FROM REPLIES R
+          INNER JOIN BOARD B
+             ON B.ID = R.BOARD_ID
+          INNER JOIN MEMBERS M
+             ON R.EMAIL = M.EMAIL
+          START WITH R.PARENT_REPLY_ID = 0
+            AND B.ID = #{_parameter}
+        CONNECT BY PRIOR R.REPLY_ID = R.PARENT_REPLY_ID
+    </select>
+    
+    <select id="selectOneReply" 
+            parameterType="_int"
+            resultMap="ReplyVOMap">
+        SELECT R.REPLY_ID
+             , R.BOARD_ID
+             , R.EMAIL
+             , R.CONTENT
+             , TO_CHAR(R.CRT_DT, 'YYYY-MM-DD') AS CRT_DT
+             , TO_CHAR(R.MDFY_DT, 'YYYY-MM-DD') AS MDFY_DT
+             , R.RECOMMEND_CNT
+             , R.PARENT_REPLY_ID
+             , M.NAME
+          FROM REPLIES R
+         INNER JOIN BOARD B
+            ON R.BOARD_ID = R.BOARD_ID
+         INNER JOIN MEMBERS M
+            ON R.EMAIL = M.EMAIL
+         WHERE R.REPLY_ID = #{_parameter}
+    </select>
+    
+    <insert id="insertNewReply"
+            parameterType="com.hello.replies.vo.ReplyRegistRequestVO">
+        INSERT INTO REPLIES
+         (REPLY_ID
+        , BOARD_ID
+        , EMAIL
+        , CONTENT
+        , CRT_DT
+        , MDFY_DT
+        , RECOMMEND_CNT
+        , PARENT_REPLY_ID)
+        VALUES
+         (SEQ_REPLIES_PK.NEXTVAL
+        , #{boardId}
+        , #{email}
+        , #{content}
+        , SYSDATE
+        , SYSDATE
+        , 0
+        , #{parentReplyId})
+    </insert>
+    
+    <delete id="deleteOneReply"
+            parameterType="com.hello.replies.vo.ReplyDeleteRequestVO">
+        DELETE 
+          FROM REPLIES
+         WHERE REPLY_ID = #{replyId}
+           AND BOARD_ID = #{boardId}
+    </delete>
+    
+    <update id="updateOneReply"
+            parameterType="com.hello.replies.vo.ReplyUpdateRequestVO">
+        UPDATE REPLIES
+           SET CONTENT = #{content}
+             , MDFY_DT = SYSDATE
+         WHERE REPLY_ID = #{replyId}
+           AND BOARD_ID = #{boardId}
     </update>
+    
+    <update id="updateRecommendOneReply"
+            parameterType="com.hello.replies.vo.ReplyRecommendRequestVO">
+        UPDATE REPLIES
+           SET RECOMMEND_CNT = RECOMMEND_CNT + 1
+         WHERE REPLY_ID = #{replyId}
+           AND BOARD_ID = #{boardId}
+    </update>
+    
 </mapper>

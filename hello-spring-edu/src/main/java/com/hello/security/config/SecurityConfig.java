@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,8 @@ import com.hello.security.handler.LoginSuccessHandler;
 
 @Configuration
 @EnableWebSecurity // -> 우리가 커스터마이징을 한 것들을 적용해준다.
+//권한 제어를 Annotaion으로 처리할 수 있게 설정. (Service + Controller Method에 적용)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
 	@Autowired
@@ -55,9 +58,11 @@ public class SecurityConfig {
 				.loginProcessingUrl("/member/do-login") // 인증을 수행시킬 URL -> 우리가 controller에 만들지 않은 url
 														// Spring Security를 커스텀한 코드 중 AuthenticationProvider를 구현한 클래스를
 														// 실행시킬 URL
-				.usernameParameter("email").passwordParameter("password"));
-		http.logout(logout -> logout.logoutUrl("member/do-logout") //logout Url
-									.logoutSuccessUrl("board/list"));//logout 성공했을 때 이동할 url
+				.usernameParameter("email")
+				.passwordParameter("password"));
+		
+		//CRSF 공격 방어 비활성화
+//		http.csrf(csrf ->csrf.disable());
 		return http.build();
 	}
 }

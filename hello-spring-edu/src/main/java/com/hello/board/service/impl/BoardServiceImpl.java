@@ -3,6 +3,8 @@ package com.hello.board.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,6 +86,7 @@ public class BoardServiceImpl implements BoardService {
 		return insertedCount > 0;
 	}
 
+	@PostAuthorize("hasRole('ROLE_ADMIN') or @rah.isBoardOwner(#isIncrease,returnObject)") //boardVO에 email과 authentication에 있는 email(로그인한 계정)이 같은지 확인해야한다.
 	@Transactional
 	@Override
 	public BoardVO getOneBaord(int id, boolean isIncrease) {
@@ -118,16 +121,20 @@ public class BoardServiceImpl implements BoardService {
 		// 게시글을 조회해 온다.
 //		return null;
 	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or @rah.isBoardOwner(#boardDeleteRequestVO.id)")
 	@Transactional
 	@Override
 	public boolean deleteOneBoard(BoardDeleteRequestVO boardDeleteRequestVO) {
 		int deleteCount = this.boardDao.deleteOneBoard(boardDeleteRequestVO);
-		if (deleteCount == 0) {
-			throw new PageNotFoundException(boardDeleteRequestVO.getId());
-		}
+		/*
+		 * if (deleteCount == 0) { throw new
+		 * PageNotFoundException(boardDeleteRequestVO.getId()); }
+		 */
 		return deleteCount > 0;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or @rah.isBoardOwner(#boardUpdateRequestVO.id)")
 	@Transactional
 	@Override
 	public boolean updataeOneBoard(BoardUpdateRequestVO boardUpdateRequestVO) {
