@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.file.dao.impl.FileDaoImpl">
+
+    <insert id="insertNewFile" 
+            parameterType="com.hello.file.vo.FileVO">
+        INSERT INTO "FILE"
+		 (FL_ID
+		, ID
+		, FL_NM
+		, OBFS_FL_NM
+		, OBFS_FL_PTH
+		, FL_SZ)
+		VALUES
+		 (SEQ_FILE_PK.NEXTVAL
+		, #{id}
+		, #{flNm}
+		, #{obfsFlNm}
+		, #{obfsFlPth}
+		, #{flSz})
+    </insert>
+    
+    <select id="selectOneFile"
+            parameterType="com.hello.file.vo.FileDownloadRequestVO"
+            resultType="com.hello.file.vo.FileVO">
+        SELECT FL_ID
+		     , ID
+		     , FL_NM
+		     , OBFS_FL_NM
+		     , OBFS_FL_PTH
+		     , FL_SZ
+		  FROM "FILE"
+		 WHERE FL_ID = #{flId}
+		   AND ID = #{id}
+    </select>
+</mapper>
+
+
+
+
+
+
+

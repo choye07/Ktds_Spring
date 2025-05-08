@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.bbs.dao.impl.BoardDaoImpl">
+
+    <!-- JOINED Select query의 결과를 담을 때 사용해야만 하는 태그 -->
+    <resultMap type="com.hello.bbs.vo.BoardVO"
+               id="BoardVOMap"
+               autoMapping="true">
+        <!-- 컬럼과 맵핑되는 멤버변수의 이름을 연결시킨다. -->
+        <!-- 조회한 컬럼이 PK일 경우 ID 태그를 사용. -->
+        <id column="ID" property="id" />
+        <!-- 조회한 컬럼이 일반 컬럼일 경우 result태그를 사용. -->
+        <!-- <result column="SUBJECT" property="subject" /> -->
+        
+        <association property="memberVO"
+                     javaType="com.hello.member.vo.MembersVO"
+                     autoMapping="true">
+            <id column="EMAIL" property="email" />
+        </association>
+        <collection property="fileList"
+                    ofType="com.hello.file.vo.FileVO"
+                    autoMapping="true">
+            <id column="FL_ID" property="flId" />
+            <!-- <result column="FL_NM" property="flNm" /> --> 
+        </collection>
+    </resultMap>
+
+    <select id="selectBoardAllCount"
+            resultType="_int"
+            parameterType="com.hello.bbs.vo.BoardSearchRequestVO">
+        SELECT COUNT(ID)
+		  FROM BOARD
+		 WHERE EMAIL IN (SELECT EMAIL
+		                   FROM MEMBERS
+		                  <where>
+		                      <if test='writerName != null and writerName != ""'>
+				            AND NAME LIKE '%' || #{writerName} || '%'
+				              </if>
+				              <if test='writerEmail != null and writerEmail != ""'>
+				            AND EMAIL = #{writerEmail}
+				              </if>
+		                  </where>)
+		<if test='subject != null and subject != ""'>
+           AND SUBJECT LIKE '%' || #{subject} || '%'
+        </if>
+        <if test='content != null and content != ""'>
+           AND CONTENT LIKE '%' || #{content} || '%'
+        </if>
+    </select>
+
+    <select id="selectBoardAll"
+            resultMap="BoardVOMap"
+            parameterType="com.hello.bbs.vo.BoardSearchRequestVO">
+        <include refid="Common.pagination_header" />
+        SELECT B.ID
+		     , B.SUBJECT
+		     , B.CONTENT
+		     , B.EMAIL
+		     , B.VIEW_CNT
+		     , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') CRT_DT
+		     , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
+		     , M.NAME
+		  FROM BOARD B
+		 INNER JOIN MEMBERS M
+		    ON B.EMAIL = M.EMAIL
+		 <where>
+		      <if test='writerName != null and writerName != ""'>
+		   AND M.NAME LIKE '%' || #{writerName} || '%'
+		      </if>
+		      <if test='writerEmail != null and writerEmail != ""'>
+		   AND M.EMAIL = #{writerEmail}
+		      </if>
+		      <if test='subject != null and subject != ""'>
+		   AND B.SUBJECT LIKE '%' || #{subject} || '%'
+		      </if>
+		      <if test='content != null and content != ""'>
+		   AND B.CONTENT LIKE '%' || #{content} || '%'
+		      </if>
+		 </where>
+		 ORDER BY B.ID DESC
+		<include refid="Common.pagination_footer" />
+    </select>
+
+    <insert id="insertNewBoard" 
+            parameterType="com.hello.bbs.vo.BoardWriteRequestVO">
+        <selectKey order="BEFORE" 
+                   resultType="_int"
+                   keyProperty="id">
+         <!-- ID값을 생성해주는 태그. -->
+            SELECT SEQ_BOARD_PK.NEXTVAL
+              FROM DUAL
+        </selectKey>
+        INSERT INTO BOARD
+		 (ID
+		, SUBJECT
+		, CONTENT
+		, EMAIL
+		, VIEW_CNT
+		, CRT_DT
+		, MDFY_DT
+		, FILE_NAME
+		, ORIGIN_FILE_NAME)
+		VALUES
+		 (#{id}
+		, #{subject}
+		, #{content}
+		, #{email}
+		, 0
+		, SYSDATE
+		, NULL
+		, NULL
+		, NULL)
+    </insert>
+
+
+    <select id="selectOneBoard" 
+            parameterType="_int"
+            resultMap="BoardVOMap">
+        SELECT B.ID
+		     , B.SUBJECT
+		     , B.CONTENT
+		     , B.EMAIL
+		     , B.VIEW_CNT
+		     , TO_CHAR(B.CRT_DT, 'YYYY-MM-DD') AS CRT_DT
+		     , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') AS MDFY_DT
+		     , F.FL_ID
+		     , F.FL_NM
+		     , F.OBFS_FL_NM
+		     , F.OBFS_FL_PTH
+		     , F.FL_SZ
+		     , M.NAME
+		  FROM BOARD B
+		  LEFT OUTER JOIN "FILE" F
+		    ON B.ID = F.ID
+		 INNER JOIN MEMBERS M
+		    ON B.EMAIL = M.EMAIL
+		  WHERE B.ID = #{_parameter}
+    </select>
+
+    <update id="updateViewCountBy"
+            parameterType="_int">
+        UPDATE BOARD 
+		   SET VIEW_CNT = VIEW_CNT + 1
+		 WHERE ID = #{_parameter}
+    </update>
+    
+    <delete id="deleteOneBoard"
+            parameterType="com.hello.bbs.vo.BoardDeleteRequestVO">
+        DELETE 
+          FROM BOARD
+         WHERE ID = #{id}
+    </delete>
+    
+    <update id="updateOneBoard"
+            parameterType="com.hello.bbs.vo.BoardUpdateRequestVO">
+        UPDATE BOARD 
+		   SET CONTENT = #{content}
+		     , SUBJECT = #{subject}
+		     , MDFY_DT = SYSDATE
+		 WHERE ID = #{id}
+    </update>
+</mapper>
+
+
+
+
+
+
+

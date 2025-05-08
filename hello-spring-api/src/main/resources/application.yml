@@ -1,0 +1,35 @@
+# spring.application.name=hello-spring
+
+# hello-spring 전용 설정
+app:
+  jwt:
+    issuer: hello-spring
+    secret-key: sdfliujfdkiuvoqw39r80uiofhdkjlfsdajf
+  multipart:
+    base-dir:
+      windows: C:\upload-files # 서버에 업로드된 파일이 저장되는 경로
+      linux: /var/local/src/upload-files
+      macos: /document/upload-files
+    obfuscation:
+      enable: true # 서버에 업로드된 파일의 이름을 난독화하는 설정
+      hide-ext:
+        enable: true # 서버에 업로드된 파일의 확장자를 가리는 설정
+    
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml
+
+spring:
+  servlet:
+    multipart:
+      enabled: true #파일 업로드 활성화
+      max-request-size: 10MB # 사용자 한명 당 업로드 할 수 있는 최대 용량
+      max-file-size: 100MB # 서버가 허용하는 최대 업로드 용량
+  application:
+    name: hello-spring
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    username: SPRING_BOOT
+    password: 1234
+
