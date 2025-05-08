@@ -1,6 +1,7 @@
 package com.hello.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,6 +18,7 @@ import com.hello.security.SecuritySHA;
 import com.hello.security.SecurityUserDetailsService;
 import com.hello.security.handler.LoginFailureHandler;
 import com.hello.security.handler.LoginSuccessHandler;
+import com.hello.security.jwt.JsonWebTokenProvider;
 
 //spring을 위한 것이 아니라서 webconfig와는 분리
 
@@ -26,6 +28,12 @@ import com.hello.security.handler.LoginSuccessHandler;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
+	@Value("${app.jwt.issuer}")
+	private String jwtIssuer;
+	
+	@Value("${app.jwt.secret-key}")
+	private String jwtSecretKey;
+	
 	@Autowired
 	private MemberDao memberDao;
 
@@ -36,7 +44,11 @@ public class SecurityConfig {
 		return userDetailsService;
 
 	}
-
+	
+	@Bean
+	JsonWebTokenProvider jwtProvider() {
+		return new JsonWebTokenProvider(this.jwtIssuer, this.jwtSecretKey);
+	}
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new SecuritySHA();

@@ -8,7 +8,9 @@ import com.hello.beans.Sha;
 import com.hello.exceptions.MemberRegistException;
 import com.hello.member.dao.MemberDao;
 import com.hello.member.service.MemberService;
+import com.hello.member.vo.MemberAuthVO;
 import com.hello.member.vo.MemberRegistRequestVO;
+import com.hello.member.vo.MembersVO;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -70,6 +72,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public boolean doLogout(String email) {
 		return this.memberDao.updateLogOutStatus(email) > 0;
+	}
+	@Override
+	public MembersVO auth(MemberAuthVO memberAuthVO) {
+		return null;
 	}
 
 }

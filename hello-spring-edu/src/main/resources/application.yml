@@ -6,6 +6,9 @@ mybatis:
   mapper-locations: classpath:com/hello/**/mapper/*Mapper.xml
 #hello-spring-edu 전용 설정
 app:
+  jwt:
+    issuer: hello-spring
+    secret-key: sdfliujfdkiuvoqw39r80uiofhdkjlfsdajf
   multipart:
    base-dir: 
      window: C:\upload-files #서버에 업로드 된 파일이 저장되는 경로
