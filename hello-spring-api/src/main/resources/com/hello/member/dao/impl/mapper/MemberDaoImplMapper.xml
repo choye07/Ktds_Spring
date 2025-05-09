@@ -12,6 +12,16 @@
             <result column="ACTION_ID" property="actionId" />
         </collection>
     </resultMap>
+    <resultMap type="com.hello.member.vo.OAuthMemberVO" 
+               id="OAuthMemberVOMap" 
+               autoMapping="true">
+        <id column="EMAIL" property="email"/>
+        <id column="PROVIDER" property="provider"/>
+        <collection property="actionList" ofType="com.hello.member.vo.ActionVO">
+            <result column="ACTION_ID" property="actionId" />
+        </collection>
+    </resultMap>
+    
     
     <insert id="insertNewMember" 
             parameterType="com.hello.member.vo.MemberRegistRequestVO">
@@ -124,24 +134,37 @@
              WHERE ACTION_ID NOT IN ('BOARD_DELETE','REPLY_DELETE')
              </if>
     </insert>
-    
+    <insert id="insertOAuthMember"
+            parameterType="com.hello.member.vo.OAuthMemberVO">
+            INSERT INTO OAUTH_MEMBERS
+			(EMAIL, 
+			NAME, 
+			PROVIDER)
+			VALUES(
+			#{email},
+			#{name},
+			#{provider})
+    </insert>
+    <select id="selectCountOAuthMember"
+            parameterType="com.hello.member.vo.OAuthMemberVO"
+            resultType="_int">
+            SELECT 
+                COUNT(EMAIL) 
+              FROM OAUTH_MEMBERS
+             WHERE EMAIL = #{email}
+               AND PROVIDER =#{provider}
+    </select>
+    <select id="selectOAuthMember"
+            parameterType="com.hello.member.vo.OAuthMemberVO"
+            resultMap="OAuthMemberVOMap">
+        SELECT M.EMAIL
+             , M.NAME
+             , M.PROVIDER
+             , MA.ACTION_ID
+          FROM OAUTH_MEMBERS M
+         INNER JOIN MEMBERS_ACTION MA
+            ON M.EMAIL = MA.EMAIL
+         WHERE M.EMAIL = #{email}
+           AND M.PROVIDER = #{provider}
+    </select>
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

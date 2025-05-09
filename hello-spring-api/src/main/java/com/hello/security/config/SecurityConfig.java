@@ -2,6 +2,7 @@ package com.hello.security.config;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -18,6 +23,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import com.hello.security.SecuritySHA;
 import com.hello.security.jwt.JsonWebTokenAuthenticationFilter;
 import com.hello.security.jwt.JsonWebTokenProvider;
+import com.hello.security.oauth.OAuthService;
+import com.hello.security.oauth.handlers.OAuthSuccessHandler;
 
 @Configuration
 @EnableWebSecurity(debug = true) // Security Filter 를 등록한다.
@@ -30,6 +37,14 @@ public class SecurityConfig {
 	
 	@Value("${app.jwt.secret-key}")
 	private String jwtSecretKey;
+	
+	@Autowired
+	private OAuthService oAuthService; 
+	
+//	@Bean
+//	OAuth2UserService<OAuth2UserRequest,OAuth2User> oAuthRequestor() {
+//		return new DefaultOAuth2UserService();
+//	}
 	
 	@Bean
 	JsonWebTokenProvider jwtProvider() {
@@ -81,6 +96,13 @@ public class SecurityConfig {
 		http.addFilterAfter(
 				new JsonWebTokenAuthenticationFilter(this.jwtProvider()), 
 				AnonymousAuthenticationFilter.class);
+		
+		//oauthLoginFilter 사용한다고 알려주는 코드.
+		//토큰을 받고 응답이 왔을 때 처리해주는 것.
+		http.oauth2Login(oauth -> 
+							oauth.successHandler(new OAuthSuccessHandler(this.jwtProvider()))
+							.userInfoEndpoint(user->
+								user.userService(this.oAuthService)));
 		
 		return http.build();
 	}

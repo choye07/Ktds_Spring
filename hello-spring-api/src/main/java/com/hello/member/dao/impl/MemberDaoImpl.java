@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.hello.member.dao.MemberDao;
 import com.hello.member.vo.MemberRegistRequestVO;
 import com.hello.member.vo.MembersVO;
+import com.hello.member.vo.OAuthMemberVO;
 
 @Repository
 public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
@@ -63,6 +64,21 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	@Override
 	public int insertActions(MembersVO memberVO) {
 		return this.getSqlSession().insert(NAME_SPACE+"insertActions",memberVO);
+	}
+
+	@Override
+	public int insertOAuthMember(OAuthMemberVO oAuthMemberVO) {
+		return this.getSqlSession().insert(NAME_SPACE+"insertOAuthMember", oAuthMemberVO);
+	}
+
+	@Override
+	public int selectCountOAuthMember(OAuthMemberVO oAuthMemberVO) {
+		return this.getSqlSession().selectOne(NAME_SPACE+"selectCountOAuthMember", oAuthMemberVO);
+	}
+
+	@Override
+	public OAuthMemberVO selectOAuthMember(OAuthMemberVO oAuthMemberVO) {
+		return this.getSqlSession().selectOne(NAME_SPACE+"selectOAuthMember", oAuthMemberVO);
 	}
 }
 

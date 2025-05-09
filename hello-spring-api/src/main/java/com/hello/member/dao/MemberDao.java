@@ -2,6 +2,7 @@ package com.hello.member.dao;
 
 import com.hello.member.vo.MemberRegistRequestVO;
 import com.hello.member.vo.MembersVO;
+import com.hello.member.vo.OAuthMemberVO;
 
 public interface MemberDao {
 
@@ -22,4 +23,10 @@ public interface MemberDao {
 	public int deleteOneMemberBy(String email);
 
 	public int insertActions(MembersVO memberVO);
+	
+	public int insertOAuthMember(OAuthMemberVO oAuthMemberVO);
+	
+	public int selectCountOAuthMember(OAuthMemberVO oAuthMemberVO);
+	
+	public OAuthMemberVO selectOAuthMember(OAuthMemberVO oAuthMemberVO);
 }
