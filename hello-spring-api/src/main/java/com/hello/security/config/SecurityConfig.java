@@ -1,4 +1,4 @@
-package com.hello.security.config;
+ package com.hello.security.config;
 
 import java.util.List;
 
@@ -56,21 +56,20 @@ public class SecurityConfig {
 		return new SecuritySHA();
 	}
 	
-	@Bean
-	WebSecurityCustomizer configureIgnoringFilterChain() {
-		// 아래에 작성된 URL은 Spring Security Filter Chain의 대상에서 제외된다.
-		return web -> web.ignoring()
-						 .requestMatchers("/api/v1/auth")
-						 .requestMatchers("/api/v1/member/available")
-						 .requestMatchers("POST", "/api/v1/member")
-						;
-	}
+//	@Bean
+//	WebSecurityCustomizer configureIgnoringFilterChain() {
+//		// 아래에 작성된 URL은 Spring Security Filter Chain의 대상에서 제외된다.
+//		return web -> web.ignoring()
+//						 .requestMatchers("POST", "/api/v1/member")
+//						;
+//	}
 	
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		// CSRF 공격 방어 비활성화.
 		http.csrf(csrf -> csrf.disable());
+		
 		
 		// CORS 설정
 		// 도메인(호스트)가 다른 서버 혹은 URL에서 오는 요청을 제한시킨다.
@@ -83,7 +82,7 @@ public class SecurityConfig {
 				// OPTIONS?
 				//  - CORS 정책에 위배되지 않는지 확인하기 위해서 실제 요청 전에 보내는 테스트 요청.
 				//  - OPTIONS메소드의 응답이 정상이라면 CORS 정책에 위배되지 않는다. 판단.
-				config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+				config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS","FETCH"));
 				// 3. 외부에서 요청가능한 HEADER 선별. 아래에 작성된 HEADER만 본 서버에 접근 가능.
 				//  - REQUEST HEADER - HTTP Request Header (Referer, Cookie, Content-Type, ...)
 				config.setAllowedHeaders(List.of("*"));

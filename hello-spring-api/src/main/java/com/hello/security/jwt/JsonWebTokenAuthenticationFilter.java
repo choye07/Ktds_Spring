@@ -1,6 +1,8 @@
 package com.hello.security.jwt;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,10 +22,16 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private JsonWebTokenProvider jwtProvider;
+	private List<String> authIgnoringPath;
 	
 	public JsonWebTokenAuthenticationFilter(JsonWebTokenProvider jwtProvider) {
 		this.jwtProvider = jwtProvider;
+		this.authIgnoringPath = new ArrayList<>();
+		this.authIgnoringPath.add("/api/v1/auth");
+		this.authIgnoringPath.add("/api/v1/member/available");
 	}
+	
+	
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, 
@@ -35,13 +43,22 @@ public class JsonWebTokenAuthenticationFilter extends OncePerRequestFilter {
 		System.out.println("JsonWebTokenAuthenticationFilter 동작됨.");
 		System.out.println("Request 분석 코드.");
 		
+		String apiPath =  request.getServletPath();
+		if(this.authIgnoringPath.contains(apiPath)){
+			filterChain.doFilter(request, response);
+			return;
+		}else if(apiPath.equals("/api/v1/member") && request.getMethod().equalsIgnoreCase("post")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+		
 		// 인증이 필요한 부분에 JWT 인증을 수행시킨다.
 		// Request header로 전달된 Authorization 값을 읽어온다.
 		String jsonWebToken = request.getHeader("Authorization"); 
 		
 		if(jsonWebToken == null || jsonWebToken.length() ==0) {
 			ApiResponse apiResponse = new ApiResponse(403,null);
-			apiResponse.addError("authoization", "인증이 필요합니다.");
+			apiResponse.addError("authorization", "인증이 필요합니다.");
 			
 			Gson gson = new Gson();
 			String authorizationError = gson.toJson(apiResponse);

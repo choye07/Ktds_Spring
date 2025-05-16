@@ -32,8 +32,15 @@
             parameterType="com.hello.bbs.vo.BoardSearchRequestVO">
         SELECT COUNT(ID)
 		  FROM BOARD
-		 WHERE EMAIL IN (SELECT EMAIL
-		                   FROM MEMBERS
+		 WHERE EMAIL IN (
+		                 SELECT EMAIL
+		                 FROM (SELECT EMAIL
+                                ,NAME
+                            FROM OAUTH_MEMBERS
+                            UNION ALL
+                          SELECT EMAIL
+                                ,NAME
+                           FROM MEMBERS) 
 		                  <where>
 		                      <if test='writerName != null and writerName != ""'>
 				            AND NAME LIKE '%' || #{writerName} || '%'
@@ -63,7 +70,13 @@
 		     , TO_CHAR(B.MDFY_DT, 'YYYY-MM-DD') MDFY_DT
 		     , M.NAME
 		  FROM BOARD B
-		 INNER JOIN MEMBERS M
+		 INNER JOIN (SELECT EMAIL
+                                ,NAME
+                            FROM OAUTH_MEMBERS
+                            UNION ALL
+                         SELECT EMAIL
+                                ,NAME
+                           FROM MEMBERS )M
 		    ON B.EMAIL = M.EMAIL
 		 <where>
 		      <if test='writerName != null and writerName != ""'>
@@ -134,7 +147,13 @@
 		  FROM BOARD B
 		  LEFT OUTER JOIN "FILE" F
 		    ON B.ID = F.ID
-		 INNER JOIN MEMBERS M
+		 INNER JOIN (SELECT EMAIL
+                                ,NAME
+                            FROM OAUTH_MEMBERS
+                            UNION ALL
+                         SELECT EMAIL
+                                ,NAME
+                           FROM MEMBERS ) M
 		    ON B.EMAIL = M.EMAIL
 		  WHERE B.ID = #{_parameter}
     </select>
