@@ -22,14 +22,13 @@ import com.hello.security.oauth.user.providers.NaverUserInfo;
  * 분석한 결과를 OAuthUserDetails에 전달해서 인증을 완성한다.
  */
 @Service
-public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2User>{
+public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
 //	@Autowired
-//	private OAuth2UserService <OAuth2UserRequest, OAuth2User> oAuthRequestor;
+//	private OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuthRequestor;
 	
 	@Autowired
 	private MemberDao memberDao;
-	
 	
 	/**
 	 * OAuth 채널에게 로그인을 요청.
@@ -37,45 +36,48 @@ public class OAuthService implements OAuth2UserService<OAuth2UserRequest, OAuth2
 	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-		//1. OAuth 토큰 인증 요청 (https://nid.naver.com/oauth2.0/token)
-		//2. 개인정보 받아온다. (https://openapi.naver.com/v1/nid/me)
-		OAuth2UserService <OAuth2UserRequest, OAuth2User> oAuthRequestor = new DefaultOAuth2UserService();
+		OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuthRequestor = new DefaultOAuth2UserService();
+		
+		// 1. OAuth 토큰 인증 요청. (https://nid.naver.com/oauth2.0/token)
+		// 2. 개인정보 받아온다. (https://openapi.naver.com/v1/nid/me)
 		OAuth2User oAuth2User = oAuthRequestor.loadUser(userRequest);
 		
-		//DB에 oAuth2User를 등록한다.
+		// DB에 oAuthUser를 등록한다.
+		//  - 1. Provider가 누군지 알아야 한다. (Naver, Google)
 		String provider = userRequest.getClientRegistration().getRegistrationId();
-		OAuth2UserInfo oAuthUser2Info = null;
-//	    - 2. Provider가 Naver라면 NaverOauthUser로 생성
-		if(provider.equals("naver")) {
-			oAuthUser2Info = new NaverUserInfo(oAuth2User.getAttributes());
-		}
-//		- 2. Provider가 Google이 라면 GoogleOauthUser로 생성
-		else if(provider.equals("google")) {
-			oAuthUser2Info = new GoogleUserInfo(oAuth2User.getAttributes());
-			
-		}
-//		- 3. oAuthUser를 DB에 저장한다.
-		OAuthMemberVO oAuthMemberVO = new OAuthMemberVO();
-		oAuthMemberVO.setEmail(oAuthUser2Info.getEmail());
-		oAuthMemberVO.setName(oAuthUser2Info.getName());
-		oAuthMemberVO.setProvider(provider);
-		int oAuthUserConut = this.memberDao.selectCountOAuthMember(oAuthMemberVO);
 		
-		if(oAuthUserConut==0) {
+		//  - 2. Provider가 Naver라면 NaverOAuthUser로 생성.
+		OAuth2UserInfo oAuth2UserInfo = null;
+		if (provider.equals("naver")) {
+			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+		}
+		//  - 2. Provider가 Google이라면 GoogleOAuthUser로 생성.
+		else if (provider.equals("google")) {
+			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+		}
+		
+		//  - 3. oAuthUser를 DB에 저장한다.
+		OAuthMemberVO oAuthMemberVO = new OAuthMemberVO();
+		oAuthMemberVO.setEmail(oAuth2UserInfo.getEmail());
+		oAuthMemberVO.setName(oAuth2UserInfo.getName());
+		oAuthMemberVO.setProvider(provider);
+		
+		int oAuthUserCount = this.memberDao.selectCountOAuthMember(oAuthMemberVO);
+		if (oAuthUserCount == 0) {
 			this.memberDao.insertOAuthMember(oAuthMemberVO);
-//		- 4. oAuthUser에게 Action을 할당한다.
+			//  - 4. oAuthUser에게 Action을 할당한다.
 			MembersVO membersVO = new MembersVO();
-			membersVO.setEmail(oAuthUser2Info.getEmail());
-			membersVO.setName(oAuthUser2Info.getName());
-			membersVO.setActionList(oAuthMemberVO.getActionList());
+			membersVO.setEmail(oAuth2UserInfo.getEmail());
 			membersVO.setRole("ROLE_USER");
 			this.memberDao.insertActions(membersVO);
 		}
-		//3. 인증객체를 전달한다. (OAuthUserDetails)
-//		  - 1. OAUTH_MEMBERS에서 가입한 정보를 조회한다.
-		OAuthMemberVO verifiedOAuthMemberVO=  this.memberDao.selectOAuthMember(oAuthMemberVO);
-//		  - 2. 조회된 결과를 OAuthUserDetails로 만들어서 변환한다.
-		return new OAuthUserDetails(verifiedOAuthMemberVO, oAuthUser2Info);
+		
+		// 3. 인증객체를 전달한다. (OAuthUserDetails)
+		//  - 1. OAUTH_MEMBERS에서 가입한 정보를 조회한다.
+		OAuthMemberVO verifiedOAuthMember = this.memberDao.selectOAuthMember(oAuthMemberVO);
+		
+		//  - 2. 조회된 결과를 OAuthUserDetails로 만들어서 반환한다.
+		return new OAuthUserDetails(verifiedOAuthMember, oAuth2UserInfo);
 	}
-	
+
 }

@@ -17,40 +17,39 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * oAuth 인증 성공한 사용자에게 JsonWebToken을 발급 시켜주는 역할.
+ * oAuth 인증 성공한 사용자에게 JsonWebToken 을 발급시켜주는 역할.
  */
-public class OAuthSuccessHandler implements AuthenticationSuccessHandler{
+public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 
 	private JsonWebTokenProvider jwtProvider;
-	
-	
 	
 	public OAuthSuccessHandler(JsonWebTokenProvider jwtProvider) {
 		this.jwtProvider = jwtProvider;
 	}
-
-
-
+	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		//1. Authentication 객체에서 OAuth2User (-> OauthDetails(?)를 말한다.) 객체를 불러온다.
+		
+		// 1. Authentication 객체에서 OAuth2User 객체를 불러온다.
 		OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 		
-		//2. OAuthUserInfo  객체에서 OAuthMemberVO 객체를 불러온다.
-		OAuthUserDetails oAuthUserDetails  = (OAuthUserDetails) oAuth2User;
-		OAuthMemberVO oAuthMemberVo = oAuthUserDetails.getmembersVO();
+		// 2. OAuth2User 객체에서 OAuthMemberVO 객체를 불러온다.
+		OAuthUserDetails oAuthUserDetails = (OAuthUserDetails) oAuth2User;
+		OAuthMemberVO oAuthMemberVO = oAuthUserDetails.getmembersVO();
 		
-		//3. OAuthMemberVO 객체를 MembersVO 객체로 변환시킨다.
+		// 3. OAuthMemberVO 객체를 MembersVO 객체로 변환시킨다.
 		MembersVO membersVO = new MembersVO();
-		membersVO.setEmail(oAuthMemberVo.getEmail());
-		membersVO.setName(oAuthMemberVo.getName());
-		membersVO.setRole(oAuthMemberVo.getRole());
+		membersVO.setEmail(oAuthMemberVO.getEmail());
+		membersVO.setName(oAuthMemberVO.getName());
+		membersVO.setRole(oAuthMemberVO.getRole());
+		membersVO.setActionList(oAuthMemberVO.getActionList());
 		
-		//4. MembersVO 객체로 JWT 발급 한다.
+		// 4. MembersVO 객체로 JWT 발급한다.
 		String jsonWebToken = this.jwtProvider.generateJsonWebToken(membersVO, Duration.ofDays(30));
-		//5. JWT를 사용자에게 전달한다.
-		response.sendRedirect("http://localhost:3000?jwt=/"+jsonWebToken);
+		
+		// 5. JWT를 사용자에게 전달한다.
+		response.sendRedirect("http://localhost:3000?jwt=" + jsonWebToken);
 	}
 
 }
